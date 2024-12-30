@@ -3,6 +3,8 @@ import MainLayout from '../layout/MainLayout'
 import HomePage from '../pages/HomePage'
 import AdminLayout from '../layout/AdminLayout'
 import RegisterPage from '../pages/RegisterPage'
+import AdminPage from '../pages/AdminPage'
+import LoginPage from '../pages/LoginPage'
 
 const router = createBrowserRouter([
     {
@@ -19,8 +21,16 @@ const router = createBrowserRouter([
         element: <AdminLayout/>,
         children: [
             {
+                path: '/admin',
+                element: <AdminPage/>
+            },
+            {
                 path: '/register',
                 element: <RegisterPage/>
+            },
+            {
+                path: '/login',
+                element: <LoginPage/>
             }
         ]
     }
