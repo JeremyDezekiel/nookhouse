@@ -1,7 +1,27 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
+import React, { useState } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
+import auth from '../config/firebase'
 
 function RegisterPage() {
+    const navigate = useNavigate()
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    // const [confirmPassword, setConfirmPassword] = useState('')
+
+    const handleRegisterForm = async (e) => {
+        e.preventDefault()
+        try {
+            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            setEmail('')
+            setPassword('')
+            // setConfirmPassword('')
+            navigate('/login')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <div className='grid grid-cols-6'>
             <div className='col-span-3 mt-14 pe-28 grid gap-10'>
@@ -10,8 +30,8 @@ function RegisterPage() {
                     <div className='flex gap-5 items-center border p-2'>
                         <div className='border rounded-full p-3 bg-green-700'>
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" size="48" width="40" height="40">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M15.9978 22.8442C21.4731 22.8442 25.9117 18.3454 25.9117 12.7959C25.9117 7.24633 21.4731 2.74754 15.9978 2.74754C10.5225 2.74754 6.08382 7.24633 6.08382 12.7959C6.08382 18.3454 10.5225 22.8442 15.9978 22.8442ZM27.6359 12.7959C27.6359 19.3106 22.4253 24.5918 15.9978 24.5918C9.57022 24.5918 4.35966 19.3106 4.35966 12.7959C4.35966 6.28119 9.57022 1 15.9978 1C22.4253 1 27.6359 6.28119 27.6359 12.7959Z" fill="#EEEEEE"></path>
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M24.5832 12.7958C24.5832 17.6001 20.7406 21.4947 16.0006 21.4947C11.2606 21.4947 7.41812 17.6001 7.41812 12.7958C7.41812 7.99156 11.2606 4.09694 16.0006 4.09694C20.7406 4.09694 24.5832 7.99156 24.5832 12.7958ZM14.2995 10.4988L10.9606 11.2508L13.238 13.9455L12.8877 17.5594L15.9998 16.0867L19.112 17.5594L18.7513 13.9455L21.039 11.2508L17.7002 10.4988L15.9998 7.35488L14.2995 10.4988Z" fill="#EEEEEE"></path>
+                                <path d="M15.9978 22.8442C21.4731 22.8442 25.9117 18.3454 25.9117 12.7959C25.9117 7.24633 21.4731 2.74754 15.9978 2.74754C10.5225 2.74754 6.08382 7.24633 6.08382 12.7959C6.08382 18.3454 10.5225 22.8442 15.9978 22.8442ZM27.6359 12.7959C27.6359 19.3106 22.4253 24.5918 15.9978 24.5918C9.57022 24.5918 4.35966 19.3106 4.35966 12.7959C4.35966 6.28119 9.57022 1 15.9978 1C22.4253 1 27.6359 6.28119 27.6359 12.7959Z" fill="#EEEEEE"></path>
+                                <path d="M24.5832 12.7958C24.5832 17.6001 20.7406 21.4947 16.0006 21.4947C11.2606 21.4947 7.41812 17.6001 7.41812 12.7958C7.41812 7.99156 11.2606 4.09694 16.0006 4.09694C20.7406 4.09694 24.5832 7.99156 24.5832 12.7958ZM14.2995 10.4988L10.9606 11.2508L13.238 13.9455L12.8877 17.5594L15.9998 16.0867L19.112 17.5594L18.7513 13.9455L21.039 11.2508L17.7002 10.4988L15.9998 7.35488L14.2995 10.4988Z" fill="#EEEEEE"></path>
                                 <path d="M17.1466 24.5351L20.3404 30.5408C20.4969 30.835 20.8052 31.0129 21.1346 30.9993C21.4641 30.9856 21.757 30.7826 21.8891 30.4764L23.4087 26.9559L27.036 27.3937C27.3589 27.4327 27.6759 27.2842 27.8559 27.0097C28.0359 26.7352 28.0482 26.3814 27.8877 26.0948L24.7771 20.5401C22.8795 22.7481 20.1844 24.2335 17.1466 24.5351Z" fill="#EEEEEE"></path>
                                 <path d="M15.1178 24.5585C11.9874 24.3213 9.20212 22.8288 7.25032 20.5762L4.11517 26.0897C3.9528 26.3753 3.96277 26.7292 4.14096 27.0049C4.31915 27.2806 4.63524 27.4312 4.95838 27.3944L8.82808 26.9535L10.2549 30.4594C10.381 30.7691 10.6705 30.9784 11.0004 30.9984C11.3303 31.0184 11.6424 30.8455 11.804 30.5533L15.1178 24.5585Z" fill="#EEEEEE"></path>
                             </svg>
@@ -56,29 +76,29 @@ function RegisterPage() {
                 </div>
             </div>
             <div className='col-span-3 border p-5 grid gap-5'>
-                <form className='grid gap-5'>
+                <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
-                    <div>
-                        <input
-                            className='p-3 border w-full'
-                            type='text'
-                            placeholder='Email*'
-                        />
-                    </div>
-                    <div>
-                        <input
-                            className='p-3 border w-full'
-                            type='password'
-                            placeholder='Password*'
-                        />
-                    </div>
-                    <div>
-                        <input
-                            className='p-3 border w-full'
-                            type='password'
-                            placeholder='Confirm Password*'
-                        />
-                    </div>
+                    <input
+                        className='p-3 border w-full'
+                        type='text'
+                        placeholder='Email*'
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                    />
+                    <input
+                        className='p-3 border w-full'
+                        type='password'
+                        placeholder='Password*'
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                    />
+                    {/* <input
+                        className='p-3 border w-full'
+                        type='password'
+                        placeholder='Confirm Password*'
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                    /> */}
                     <button className='border p-3 font-semibold' type='submit'>Register Account</button>
                 </form>
                 <div className='flex justify-center gap-2 items-center'>

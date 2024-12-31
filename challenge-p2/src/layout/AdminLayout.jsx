@@ -5,11 +5,13 @@ import Footer from '../components/Footer'
 
 function AdminLayout() {
     return (
+    <>
+        <AdminNavbar/>
         <div className='container mx-auto mt-5'>
-            <AdminNavbar/>
             <Outlet/>
-            <Footer/>
         </div>
+        <Footer/>
+    </>
     )
 }
 
