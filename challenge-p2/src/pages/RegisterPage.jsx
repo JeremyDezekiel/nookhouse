@@ -1,21 +1,66 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function RegisterPage() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    // const [confirmPassword, setConfirmPassword] = useState('')
+    const [confirmPassword, setConfirmPassword] = useState('')
+    const [emailError, setEmailError] = useState('')
+    const [passwordError, setPasswordError] = useState('')
+    const [confirmPasswordError, setConfirmPasswordError] = useState('')
+
+    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+    const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
+
+    const validateEmail = (email) => {
+        if (email === '') {
+            setEmailError('Please enter a email.')
+        } else if(!emailRegex.test(email)) {
+            setEmailError('Please enter a valid email format.')
+        } else {
+            setEmailError('')
+        }
+    }
+
+    const validatePassword = (password) => {
+        if (password === '') {
+            setPasswordError('Please create a new password')
+        } else if (password.length < 8 ) {
+            setPasswordError('Password must be at least 8 characters.')
+        } else {
+            setPasswordError('')
+        }
+    }
+
+    useEffect(() => {
+        validatePassword(password)
+    }, [password])
+
+    const validateConfirmPassword = (confirmPassword) => {
+        if (confirmPassword !== password) {
+            setConfirmPasswordError('Password and Confirm Password must match.')
+        } else {
+            setConfirmPasswordError('')
+        }
+    }
 
     const handleRegisterForm = async (e) => {
         e.preventDefault()
+        validateEmail(email)
+        validatePassword(password)
+        validateConfirmPassword(confirmPassword)
+        if (emailError || passwordError || confirmPasswordError) {
+            return
+        }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
             setEmail('')
             setPassword('')
-            // setConfirmPassword('')
+            setConfirmPassword('')
             navigate('/login')
         } catch (error) {
             console.error(error)
@@ -78,27 +123,39 @@ function RegisterPage() {
             <div className='col-span-3 border p-5 grid gap-5'>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
-                    <input
-                        className='p-3 border w-full'
-                        type='text'
-                        placeholder='Email*'
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                    />
-                    <input
-                        className='p-3 border w-full'
-                        type='password'
-                        placeholder='Password*'
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    {/* <input
-                        className='p-3 border w-full'
-                        type='password'
-                        placeholder='Confirm Password*'
-                        value={confirmPassword}
-                        onChange={(e) => setConfirmPassword(e.target.value)}
-                    /> */}
+                    <div>
+                        <input
+                            className={`p-3 border w-full ${emailError ? 'border-red-500' : ''}`}
+                            type='text'
+                            placeholder='Email*'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            onBlur={() => validateEmail(email)}
+                        />
+                        {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+                    </div>
+                    <div>
+                        <input
+                            className={`p-3 border w-full ${passwordError ? 'border-red-500' : ''}`}
+                            type='password'
+                            placeholder='New Password*'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            onBlur={() => validatePassword(password)}
+                        />
+                        {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+                    </div>
+                    <div>
+                        <input
+                            className={`p-3 border w-full ${confirmPasswordError ? 'border-red-500' : ''}`}
+                            type='password'
+                            placeholder='Confirm New Password*'
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onBlur={() => validateConfirmPassword(confirmPassword)}
+                        />
+                        {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
+                    </div>
                     <button className='border p-3 font-semibold' type='submit'>Register Account</button>
                 </form>
                 <div className='flex justify-center gap-2 items-center'>
