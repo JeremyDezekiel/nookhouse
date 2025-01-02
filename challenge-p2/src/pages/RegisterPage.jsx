@@ -156,11 +156,11 @@ function RegisterPage() {
                         />
                         {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
                     </div>
-                    <button className='border p-3 font-semibold' type='submit'>Register Account</button>
+                    <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Register Account</button>
                 </form>
                 <div className='flex justify-center gap-2 items-center'>
                     <p>Already registered?</p>
-                    <Link to='/login' className='underline' >Sign In</Link>
+                    <Link to='/login' className='underline hover:text-gray-600' >Sign In</Link>
                 </div>
             </div>
         </div>
