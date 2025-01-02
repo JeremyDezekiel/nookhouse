@@ -6,9 +6,11 @@ import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { Sun, Moon } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
+import { AuthContext } from '../context/AuthContext'
 
 function AdminNavbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
+    const { user } = useContext(AuthContext)
 
     const navigate = useNavigate()
     const goToHome = () => {
@@ -47,7 +49,9 @@ function AdminNavbar() {
                 <img className='w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} />
             </div>
             <div className='flex justify-end gap-5 pb-5'>
-                <button onClick={handleLogout} className='hover:underline'>Logout</button>
+                {user && (
+                    <button onClick={handleLogout} className='hover:underline'>Logout</button>
+                )}
                 <button className='border rounded-md p-2' onClick={toggleTheme}>
                     {theme === 'light' ? <Moon/> : <Sun/>}
                 </button>
