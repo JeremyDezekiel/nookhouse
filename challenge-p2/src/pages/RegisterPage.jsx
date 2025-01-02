@@ -3,8 +3,10 @@ import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
+import { AuthContext } from '../context/AuthContext'
 
 function RegisterPage() {
+    const { user, isLoading } = useState(AuthContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -19,7 +21,7 @@ function RegisterPage() {
     const validateEmail = (email) => {
         if (email === '') {
             setEmailError('Please enter a email.')
-        } else if(!emailRegex.test(email)) {
+        } else if (!emailRegex.test(email)) {
             setEmailError('Please enter a valid email format.')
         } else {
             setEmailError('')
@@ -29,7 +31,7 @@ function RegisterPage() {
     const validatePassword = (password) => {
         if (password === '') {
             setPasswordError('Please create a new password')
-        } else if (password.length < 8 ) {
+        } else if (password.length < 8) {
             setPasswordError('Password must be at least 8 characters.')
         } else {
             setPasswordError('')
@@ -74,16 +76,11 @@ function RegisterPage() {
         }
     }
 
-    useEffect (() => {
-        const auth = getAuth()
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                navigate('/admin')
-            }
-        })
-
-        return () => unsubscribe()
-    }, [])
+    useEffect(() => {
+        if (!isLoading && user) {
+            navigate('/admin')
+        }
+    }, [user, isLoading])
 
     return (
         <div className='grid grid-cols-6 pb-12 mb-10'>
@@ -103,9 +100,6 @@ function RegisterPage() {
                             <p className='font-semibold'>100% Best Quality</p>
                             <p>Get 100% best quality items delivered to you.</p>
                         </div>
-                        <div>
-
-                        </div>
                     </div>
                     <div className='flex gap-5 items-center border p-2'>
                         <div className='border rounded-full p-3 bg-green-700'>
@@ -116,9 +110,6 @@ function RegisterPage() {
                         <div>
                             <p className='font-semibold'>Voucher Discount 300K</p>
                             <p>Register an account and enjoy 300K voucher for your first order.</p>
-                        </div>
-                        <div>
-
                         </div>
                     </div>
                     <div className='flex gap-5 items-center border p-2'>
@@ -131,9 +122,6 @@ function RegisterPage() {
                         <div>
                             <p className='font-semibold'>Purchase History</p>
                             <p>Track all of your online orders and in-boutique purchases.</p>
-                        </div>
-                        <div>
-
                         </div>
                     </div>
                 </div>

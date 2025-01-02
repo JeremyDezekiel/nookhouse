@@ -1,10 +1,12 @@
-import { getAuth, onAuthStateChanged, signInWithEmailAndPassword } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import { signInWithEmailAndPassword } from 'firebase/auth'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
+import { AuthContext } from '../context/AuthContext'
 
 function LoginPage() {
+    const { user, isLoading} = useContext(AuthContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -36,15 +38,10 @@ function LoginPage() {
     }
 
     useEffect (() => {
-        const auth = getAuth()
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                navigate('/admin')
-            }
-        })
-
-        return () => unsubscribe()
-    }, [])
+        if (!isLoading && user) {
+            navigate('/admin')
+        }
+    }, [user, isLoading])
 
     return (
         <div className='grid justify-center'>

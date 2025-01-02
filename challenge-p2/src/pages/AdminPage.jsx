@@ -1,25 +1,24 @@
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import React, { useEffect } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { AuthContext } from '../context/AuthContext'
 
 function AdminPage() {
+    const { user, isLoading } = useContext(AuthContext)
     const navigate = useNavigate('')
 
     useEffect (() => {
-        const auth = getAuth()
-        const unsubscribe = onAuthStateChanged(auth, (user) => {
-            if (user) {
-                console.log(user)
-            } else {
-                navigate('/login')
-            }
-        })
-
-        return () => unsubscribe()
-    }, [])
+        if (!isLoading && !user) {
+            navigate('/login')
+        }
+    }, [user, isLoading])
+    
+    if (isLoading) return <h1>Loading ...</h1>
 
     return (
-        <div>Welcome to Admin Page</div>
+        <main>
+            <h1 className='font-bold text-4xl'>Welcome to Admin Page</h1>
+            <h3>User: {user?.email}</h3>
+        </main>
     )
 }
 
