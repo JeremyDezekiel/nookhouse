@@ -2,7 +2,7 @@ import React, { useContext } from 'react'
 import AdminNavbar from '../components/AdminNavbar'
 import { Outlet } from 'react-router-dom'
 import Footer from '../components/Footer'
-import { ThemeContext } from '../App'
+import { ThemeContext } from '../context/ThemeContext'
 
 function AdminLayout() {
     const { theme } = useContext(ThemeContext)

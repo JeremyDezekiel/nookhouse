@@ -5,7 +5,7 @@ import { signOut } from 'firebase/auth'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { Sun, Moon } from 'lucide-react'
-import { ThemeContext } from '../App'
+import { ThemeContext } from '../context/ThemeContext'
 
 function AdminNavbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)

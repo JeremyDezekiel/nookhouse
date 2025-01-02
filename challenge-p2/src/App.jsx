@@ -1,20 +1,13 @@
-import React, { createContext, useState } from 'react'
+import React from 'react'
 import { RouterProvider } from 'react-router-dom'
 import router from './router/router'
-
-export const ThemeContext = createContext()
+import ThemeContextProvider from './context/ThemeContext'
 
 function App() {
-    const [theme, setTheme] = useState('light')
-
-    const toggleTheme = () => {
-        setTheme(prevValue => prevValue === 'light' ? 'dark' : 'light')
-    }
-
     return (
-        <ThemeContext.Provider value={{ theme, toggleTheme }}>
+        <ThemeContextProvider>
             <RouterProvider router={router}/>
-        </ThemeContext.Provider>
+        </ThemeContextProvider>
     )
 }
 
