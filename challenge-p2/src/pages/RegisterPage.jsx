@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
+import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
@@ -36,9 +36,9 @@ function RegisterPage() {
         }
     }
 
-    useEffect(() => {
-        validatePassword(password)
-    }, [password])
+    // useEffect(() => {
+    //     validatePassword(password)
+    // }, [password])
 
     const validateConfirmPassword = (confirmPassword) => {
         if (confirmPassword !== password) {
@@ -73,6 +73,17 @@ function RegisterPage() {
             }
         }
     }
+
+    useEffect (() => {
+        const auth = getAuth()
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                navigate('/admin')
+            }
+        })
+
+        return () => unsubscribe()
+    }, [])
 
     return (
         <div className='grid grid-cols-6 pt-11 pb-12 mb-10'>
