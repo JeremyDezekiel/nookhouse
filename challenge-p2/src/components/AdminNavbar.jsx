@@ -1,11 +1,15 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import logo from '../assets/h_1.png'
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
+import { Sun, Moon } from 'lucide-react'
+import { ThemeContext } from '../App'
 
 function AdminNavbar() {
+    const { theme, toggleTheme } = useContext(ThemeContext)
+
     const navigate = useNavigate()
     const goToHome = () => {
         navigate('/')
@@ -40,10 +44,13 @@ function AdminNavbar() {
         <div className='bg-[#CCCCCC] grid grid-cols-3 pt-5 px-10'>
             <div></div>
             <div className='flex justify-center'>
-                <img className='w-[35%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} />
+                <img className='w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} />
             </div>
-            <div className='flex justify-end'>
+            <div className='flex justify-end gap-5 pb-5'>
                 <button onClick={handleLogout} className='hover:underline'>Logout</button>
+                <button className='border rounded-md p-2' onClick={toggleTheme}>
+                    {theme === 'light' ? <Moon/> : <Sun/>}
+                </button>
             </div>
         </div>
     )

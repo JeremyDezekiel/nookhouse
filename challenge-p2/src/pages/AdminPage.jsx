@@ -17,9 +17,9 @@ function AdminPage() {
 
         return () => unsubscribe()
     }, [])
-    
+
     return (
-        <div>AdminPage</div>
+        <div>Welcome to Admin Page</div>
     )
 }
 

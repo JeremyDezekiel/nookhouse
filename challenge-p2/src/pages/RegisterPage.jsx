@@ -86,7 +86,7 @@ function RegisterPage() {
     }, [])
 
     return (
-        <div className='grid grid-cols-6 pt-11 pb-12 mb-10'>
+        <div className='grid grid-cols-6 pb-12 mb-10'>
             <div className='col-span-3 mt-14 pe-28 grid gap-10'>
                 <h1 className='text-3xl font-bold me-12'>Become a nookhouse member and<br />enjoy the benefits</h1>
                 <div className='grid gap-5'>
