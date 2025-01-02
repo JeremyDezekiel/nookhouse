@@ -64,6 +64,13 @@ function RegisterPage() {
             navigate('/login')
         } catch (error) {
             console.error(error)
+            if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: 'email has been used!',
+                })
+            }
         }
     }
 

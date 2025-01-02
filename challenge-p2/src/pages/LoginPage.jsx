@@ -2,6 +2,7 @@ import { signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function LoginPage() {
     const navigate = useNavigate()
@@ -16,7 +17,21 @@ function LoginPage() {
             setPassword('')
             navigate('/admin')
         } catch (error) {
-            console.error(error)
+            console.error(error.message)
+            let errorMessage
+            
+            if (error.message === 'Firebase: Error (auth/invalid-credential).') {
+                errorMessage = "wrong email and password!"
+                setEmail('')
+                setPassword('')
+            } else if (error.message === 'Firebase: Error (auth/invalid-email).') {
+                errorMessage = "insert email and password!"
+            }
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: errorMessage,
+            })
         }
     }
 
