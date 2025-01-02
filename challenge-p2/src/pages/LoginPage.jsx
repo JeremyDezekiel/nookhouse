@@ -1,21 +1,38 @@
+import { signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
+import auth from '../config/firebase'
 
 function LoginPage() {
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+
+    const handleLogin = async (e) => {
+        e.preventDefault()
+        try {
+            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            setEmail('')
+            setPassword('')
+            navigate('/admin')
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
     return (
         <div className='grid justify-center'>
             <div className='border p-5'>
                 <h1 className='font-bold text-3xl'>Sign In</h1>
                 <p className='text-lg text-gray-500'>Sign in to shop with vouchers, track your order, and save your favorite products.</p>
-                <form className='grid gap-5 mt-5'>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => handleLogin(e)}>
                     <div>
                         <input
                             className='p-3 border w-full'
                             type='text'
                             placeholder='Email*'
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
                     <div>
@@ -23,6 +40,8 @@ function LoginPage() {
                             className='p-3 border w-full'
                             type='password'
                             placeholder='Password*'
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
                     <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Sign In</button>
