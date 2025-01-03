@@ -4,9 +4,12 @@ import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
+import { PassContext } from '../context/PassContext'
+import { Eye, EyeOff } from 'lucide-react'
 
 function LoginPage() {
-    const { user, isLoading} = useContext(AuthContext)
+    const { user, isLoading } = useContext(AuthContext)
+    const { type, toggleType } = useContext(PassContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -46,7 +49,7 @@ function LoginPage() {
             Swal.fire({
                 position: "top-end",
                 icon: "success",
-                title: "Your work has been saved",
+                title: "Login Succes",
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -99,13 +102,16 @@ function LoginPage() {
                         <div className='relative'>
                             <input
                                 className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${passwordError ? 'border-red-500' : ''}`}
-                                type='password'
+                                type={type}
                                 placeholder=''
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 onBlur={() => validatePassword(password)}
                             />
                             <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
+                            <div className={`absolute top-5 right-5`}>
+                                {type === 'password' ? <EyeOff className='cursor-pointer' onClick={toggleType}></EyeOff> : <Eye className='cursor-pointer' onClick={toggleType}></Eye>}
+                            </div>
                             {passwordError && <p className='text-red-500 text-sm peer-focus:hidden'>{passwordError}</p>}
                         </div>
                         {emailError === true || passwordError === true || !emailRegex.test(email) || password === '' ? 

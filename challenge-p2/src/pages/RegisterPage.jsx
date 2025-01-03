@@ -1,12 +1,15 @@
 import { createUserWithEmailAndPassword } from 'firebase/auth'
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
+import { PassContext } from '../context/PassContext'
+import { Eye, EyeOff } from 'lucide-react'
 
 function RegisterPage() {
-    const { user, isLoading } = useState(AuthContext)
+    const { user, isLoading } = useContext(AuthContext)
+    const { type, toggleType, typeConfirmPass, toggleConfirmType} = useContext(PassContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
@@ -15,7 +18,7 @@ function RegisterPage() {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
-    
+
     const [listenPasswordNumber, setListenPasswordNumber] = useState('')
     const [listenPasswordLowercase, setListenPasswordLowercase] = useState('')
     const [listenPasswordUppercase, setListenPasswordUppercase] = useState('')
@@ -188,13 +191,16 @@ function RegisterPage() {
                     <div className='relative'>
                         <input
                             className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${passwordError ? 'border-red-500' : ''}`}
-                            type='password'
+                            type={type}
                             placeholder=''
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onBlur={() => validatePassword(password)}
                         />
                         <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
+                        <div className={`absolute top-5 right-5`}>
+                            {type === 'password' ? <EyeOff className='cursor-pointer' onClick={toggleType}></EyeOff> : <Eye className='cursor-pointer' onClick={toggleType}></Eye>}
+                        </div>
                         <ul className='text-sm text-gray-400 hidden peer-focus:block'>
                             {listenPasswordUppercase && <li className='mt-2'>{listenPasswordUppercase}</li>}
                             {listenPasswordLowercase && <li className='mt-2'>{listenPasswordLowercase}</li>}
@@ -206,18 +212,21 @@ function RegisterPage() {
                     <div className='relative'>
                         <input
                             className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${confirmPasswordError ? 'border-red-500' : ''}`}
-                            type='password'
+                            type={typeConfirmPass}
                             placeholder=''
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             onBlur={() => validateConfirmPassword(confirmPassword)}
                         />
                         <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${confirmPasswordError ? 'text-red-500' : 'text-green-600'}`}>Your Confirm Password*</label>
+                        <div className={`absolute top-5 right-5`}>
+                            {typeConfirmPass === 'password' ? <EyeOff className='cursor-pointer' onClick={toggleConfirmType}></EyeOff> : <Eye className='cursor-pointer' onClick={toggleConfirmType}></Eye>}
+                        </div>
                         {confirmPasswordError && <p className='text-red-500 text-sm peer-focus:hidden'>{confirmPasswordError}</p>}
                     </div>
-                    {emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ? 
-                            <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Sign In</button> : 
-                            <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Sign In</button>}
+                    {emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ?
+                        <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Sign In</button> :
+                        <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Sign In</button>}
                 </form>
                 <div className='flex justify-center gap-2 items-center'>
                     <p>Already registered?</p>
