@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, getAuth, onAuthStateChanged } from 'firebase/auth'
+import { createUserWithEmailAndPassword } from 'firebase/auth'
 import React, { useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
@@ -31,9 +31,9 @@ function RegisterPage() {
 
     const validatePassword = (password) => {
         if (password === '') {
-            setPasswordError('Please create a new password')
-        } else if (password.length < 8) {
-            setPasswordError('Password must be at least 8 characters.')
+            setPasswordError('Please create a new password.')
+        } else if (!passRegex.test(password)) {
+            setPasswordError('Password must be at least 8 characters with uppercase letters, lowercase letters, and numbers.')
         } else {
             setPasswordError('')
         }
@@ -61,6 +61,13 @@ function RegisterPage() {
         }
         try {
             const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "Your work has been saved",
+                showConfirmButton: false,
+                timer: 1500
+            })
             setEmail('')
             setPassword('')
             setConfirmPassword('')
@@ -130,40 +137,51 @@ function RegisterPage() {
             <div className='col-span-3 border p-5 grid gap-5'>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
-                    <div>
+                    <div className='relative'>
                         <input
-                            className={`p-3 border w-full ${emailError ? 'border-red-500' : ''}`}
+                            className={`block w-full p-5 text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
                             type='text'
-                            placeholder='Email*'
+                            placeholder=''
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             onBlur={() => validateEmail(email)}
                         />
-                        {emailError && <p className="text-red-500 text-sm">{emailError}</p>}
+                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${emailError ? 'text-red-500' : 'text-green-600'}`}>Your Email*</label>
+                        {emailError && <p className='text-red-500 text-sm peer-focus:hidden'>{emailError}</p>}
                     </div>
-                    <div>
+                    <div className='relative'>
                         <input
-                            className={`p-3 border w-full ${passwordError ? 'border-red-500' : ''}`}
+                            className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${passwordError ? 'border-red-500' : ''}`}
                             type='password'
-                            placeholder='New Password*'
+                            placeholder=''
                             value={password}
                             onChange={(e) => setPassword(e.target.value)}
                             onBlur={() => validatePassword(password)}
                         />
-                        {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
+                        <ul className='text-sm text-gray-400 hidden peer-focus:block'>
+                            <li className='mt-2'>• Must contain one uppercase letter</li>
+                            <li className='mt-2'>• Must contain one lowercase letter</li>
+                            <li className='mt-2'>• Must contain one number</li>
+                            <li className='mt-2'>• Must contain at least 8 characters</li>
+                        </ul>
+                        {passwordError && <p className='text-red-500 text-sm peer-focus:hidden'>{passwordError}</p>}
                     </div>
-                    <div>
+                    <div className='relative'>
                         <input
-                            className={`p-3 border w-full ${confirmPasswordError ? 'border-red-500' : ''}`}
+                            className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${confirmPasswordError ? 'border-red-500' : ''}`}
                             type='password'
-                            placeholder='Confirm New Password*'
+                            placeholder=''
                             value={confirmPassword}
                             onChange={(e) => setConfirmPassword(e.target.value)}
                             onBlur={() => validateConfirmPassword(confirmPassword)}
                         />
-                        {confirmPasswordError && <p className="text-red-500 text-sm">{confirmPasswordError}</p>}
+                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${confirmPasswordError ? 'text-red-500' : 'text-green-600'}`}>Your Confirm Password*</label>
+                        {confirmPasswordError && <p className='text-red-500 text-sm peer-focus:hidden'>{confirmPasswordError}</p>}
                     </div>
-                    <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Register Account</button>
+                    {emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ? 
+                            <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Sign In</button> : 
+                            <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Sign In</button>}
                 </form>
                 <div className='flex justify-center gap-2 items-center'>
                     <p>Already registered?</p>
