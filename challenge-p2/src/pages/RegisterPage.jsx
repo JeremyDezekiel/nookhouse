@@ -11,6 +11,7 @@ function RegisterPage() {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
+
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
@@ -44,7 +45,7 @@ function RegisterPage() {
 
     const validateConfirmPassword = (confirmPassword) => {
         if (confirmPassword !== password) {
-            setConfirmPasswordError('Password and Confirm Password must match.')
+            setConfirmPasswordError('Password and Confirm Password must be match.')
         } else {
             setConfirmPasswordError('')
         }
