@@ -7,7 +7,7 @@ function App() {
     return (
         <ThemeContextProvider>
             <AuthContextProvider>
-                    <RouterProvider router={router}/>
+                <RouterProvider router={router}/>
             </AuthContextProvider>
         </ThemeContextProvider>
     )

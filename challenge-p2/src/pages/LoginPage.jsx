@@ -4,51 +4,23 @@ import { Link, useNavigate } from 'react-router-dom'
 import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
-import { PassContext } from '../context/PassContext'
+
 import { Eye, EyeOff } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
+import { ValidateInput } from '../services/ValidateInput'
+import { ToggleShowPass } from '../services/TogleShowPass'
 
 function LoginPage() {
     const { theme } = useContext(ThemeContext)
     const { user, isLoading } = useContext(AuthContext)
-    // const { type, toggleType } = useContext(PassContext)
+    const { emailRegex, email, setEmail, password, setPassword, emailError, validateEmail, passwordError, validateLoginPassword } = ValidateInput()
+    const { showPassword, toggleShowPassword} = ToggleShowPass()
     const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
-
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-
-    const [showPassword, setShowPassword] = useState('password')
-
-    const toggleShowPassword = () => {
-        setShowPassword(prevValue => prevValue === 'password' ? 'text' : 'password')
-    }
-
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('Please enter a email.')
-        } else if (!emailRegex.test(email)) {
-            setEmailError('Please enter a valid email format.')
-        } else {
-            setEmailError('')
-        }
-    }
-
-    const validatePassword = (password) => {
-        if (password === '') {
-            setPasswordError('Please enter a password')
-        } else {
-            setPasswordError('')
-        }
-    }
 
     const handleLogin = async (e) => {
         e.preventDefault()
         validateEmail(email)
-        validatePassword(password)
+        validateLoginPassword(password)
         if (emailError || passwordError) {
             return
         }
@@ -114,7 +86,7 @@ function LoginPage() {
                                 placeholder=''
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                onBlur={() => validatePassword(password)}
+                                onBlur={() => validateLoginPassword(password)}
                             />
                             <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
                             <div className={`absolute top-5 right-5`}>

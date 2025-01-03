@@ -5,104 +5,18 @@ import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
-import { validatePassword, listenInputPassword } from '../services/ValidateInput'
 import AdminAside from '../components/AdminAside'
 import { ThemeContext } from '../context/ThemeContext'
+import { ValidateInput } from '../services/ValidateInput'
+import { ToggleShowPass } from '../services/TogleShowPass'
 
 function RegisterPage() {
     const { user, isLoading } = useContext(AuthContext)
     const { theme } = useContext(ThemeContext)
-    // const { type, toggleType, typeConfirmPass, toggleConfirmType} = useContext(PassContext)
+    const { password, setPassword, passwordError, listenPasswordNumber, listenPasswordLowercase, listenPasswordUppercase, listenPasswordEightCharacters, validatePassword, email, setEmail, emailRegex, validateEmail, emailError, confirmPasswordError, validateConfirmPassword,} = ValidateInput()
+    const { showPassword, toggleShowPassword, showConfirmPassword, toggleShowConfirmPassword, } = ToggleShowPass()
     const navigate = useNavigate()
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
-
-    const [emailError, setEmailError] = useState('')
-    const [passwordError, setPasswordError] = useState('')
-    const [confirmPasswordError, setConfirmPasswordError] = useState('')
-
-    const [listenPasswordNumber, setListenPasswordNumber] = useState('')
-    const [listenPasswordLowercase, setListenPasswordLowercase] = useState('')
-    const [listenPasswordUppercase, setListenPasswordUppercase] = useState('')
-    const [listenPasswordEightCharacters, setListenPasswordEightCharacters] = useState('')
-
-    const [showPassword, setShowPassword] = useState('password')
-    const [showConfirmPassword, setShowConfirmPassword] = useState('password')
-
-    const toggleShowPassword = () => {
-        setShowPassword(prevValue => prevValue === 'password' ? 'text' : 'password')
-    }
-
-    const toggleShowConfirmPassword = () => {
-        setShowConfirmPassword(prevValue => prevValue === 'password' ? 'text' : 'password')
-    }
-
-    const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
-    const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
-
-    const validateEmail = (email) => {
-        if (email === '') {
-            setEmailError('Please enter a email.')
-        } else if (!emailRegex.test(email)) {
-            setEmailError('Please enter a valid email format.')
-        } else {
-            setEmailError('')
-        }
-    }
-
-    const validatePassword = (password) => {
-        if (password === '') {
-            setPasswordError('Please create a new password.')
-        } else if (!passRegex.test(password)) {
-            setPasswordError('Password must be at least 8 characters with uppercase letters, lowercase letters, and numbers.')
-        } else {
-            setPasswordError('')
-        }
-    }
-
-    const passRegexNumber = /^(?=.*\d).+$/
-    const passRegexLowecase = /^(?=.*[a-z]).+$/
-    const passRegexUppercase = /^(?=.*[A-Z]).+$/
-    const passRegexEightCharacters = /^.{7,}.+$/
-
-    const listenInputPassword = (password) => {
-        if (!passRegexNumber.test(password)) {
-            setListenPasswordNumber('• Must contain one number')
-        } else {
-            setListenPasswordNumber('')
-        }
-
-        if (!passRegexLowecase.test(password)) {
-            setListenPasswordLowercase('• Must contain one lowercase letter')
-        } else {
-            setListenPasswordLowercase('')
-        }
-
-        if (!passRegexUppercase.test(password)) {
-            setListenPasswordUppercase('• Must contain one uppercase letter')
-        } else {
-            setListenPasswordUppercase('')
-        }
-
-        if (!passRegexEightCharacters.test(password)) {
-            setListenPasswordEightCharacters('• Must contain at least 8 characters')
-        } else {
-            setListenPasswordEightCharacters('')
-        }
-    }
-
-    useEffect(() => {
-        listenInputPassword(password)
-    }, [password])
-
-    const validateConfirmPassword = (confirmPassword) => {
-        if (confirmPassword !== password) {
-            setConfirmPasswordError('Password and Confirm Password must be match.')
-        } else {
-            setConfirmPasswordError('')
-        }
-    }
 
     const handleRegisterForm = async (e) => {
         e.preventDefault()
@@ -145,7 +59,7 @@ function RegisterPage() {
 
     return (
         <div className='grid grid-cols-6 pb-12 mb-10'>
-            <AdminAside/>
+            <AdminAside />
             <div className={`col-span-3 border p-5 grid gap-5 ${theme === 'dark' && 'border-[#757575]'}`}>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
@@ -198,8 +112,8 @@ function RegisterPage() {
                         {confirmPasswordError && <p className='text-red-500 text-sm peer-focus:hidden'>{confirmPasswordError}</p>}
                     </div>
                     {emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ?
-                        <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Sign In</button> :
-                        <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Sign In</button>}
+                        <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Register Account</button> :
+                        <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Register Account</button>}
                 </form>
                 <div className='flex justify-center gap-2 items-center'>
                     <p>Already registered?</p>
