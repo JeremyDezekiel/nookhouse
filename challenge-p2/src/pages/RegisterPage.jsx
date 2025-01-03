@@ -8,7 +8,7 @@ import { Eye, EyeOff } from 'lucide-react'
 import AdminAside from '../components/AdminAside'
 import { ThemeContext } from '../context/ThemeContext'
 import { ValidateInput } from '../services/ValidateInput'
-import { ToggleShowPass } from '../services/TogleShowPass'
+import { ToggleShowPass } from '../services/ToggleShowPass'
 
 function RegisterPage() {
     const { user, isLoading } = useContext(AuthContext)

@@ -8,7 +8,7 @@ import { AuthContext } from '../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
 import { ValidateInput } from '../services/ValidateInput'
-import { ToggleShowPass } from '../services/TogleShowPass'
+import { ToggleShowPass } from '../services/ToggleShowPass'
 
 function LoginPage() {
     const { theme } = useContext(ThemeContext)
