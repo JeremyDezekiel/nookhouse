@@ -1,7 +1,5 @@
-import { createUserWithEmailAndPassword } from 'firebase/auth'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
@@ -9,6 +7,7 @@ import AdminAside from '../components/AdminAside'
 import { ThemeContext } from '../context/ThemeContext'
 import { ValidateInput } from '../services/ValidateInput'
 import { ToggleShowPass } from '../services/ToggleShowPass'
+import { useRegister } from '../hooks/useRegister'
 
 function RegisterPage() {
     const { user, isLoading } = useContext(AuthContext)
@@ -27,7 +26,7 @@ function RegisterPage() {
             return
         }
         try {
-            const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+            const userCredential = await useRegister(email, password)
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -41,13 +40,11 @@ function RegisterPage() {
             navigate('/login')
         } catch (error) {
             console.error(error)
-            if (error.message === 'Firebase: Error (auth/email-already-in-use).') {
-                Swal.fire({
-                    icon: "error",
-                    title: "Oops...",
-                    text: 'email has been used!',
-                })
-            }
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: error.customMessage
+            })
         }
     }
 
