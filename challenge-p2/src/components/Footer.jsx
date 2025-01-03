@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import logo from '../assets/h_1.png'
+import logoDarkMode from '../assets/darkMode.png'
 import { ThemeContext } from '../context/ThemeContext'
 
 function Footer() {
@@ -10,14 +11,9 @@ function Footer() {
             <div className='grid grid-cols-4'>
                 <div>
                     <div className='mb-5'>
-                        <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' />
+                        {theme === 'light' ? <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' /> : <img className='w-[50%] bg-[#757575] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logoDarkMode} alt='logoDarkMode' />}
                     </div>
-                    <p>voilà.id is a luxury fashion shopping platform that
-                        focuses on providing 100% authentic branded
-                        collections. Offering more than 150+ luxury brands
-                        and designers, voilà.id aspire to be the one-stop
-                        shopping destination for fashion enthusiasts to find
-                        their dream collections in one place.</p>
+                    <p className='league-spartan'>We make it easy to create a home that's just right for you.</p>
                     <div className='grid grid-cols-7 mt-8'>
                         <a href='https://www.instagram.com/'>
                             <svg data-test-id="icon-instagram" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -45,7 +41,7 @@ function Footer() {
                             </svg>
                         </a>
                     </div>
-                    <p className='mt-8 font-semibold text-lg'>Get the ultimate shopping experience on voilà.id app</p>
+                    <p className='mt-8 font-semibold text-lg'>Get the ultimate shopping experience on nookhouse app</p>
                     <div className='grid grid-cols-3 gap-5 mt-5'>
                         <a href='https://play.google.com/'>
                             <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fgoogle-playstore.png@webp' alt='googleplay'/>

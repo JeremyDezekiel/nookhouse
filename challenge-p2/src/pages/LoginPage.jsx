@@ -6,16 +6,24 @@ import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { PassContext } from '../context/PassContext'
 import { Eye, EyeOff } from 'lucide-react'
+import { ThemeContext } from '../context/ThemeContext'
 
 function LoginPage() {
+    const { theme } = useContext(ThemeContext)
     const { user, isLoading } = useContext(AuthContext)
-    const { type, toggleType } = useContext(PassContext)
+    // const { type, toggleType } = useContext(PassContext)
     const navigate = useNavigate()
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
 
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
+
+    const [showPassword, setShowPassword] = useState('password')
+
+    const toggleShowPassword = () => {
+        setShowPassword(prevValue => prevValue === 'password' ? 'text' : 'password')
+    }
 
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
 
@@ -83,9 +91,9 @@ function LoginPage() {
 
     return (
             <div className='grid justify-center'>
-                <div className='border p-5'>
+                <div className={`border p-5 ${theme === 'dark' && 'border-[#757575] '}`}>
                     <h1 className='font-bold text-3xl'>Sign In</h1>
-                    <p className='text-lg text-gray-500'>Sign in to shop with vouchers, track your order, and save your favorite products.</p>
+                    <p className={`text-lg ${theme === 'light' && 'text-gray-500'}`}>Sign in to shop with vouchers, track your order, and save your favorite products.</p>
                     <form className='grid gap-5 mt-5' onSubmit={(e) => handleLogin(e)}>
                         <div className='relative'>
                             <input
@@ -102,7 +110,7 @@ function LoginPage() {
                         <div className='relative'>
                             <input
                                 className={`block w-full p-5 text-base text-black border focus:outline-green-600 appearance-none focus:text-black peer ${passwordError ? 'border-red-500' : ''}`}
-                                type={type}
+                                type={showPassword}
                                 placeholder=''
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
@@ -110,7 +118,7 @@ function LoginPage() {
                             />
                             <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
                             <div className={`absolute top-5 right-5`}>
-                                {type === 'password' ? <EyeOff className='cursor-pointer' onClick={toggleType}></EyeOff> : <Eye className='cursor-pointer' onClick={toggleType}></Eye>}
+                                {showPassword === 'password' ? <EyeOff className='cursor-pointer text-[#BBBEC4]' onClick={toggleShowPassword}></EyeOff> : <Eye className='cursor-pointer text-[#BBBEC4]' onClick={toggleShowPassword}></Eye>}
                             </div>
                             {passwordError && <p className='text-red-500 text-sm peer-focus:hidden'>{passwordError}</p>}
                         </div>

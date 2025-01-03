@@ -1,5 +1,6 @@
 import React, { useContext } from 'react'
 import logo from '../assets/h_1.png'
+import logoDarkMode from '../assets/darkMode.png'
 import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import auth from '../config/firebase'
@@ -43,10 +44,10 @@ function AdminNavbar() {
     }
 
     return (
-        <div className='bg-[#CCCCCC] grid grid-cols-3 pt-5 px-10'>
+        <div className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 pt-5 px-10`}>
             <div></div>
             <div className='flex justify-center'>
-                <img className='w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} />
+                {theme === 'light' ? <img className='w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} /> : <img className='w-[48%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={goToHome} />}
             </div>
             <div className='flex justify-end gap-5 pb-5'>
                 {user && (
