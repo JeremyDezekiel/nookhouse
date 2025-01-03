@@ -1,14 +1,12 @@
-import { signInWithEmailAndPassword } from 'firebase/auth'
 import React, { useContext, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
-import auth from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
-
 import { Eye, EyeOff } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
 import { ValidateInput } from '../services/ValidateInput'
 import { ToggleShowPass } from '../services/ToggleShowPass'
+import { useLogin } from '../hooks/useLogin'
 
 function LoginPage() {
     const { theme } = useContext(ThemeContext)
@@ -25,7 +23,7 @@ function LoginPage() {
             return
         }
         try {
-            const userCredential = await signInWithEmailAndPassword(auth, email, password)
+            const userCredential = await useLogin(email, password)
             Swal.fire({
                 position: "top-end",
                 icon: "success",
@@ -38,19 +36,10 @@ function LoginPage() {
             navigate('/admin')
         } catch (error) {
             console.error(error.message)
-            let errorMessage
-            
-            if (error.message === 'Firebase: Error (auth/invalid-credential).') {
-                errorMessage = "wrong email or password!"
-                setEmail('')
-                setPassword('')
-            } else if (error.message === 'Firebase: Error (auth/invalid-email).') {
-                errorMessage = "insert a email and password!"
-            }
             Swal.fire({
                 icon: "error",
                 title: "Oops...",
-                text: errorMessage,
+                text: error.customMessage,
             })
         }
     }
