@@ -14,7 +14,7 @@ function AdminNavbar() {
 
     const navigate = useNavigate()
     const goToHome = () => {
-        navigate('/')
+        navigate('/admin')
     }
 
     const handleLogout = async () => {
@@ -52,7 +52,7 @@ function AdminNavbar() {
                 {user && (
                     <button onClick={handleLogout} className='hover:underline'>Logout</button>
                 )}
-                <button className='border rounded-md p-2' onClick={toggleTheme}>
+                <button className={`border rounded-md p-2`} onClick={toggleTheme}>
                     {theme === 'light' ? <Moon/> : <Sun/>}
                 </button>
             </div>

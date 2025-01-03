@@ -1,7 +1,10 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { createContext, useEffect, useState } from "react";
 
-export const AuthContext = createContext()
+export const AuthContext = createContext({
+    user: null,
+    isLoading: true
+})
 
 export default function AuthContextProvider ({children}) {
     const [user, setUser] = useState(null)

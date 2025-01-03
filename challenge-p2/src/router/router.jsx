@@ -1,10 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom'
-import MainLayout from '../layout/MainLayout'
-import HomePage from '../pages/HomePage'
-import AdminLayout from '../layout/AdminLayout'
-import RegisterPage from '../pages/RegisterPage'
-import AdminPage from '../pages/AdminPage'
-import LoginPage from '../pages/LoginPage'
+import { MainLayout, AdminLayout } from '../layout/index'
+import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage} from '../pages/index'
 
 const router = createBrowserRouter([
     {
@@ -33,6 +29,10 @@ const router = createBrowserRouter([
                 element: <LoginPage/>
             }
         ]
+    },
+    {
+        path: '*',
+        element: <ErrorPage/>
     }
 ])
 
