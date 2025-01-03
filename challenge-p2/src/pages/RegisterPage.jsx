@@ -15,6 +15,11 @@ function RegisterPage() {
     const [emailError, setEmailError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
+    
+    const [listenPasswordNumber, setListenPasswordNumber] = useState('')
+    const [listenPasswordLowercase, setListenPasswordLowercase] = useState('')
+    const [listenPasswordUppercase, setListenPasswordUppercase] = useState('')
+    const [listenPasswordEightCharacters, setListenPasswordEightCharacters] = useState('')
 
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
     const passRegex = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[a-zA-Z]).{8,}$/
@@ -39,9 +44,40 @@ function RegisterPage() {
         }
     }
 
-    // useEffect(() => {
-    //     validatePassword(password)
-    // }, [password])
+    const passRegexNumber = /^(?=.*\d).+$/
+    const passRegexLowecase = /^(?=.*[a-z]).+$/
+    const passRegexUppercase = /^(?=.*[A-Z]).+$/
+    const passRegexEightCharacters = /^.{7,}.+$/
+
+    const listenInputPassword = (password) => {
+        if (!passRegexNumber.test(password)) {
+            setListenPasswordNumber('• Must contain one number')
+        } else {
+            setListenPasswordNumber('')
+        }
+
+        if (!passRegexLowecase.test(password)) {
+            setListenPasswordLowercase('• Must contain one lowercase letter')
+        } else {
+            setListenPasswordLowercase('')
+        }
+
+        if (!passRegexUppercase.test(password)) {
+            setListenPasswordUppercase('• Must contain one uppercase letter')
+        } else {
+            setListenPasswordUppercase('')
+        }
+
+        if (!passRegexEightCharacters.test(password)) {
+            setListenPasswordEightCharacters('• Must contain at least 8 characters')
+        } else {
+            setListenPasswordEightCharacters('')
+        }
+    }
+
+    useEffect(() => {
+        listenInputPassword(password)
+    }, [password])
 
     const validateConfirmPassword = (confirmPassword) => {
         if (confirmPassword !== password) {
@@ -64,7 +100,7 @@ function RegisterPage() {
             Swal.fire({
                 position: "center",
                 icon: "success",
-                title: "Your work has been saved",
+                title: "Your account has been created",
                 showConfirmButton: false,
                 timer: 1500
             })
@@ -92,7 +128,7 @@ function RegisterPage() {
 
     return (
         <div className='grid grid-cols-6 pb-12 mb-10'>
-            <div className='col-span-3 mt-14 pe-28 grid gap-10'>
+            <div className='col-span-3 mt-10 pe-28 flex flex-col gap-10'>
                 <h1 className='text-3xl font-bold me-12'>Become a nookhouse member and<br />enjoy the benefits</h1>
                 <div className='grid gap-5'>
                     <div className='flex gap-5 items-center border p-2'>
@@ -139,7 +175,7 @@ function RegisterPage() {
                     <h1 className='font-medium text-xl'>Register</h1>
                     <div className='relative'>
                         <input
-                            className={`block w-full p-5 text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
+                            className={`block w-full p-5 text-black text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
                             type='text'
                             placeholder=''
                             value={email}
@@ -160,10 +196,10 @@ function RegisterPage() {
                         />
                         <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${passwordError ? 'text-red-500' : 'text-green-600'}`}>Your Password*</label>
                         <ul className='text-sm text-gray-400 hidden peer-focus:block'>
-                            <li className='mt-2'>• Must contain one uppercase letter</li>
-                            <li className='mt-2'>• Must contain one lowercase letter</li>
-                            <li className='mt-2'>• Must contain one number</li>
-                            <li className='mt-2'>• Must contain at least 8 characters</li>
+                            {listenPasswordUppercase && <li className='mt-2'>{listenPasswordUppercase}</li>}
+                            {listenPasswordLowercase && <li className='mt-2'>{listenPasswordLowercase}</li>}
+                            {listenPasswordNumber && <li className='mt-2'>{listenPasswordNumber}</li>}
+                            {listenPasswordEightCharacters && <li className='mt-2'>{listenPasswordEightCharacters}</li>}
                         </ul>
                         {passwordError && <p className='text-red-500 text-sm peer-focus:hidden'>{passwordError}</p>}
                     </div>

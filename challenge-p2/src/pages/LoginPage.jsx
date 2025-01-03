@@ -86,7 +86,7 @@ function LoginPage() {
                     <form className='grid gap-5 mt-5' onSubmit={(e) => handleLogin(e)}>
                         <div className='relative'>
                             <input
-                                className={`block w-full p-5 text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
+                                className={`block w-full p-5 text-black text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
                                 type='text'
                                 placeholder=''
                                 value={email}
