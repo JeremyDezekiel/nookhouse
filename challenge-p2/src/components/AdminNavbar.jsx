@@ -44,20 +44,20 @@ function AdminNavbar() {
     }
 
     return (
-        <div className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 pt-5 px-10`}>
+        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 pt-5 px-10`}>
             <div className='hidden md:block'></div>
             <div className='flex justify-center col-span-2 md:col-span-1'>
                 {theme === 'light' ? <img className='xl:w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} /> : <img className='xl:w-[48%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={goToHome} />}
             </div>
             <div className='flex justify-end gap-5 pb-5'>
                 {user && (
-                    <button onClick={handleLogout} className='hover:underline'>Logout</button>
+                    <button onClick={handleLogout} className='hover:underline' aria-label='Logout'>Logout</button>
                 )}
-                <button className={`border rounded-md p-2`} onClick={toggleTheme}>
+                <button className={`border rounded-md p-2`} onClick={toggleTheme} aria-label='Toggle theme'>
                     {theme === 'light' ? <Moon/> : <Sun/>}
                 </button>
             </div>
-        </div>
+        </nav>
     )
 }
 

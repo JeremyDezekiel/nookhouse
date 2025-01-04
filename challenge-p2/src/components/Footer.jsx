@@ -7,9 +7,9 @@ function Footer() {
     const { theme } = useContext(ThemeContext)
 
     return (
-        <div className='container mx-auto mt-5'>
+        <footer className='container mx-auto mt-5'>
             <div className='hidden grid-cols-4 lg:grid'>
-                <div>
+                <section>
                     <div className='mb-5'>
                         {theme === 'light' ? <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' /> : <img className='w-[50%] bg-[#757575] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logoDarkMode} alt='logoDarkMode' />}
                     </div>
@@ -50,29 +50,29 @@ function Footer() {
                             <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fapple-store.png@webp' alt='appstore' />
                         </a>
                     </div>
-                </div>
-                <div className='ps-20'>
+                </section>
+                <section className='ps-20'>
                     <h1 className='font-bold mb-5'>About Us</h1>
-                    <div className='grid gap-2'>
-                        <p className='cursor-pointer hover:underline'>About nookhouse</p>
-                        <p className='cursor-pointer hover:underline'>Our Store</p>
-                        <p className='cursor-pointer hover:underline'>Promotions</p>
-                        <p className='cursor-pointer hover:underline'>Programs & Partnerships</p>
-                        <p className='cursor-pointer hover:underline'>Shop by Request</p>
-                        <p className='cursor-pointer hover:underline'>Carrers</p>
-                        <p className='cursor-pointer hover:underline'>nookhouse x JeanneDe</p>
-                    </div>
-                </div>
-                <div>
+                    <ul className='grid gap-2'>
+                        <li className='cursor-pointer hover:underline'>About nookhouse</li>
+                        <li className='cursor-pointer hover:underline'>Our Store</li>
+                        <li className='cursor-pointer hover:underline'>Promotions</li>
+                        <li className='cursor-pointer hover:underline'>Programs & Partnerships</li>
+                        <li className='cursor-pointer hover:underline'>Shop by Request</li>
+                        <li className='cursor-pointer hover:underline'>Carrers</li>
+                        <li className='cursor-pointer hover:underline'>nookhouse x JeanneDe</li>
+                    </ul>
+                </section>
+                <section>
                     <h1 className='font-bold mb-5'>Customer Service</h1>
-                    <div className='grid gap-2'>
-                        <p className='cursor-pointer hover:underline'>Contact Us</p>
-                        <p className='cursor-pointer hover:underline'>Help Center</p>
-                        <p className='cursor-pointer hover:underline'>Terms & Conditions</p>
-                        <p className='cursor-pointer hover:underline'>Privacy Policy</p>
-                    </div>
-                </div>
-                <div>
+                    <ul className='grid gap-2'>
+                        <li className='cursor-pointer hover:underline'>Contact Us</li>
+                        <li className='cursor-pointer hover:underline'>Help Center</li>
+                        <li className='cursor-pointer hover:underline'>Terms & Conditions</li>
+                        <li className='cursor-pointer hover:underline'>Privacy Policy</li>
+                    </ul>
+                </section>
+                <section>
                     <div className='border-b-[1px] pb-5'>
                         <h1 className='font-bold mb-5'>Official Store</h1>
                         <div className='grid grid-cols-4 items-center gap-5'>
@@ -117,10 +117,10 @@ function Footer() {
                             <img className={`${theme === 'light' ? 'bg-transparent' : 'bg-white'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fshipping%2Fpaxel.png@webp' alt='paxel' />
                         </div>
                     </div>
-                </div>
+                </section>
             </div>
             <div className='grid lg:hidden text-center'>
-                <div>
+                <section>
                     <div className='flex justify-center mb-5'>
                         {theme === 'light' ? <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' /> : <img className='w-[50%] bg-[#757575] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logoDarkMode} alt='logoDarkMode' />}
                     </div>
@@ -134,32 +134,32 @@ function Footer() {
                             <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fapple-store.png@webp' alt='appstore' />
                         </a>
                     </div>
-                </div>
-                <div className='grid grid-cols-2'>
+                </section>
+                <section className='grid grid-cols-2'>
                     <div>
                         <h1 className='font-bold mb-5'>About Us</h1>
-                        <div className='grid gap-2'>
-                            <p className='cursor-pointer hover:underline'>About nookhouse</p>
-                            <p className='cursor-pointer hover:underline'>Our Store</p>
-                            <p className='cursor-pointer hover:underline'>Promotions</p>
-                            <p className='cursor-pointer hover:underline'>Programs & Partnerships</p>
-                            <p className='cursor-pointer hover:underline'>Shop by Request</p>
-                            <p className='cursor-pointer hover:underline'>Carrers</p>
-                            <p className='cursor-pointer hover:underline'>nookhouse x JeanneDe</p>
-                        </div>
+                        <ul className='grid gap-2'>
+                            <li className='cursor-pointer hover:underline'>About nookhouse</li>
+                            <li className='cursor-pointer hover:underline'>Our Store</li>
+                            <li className='cursor-pointer hover:underline'>Promotions</li>
+                            <li className='cursor-pointer hover:underline'>Programs & Partnerships</li>
+                            <li className='cursor-pointer hover:underline'>Shop by Request</li>
+                            <li className='cursor-pointer hover:underline'>Carrers</li>
+                            <li className='cursor-pointer hover:underline'>nookhouse x JeanneDe</li>
+                        </ul>
                     </div>
                     <div>
                         <h1 className='font-bold mb-5'>Customer Service</h1>
-                        <div className='grid gap-2'>
-                            <p className='cursor-pointer hover:underline'>Contact Us</p>
-                            <p className='cursor-pointer hover:underline'>Help Center</p>
-                            <p className='cursor-pointer hover:underline'>Terms & Conditions</p>
-                            <p className='cursor-pointer hover:underline'>Privacy Policy</p>
-                        </div>
+                        <ul className='grid gap-2'>
+                            <li className='cursor-pointer hover:underline'>Contact Us</li>
+                            <li className='cursor-pointer hover:underline'>Help Center</li>
+                            <li className='cursor-pointer hover:underline'>Terms & Conditions</li>
+                            <li className='cursor-pointer hover:underline'>Privacy Policy</li>
+                        </ul>
                     </div>
-                </div>
+                </section>
             </div>
-        </div>
+        </footer>
     )
 }
 

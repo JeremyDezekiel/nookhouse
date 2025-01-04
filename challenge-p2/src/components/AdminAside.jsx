@@ -5,10 +5,10 @@ function AdminAside() {
     const { theme } = useContext(ThemeContext)
     
     return (
-        <div className='col-span-3 mt-10 pe-28 lg:flex flex-col gap-10 hidden'>
+        <aside className='col-span-3 mt-10 pe-28 lg:flex flex-col gap-10 hidden'>
             <h1 className='text-3xl font-bold me-12'>Become a nookhouse member and<br />enjoy the benefits</h1>
             <div className='grid gap-5'>
-                <div className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
+                <section className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
                     <div className='border rounded-full p-3 bg-[#ACACAC]'>
                         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor" size="48" width="40" height="40">
                             <path d="M15.9978 22.8442C21.4731 22.8442 25.9117 18.3454 25.9117 12.7959C25.9117 7.24633 21.4731 2.74754 15.9978 2.74754C10.5225 2.74754 6.08382 7.24633 6.08382 12.7959C6.08382 18.3454 10.5225 22.8442 15.9978 22.8442ZM27.6359 12.7959C27.6359 19.3106 22.4253 24.5918 15.9978 24.5918C9.57022 24.5918 4.35966 19.3106 4.35966 12.7959C4.35966 6.28119 9.57022 1 15.9978 1C22.4253 1 27.6359 6.28119 27.6359 12.7959Z" fill="#EEEEEE"></path>
@@ -18,22 +18,22 @@ function AdminAside() {
                         </svg>
                     </div>
                     <div>
-                        <p className='font-semibold'>Large Marketing Network</p>
+                        <h2 className='font-semibold'>Large Marketing Network</h2>
                         <p>Join our large marketing network to expand your reach, boost sales, and enhance visibility with trusted partners.</p>
                     </div>
-                </div>
-                <div className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
+                </section>
+                <section className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
                     <div className='border rounded-full p-3 bg-[#ACACAC]'>
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" size="48" fill="currentColor" width="40" height="40">
                             <path d="M22 9.69V5.02H2v4.67c1.38 0 2.5 1.04 2.5 2.33S3.38 14.35 2 14.35v4.67h20v-4.67c-1.38 0-2.5-1.04-2.5-2.33s1.12-2.33 2.5-2.33Zm-8.15 5.33L12 14.15l-1.85.87.21-2.13L9 11.3l1.99-.44L12 9.01l1.01 1.85 1.99.44-1.36 1.59.21 2.12v.01Z" fill="#EEEEEE"></path>
                         </svg>
                     </div>
                     <div>
-                        <p className='font-semibold'>Member Exclusive Discount</p>
+                        <h2 className='font-semibold'>Member Exclusive Discount</h2>
                         <p>Get your exclusive discount for bulk purchase.</p>
                     </div>
-                </div>
-                <div className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
+                </section>
+                <section className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>
                     <div className='border rounded-full p-3 bg-[#ACACAC]'>
                         <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" size="48" fill="currentColor" width="40" height="40">
                             <path d="M11 14.5A6.5 6.5 0 0 1 17.5 8c.17 0 .33.01.5.03V2.5H6l-4 5v15h16v-1.53c-.17.01-.33.03-.5.03a6.5 6.5 0 0 1-6.5-6.5Zm-2 3H4v-2h5v2Zm0-4H4v-2h5v2Z" fill="#EEEEEE"></path>
@@ -41,12 +41,12 @@ function AdminAside() {
                         </svg>
                     </div>
                     <div>
-                        <p className='font-semibold'>Transaction History</p>
+                        <h2 className='font-semibold'>Transaction History</h2>
                         <p>Track all of your online orders and purchases.</p>
                     </div>
-                </div>
+                </section>
             </div>
-        </div>
+        </aside>
     )
 }
 
