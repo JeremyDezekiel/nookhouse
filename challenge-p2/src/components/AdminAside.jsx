@@ -5,7 +5,7 @@ function AdminAside() {
     const { theme } = useContext(ThemeContext)
     
     return (
-        <div className='col-span-3 mt-10 pe-28 flex flex-col gap-10'>
+        <div className='col-span-3 mt-10 pe-28 lg:flex flex-col gap-10 hidden'>
             <h1 className='text-3xl font-bold me-12'>Become a nookhouse member and<br />enjoy the benefits</h1>
             <div className='grid gap-5'>
                 <div className={`flex gap-5 items-center border p-2 ${theme === 'dark' && 'border-[#757575]'}`}>

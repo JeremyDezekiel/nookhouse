@@ -55,7 +55,7 @@ function RegisterPage() {
     }, [user, isLoading])
 
     return (
-        <div className='grid grid-cols-6 pb-12 mb-10'>
+        <div className='lg:grid grid-cols-6 pb-12 mb-10'>
             <AdminAside />
             <div className={`col-span-3 border p-5 grid gap-5 ${theme === 'dark' && 'border-[#757575]'}`}>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>

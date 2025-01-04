@@ -8,7 +8,7 @@ function Footer() {
 
     return (
         <div className='container mx-auto mt-5'>
-            <div className='grid grid-cols-4'>
+            <div className='hidden grid-cols-4 lg:grid'>
                 <div>
                     <div className='mb-5'>
                         {theme === 'light' ? <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' /> : <img className='w-[50%] bg-[#757575] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logoDarkMode} alt='logoDarkMode' />}
@@ -44,10 +44,10 @@ function Footer() {
                     <p className='mt-8 font-semibold text-lg'>Get the ultimate shopping experience on nookhouse app</p>
                     <div className='grid grid-cols-3 gap-5 mt-5'>
                         <a href='https://play.google.com/'>
-                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fgoogle-playstore.png@webp' alt='googleplay'/>
+                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fgoogle-playstore.png@webp' alt='googleplay' />
                         </a>
                         <a href='https://www.apple.com/id/app-store/'>
-                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fapple-store.png@webp' alt='appstore'/>
+                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fapple-store.png@webp' alt='appstore' />
                         </a>
                     </div>
                 </div>
@@ -112,15 +112,52 @@ function Footer() {
                     <div className='pb-5'>
                         <h1 className='font-bold mb-5 mt-5'>Shipping Options</h1>
                         <div className='grid grid-cols-4 items-center gap-5'>
-                            <img  src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fshipping%2Fjne.png@webp' alt='JNE' />
+                            <img src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fshipping%2Fjne.png@webp' alt='JNE' />
                             <img className={`${theme === 'light' ? 'bg-transparent' : 'bg-white px-1'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fshipping%2Fgosend.png@webp' alt='gosend' />
                             <img className={`${theme === 'light' ? 'bg-transparent' : 'bg-white'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fshipping%2Fpaxel.png@webp' alt='paxel' />
                         </div>
                     </div>
                 </div>
             </div>
-            <div>
-
+            <div className='grid lg:hidden text-center'>
+                <div>
+                    <div className='flex justify-center mb-5'>
+                        {theme === 'light' ? <img className='w-[50%] bg-[#CCCCCC] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logo} alt='logo' /> : <img className='w-[50%] bg-[#757575] hover:bg-[#acacac] cursor-pointer pt-3 px-3' src={logoDarkMode} alt='logoDarkMode' />}
+                    </div>
+                    <p className='league-spartan'>We make it easy to create a home that's just right for you.</p>
+                    <p className='font-semibold text-lg'>Get the ultimate shopping experience on nookhouse app</p>
+                    <div className='flex justify-around mt-5'>
+                        <a href='https://play.google.com/'>
+                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fgoogle-playstore.png@webp' alt='googleplay' />
+                        </a>
+                        <a href='https://www.apple.com/id/app-store/'>
+                            <img className={`${theme === 'light' ? 'border border-transparent' : 'border border-white rounded-md'}`} src='https://images.voila.id/pr:sharp/rs:fit:128:0/plain/https%3A%2F%2Fvoila.id%2Fstatic%2Fstore%2Fapple-store.png@webp' alt='appstore' />
+                        </a>
+                    </div>
+                </div>
+                <div className='grid grid-cols-2'>
+                    <div>
+                        <h1 className='font-bold mb-5'>About Us</h1>
+                        <div className='grid gap-2'>
+                            <p className='cursor-pointer hover:underline'>About nookhouse</p>
+                            <p className='cursor-pointer hover:underline'>Our Store</p>
+                            <p className='cursor-pointer hover:underline'>Promotions</p>
+                            <p className='cursor-pointer hover:underline'>Programs & Partnerships</p>
+                            <p className='cursor-pointer hover:underline'>Shop by Request</p>
+                            <p className='cursor-pointer hover:underline'>Carrers</p>
+                            <p className='cursor-pointer hover:underline'>nookhouse x JeanneDe</p>
+                        </div>
+                    </div>
+                    <div>
+                        <h1 className='font-bold mb-5'>Customer Service</h1>
+                        <div className='grid gap-2'>
+                            <p className='cursor-pointer hover:underline'>Contact Us</p>
+                            <p className='cursor-pointer hover:underline'>Help Center</p>
+                            <p className='cursor-pointer hover:underline'>Terms & Conditions</p>
+                            <p className='cursor-pointer hover:underline'>Privacy Policy</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     )
