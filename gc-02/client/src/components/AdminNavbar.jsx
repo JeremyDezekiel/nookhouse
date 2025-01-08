@@ -12,8 +12,8 @@ import { AuthContext } from '../context/AuthContext'
 function AdminNavbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
     const { user } = useContext(AuthContext)
-
     const navigate = useNavigate()
+
     const goToHome = () => {
         navigate('/admin')
     }
@@ -51,7 +51,10 @@ function AdminNavbar() {
             </div>
             <div className='flex justify-end gap-5 pb-5'>
                 {user && (
-                    <button onClick={handleLogout} className='hover:underline' aria-label='Logout'>Logout</button>
+                    <>
+                        <button className='hover:underline' aria-label='Add Product'>Add Product</button>
+                        <button onClick={handleLogout} className='hover:underline' aria-label='Logout'>Logout</button>
+                    </>
                 )}
                 <button className={`border rounded-md p-2`} onClick={toggleTheme} aria-label='Toggle theme'>
                     {theme === 'light' ? <Moon/> : <Sun/>}

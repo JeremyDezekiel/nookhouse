@@ -1,12 +1,12 @@
 import React from 'react'
-import ProductAdminRow from '../components/ProductAdminRow'
+import { ProductAdminRow } from '../components/index'
 
-function ProductAdminTable({ products }) {
+function ProductAdminTable({ products, deleteProduct }) {
     return (
         <table className='border border-collapse w-full mt-5 text-center'>
             <thead>
                 <tr>
-                    <th className='p-2 border'>ID</th>
+                    <th className='p-2 border'>No</th>
                     <th className='p-2 border'>Product Name</th>
                     <th className='p-2 border'>Image</th>
                     <th className='p-2 border'>Category</th>
@@ -20,7 +20,7 @@ function ProductAdminTable({ products }) {
                 {
                     products.map((product, index) => {
                         return (
-                            <ProductAdminRow key={index} product={product} index={index} />
+                            <ProductAdminRow key={index} product={product} index={index} deleteProduct={deleteProduct}/>
                         )
                     })
                 }
