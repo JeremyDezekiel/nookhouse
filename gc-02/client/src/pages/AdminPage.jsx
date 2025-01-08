@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { collection, getDocs} from 'firebase/firestore'
+import { collection, getDocs } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import { Edit, Trash } from 'lucide-react'
 
@@ -23,13 +23,13 @@ function AdminPage() {
         }
     }
 
-    useEffect (() => {
+    useEffect(() => {
         if (!isLoading && !user) {
             navigate('/login')
         }
         getProducts()
     }, [user, isLoading])
-    
+
     if (isLoading) return <h1>Loading ...</h1>
 
     return (
@@ -50,30 +50,39 @@ function AdminPage() {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td className='p-2 border'>1</td>
-                        <td className='p-2 border'>Soleil Folding Chair</td>
-                        <td className='p-2 border'>
-                            <img className='mx-auto' src='https://cdn.ruparupa.io/fit-in/400x400/filters:format(webp)/filters:quality(90)/ruparupa-com/image/upload/Products/10150788_1.jpg' alt='soleilfoldingchair'/>
-                        </td>
-                        <td className='p-2 border'>chair</td>
-                        <td className='p-2 border'>Rp 149.000</td>
-                        <td className='p-2 border'>SOLEIL</td>
-                        <td className='p-2 border'>
-                            <ul>
-                                <li>color: black</li>
-                                <li>height: 80 cm</li>
-                                <li>length: 44.5 cm</li>
-                                <li>material: steel</li>
-                                <li>weight: 2.15 kg</li>
-                                <li>width: 49 cm</li>
-                            </ul>
-                        </td>
-                        <td className='p-2 border'>
-                            <button><Edit/></button>
-                            <button><Trash/></button>
-                        </td>
-                    </tr>
+                    {
+                        products.map((product, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td className='p-2 border'>{index + 1}</td>
+                                    <td className='p-2 border'>{product.productName}</td>
+                                    <td className='p-2 border'>
+                                        <img className='mx-auto' width={300} src={product.imageUrl.image1} alt={product.productName} />
+                                    </td>
+                                    <td className='p-2 border'>{product.category}</td>
+                                    <td className='p-2 border'>Rp {product.price.toLocaleString()}</td>
+                                    <td className='p-2 border'>{product.brand}</td>
+                                    <td className='p-2 border text-start'>
+                                        <ul className='grid justify-center'>
+                                            <li>color: {product.productSpecifications.color}</li>
+                                            <li>height: {product.productSpecifications.height} cm</li>
+                                            <li>length: {product.productSpecifications.length} cm</li>
+                                            <li>weight: {product.productSpecifications.weight} kg</li>
+                                            <li>width: {product.productSpecifications.width} cm</li>
+                                            {product.productSpecifications.material.map((material, idx) => {
+                                                return <li key={idx}>{material}</li>
+                                            })}
+
+                                        </ul>
+                                    </td>
+                                    <td className='p-2 border'>
+                                        <button><Edit /></button>
+                                        <button><Trash /></button>
+                                    </td>
+                                </tr>
+                            )
+                        })
+                    }
                 </tbody>
             </table>
         </main>
