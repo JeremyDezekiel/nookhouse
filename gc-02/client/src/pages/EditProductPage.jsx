@@ -1,13 +1,15 @@
 import { X } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import { useParams } from 'react-router-dom'
-import { doc, getDoc } from 'firebase/firestore'
+import { useNavigate, useParams } from 'react-router-dom'
+import { doc, getDoc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function EditProductPage() {
     const { user, isLoading } = useContext(AuthContext)
     const { id } = useParams()
+    const navigate = useNavigate()
 
     const [product, setProduct] = useState(null)
     const [name, setName] = useState('')
@@ -21,6 +23,46 @@ function EditProductPage() {
         try {
             const product = await getDoc(doc(db, 'products', id))
             setProduct(product.data())
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    const editProduct = async (e) => {
+        e.preventDefault()
+        try {
+            const editProduct = doc(db, 'products', id)
+            Swal.fire({
+                title: "Do you want to save the changes?",
+                showDenyButton: true,
+                showCancelButton: true,
+                confirmButtonText: "Save",
+                denyButtonText: `Don't save`
+            }).then( async (result) => {
+                /* Read more about isConfirmed, isDenied below */
+                if (result.isConfirmed) {
+                    await updateDoc(editProduct, {
+                        name: name,
+                        category: category,
+                        images: [image],
+                        description: description,
+                        price: Number(price),
+                        stock: Number(stock)
+                    })
+                    Swal.fire({
+                        title: "Edited!",
+                        text: "Your product has been edited",
+                        imageUrl: image,
+                        imageWidth: 400,
+                        imageHeight: 400,
+                        imageAlt: name
+                    });
+                    navigate('/admin')
+                } else if (result.isDenied) {
+                    Swal.fire("Changes are not saved", "", "info");
+                    navigate('/admin')
+                }
+            })
         } catch (error) {
             console.error(error)
         }
@@ -54,9 +96,11 @@ function EditProductPage() {
             <section>
                 <form className='grid gap-5 mt-5' onSubmit={(e) => editProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
-                        <div className='flex justify-center'>
-                            <img width={200} src={image} alt={name}/>
-                        </div>
+                        {product && (
+                            <div className='flex justify-center'>
+                                <img width={200} src={image} alt={name} />
+                            </div>
+                        )}
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='flex gap-2'>

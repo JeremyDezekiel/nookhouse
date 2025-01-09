@@ -4,9 +4,11 @@ import { addDoc, collection } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
+import { useNavigate } from 'react-router-dom'
 
 function AddProductPage() {
     const { user, isLoading } = useContext(AuthContext)
+    const navigate = useNavigate()
     
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
@@ -31,9 +33,10 @@ function AddProductPage() {
                 text: "Your product has been added",
                 imageUrl: image,
                 imageWidth: 400,
-                imageHeight: 200,
+                imageHeight: 400,
                 imageAlt: name
-            });
+            })
+            navigate('/admin')
             setName('')
             setCategory('')
             setImage('')
