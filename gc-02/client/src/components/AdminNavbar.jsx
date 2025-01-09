@@ -14,10 +14,6 @@ function AdminNavbar() {
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
 
-    const goToHome = () => {
-        navigate('/admin')
-    }
-
     const handleLogout = async () => {
         try {
             Swal.fire({
@@ -47,12 +43,12 @@ function AdminNavbar() {
         <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 pt-5 px-10`}>
             <div className='hidden md:block'></div>
             <div className='flex justify-center col-span-2 md:col-span-1'>
-                {theme === 'light' ? <img className='xl:w-[48%] cursor-pointer' src={logo} alt='logo' onClick={goToHome} /> : <img className='xl:w-[48%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={goToHome} />}
+                {theme === 'light' ? <img className='xl:w-[48%] cursor-pointer' src={logo} alt='logo' onClick={()=> navigate('/admin')} /> : <img className='xl:w-[48%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={goToHome} />}
             </div>
             <div className='flex justify-end gap-5 pb-5'>
                 {user && (
                     <>
-                        <button className='hover:underline' aria-label='Add Product'>Add Product</button>
+                        <button onClick={() => navigate('/add-product')} className='hover:underline' aria-label='Add Product'>Add Product</button>
                         <button onClick={handleLogout} className='hover:underline' aria-label='Logout'>Logout</button>
                     </>
                 )}

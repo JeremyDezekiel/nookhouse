@@ -20,7 +20,7 @@ function ProductAdminTable({ products, deleteProduct }) {
                 {
                     products.map((product, index) => {
                         return (
-                            <ProductAdminRow key={index} product={product} index={index} deleteProduct={deleteProduct}/>
+                            <ProductAdminRow key={product.id} product={product} index={index} deleteProduct={deleteProduct}/>
                         )
                     })
                 }

@@ -20,7 +20,7 @@ function ProductAdminRow({ product, index , deleteProduct}) {
                     <li>length: {product.length} cm</li>
                     <li>weight: {product.weight} kg</li>
                     <li>width: {product.width} cm</li>
-                    <li>material: {product.material.join()}</li>
+                    <li>material: {product.material.join(', ')}</li>
                     {/* {product.productSpecifications.material.map((material, idx) => {
                                                 return <li key={idx}>{material}</li>
                                             })} */}
@@ -28,7 +28,7 @@ function ProductAdminRow({ product, index , deleteProduct}) {
             </td>
             <td className='p-2 border'>
                 <button><Edit /></button>
-                <button className='p-2 bg-red-500 rounded-md ms-5 text-white' onClick={() => deleteProduct(product.id)}><Trash /></button>
+                <button className='p-2 hover:bg-red-500 rounded-md ms-5 text-black hover:text-white' onClick={() => deleteProduct(product.id)}><Trash /></button>
             </td>
         </tr>
     )
