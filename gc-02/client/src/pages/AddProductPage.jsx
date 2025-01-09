@@ -12,126 +12,119 @@ function AddProductPage() {
                 </p>
             </section>
             <section>
-                <form className='grid gap-5'>
-                    <fieldset className='border rounded-md p-10'>
-                        <h1 className='mb-10 font-semibold text-xl'>Product Information</h1>
-                        <div className='grid gap-10'>
-                            <div className='grid grid-cols-6'>
-                                <div className='col-span-2 pe-24'>
-                                    <div className='flex gap-2'>
-                                        <label className='text-lg'>Product Name</label>
-                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
-                                    </div>
-                                    <div className='text-sm text-[#606060] mt-3'>
-                                        <p>Product name must be at least 25 characters by including the brand, product type, color, material, or type.
-                                            <br />
-                                            <br />
-                                            It is recommended not to use excessive capital letters, include more than one brand, or use promotional words.
-                                            <br />
-                                            <br />
-                                            The name cannot be changed after the product is sold.
-                                        </p>
-                                    </div>
+                <form className='grid gap-5 mt-5'>
+                    <div className='border rounded-md p-10 grid gap-10'>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Product Name</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
-                                <div className='w-full col-span-4 col-start-3'>
-                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                        <input
-                                            className='w-full px-2 outline-none peer'
-                                            type='text'
-                                            placeholder={`Example: Men's Shoes (Product Type/Category) + Tokostore (Brand) + Black Canvas (Description)`}
-                                        />
-                                        <X className={`rounded-full me-5 peer-focus:text-white peer-focus:bg-green-600`} />
-                                    </div>
-                                    <div className='flex justify-between text-[#606060]'>
-                                        <p className=''>Tip: Product Type + Product Brand + Additional Information</p>
-                                        <div className='flex text-[#606060]'>
-                                            <p>0</p>
-                                            <p>/255</p>
-                                        </div>
-                                    </div>
+                                <div className='text-sm text-[#606060] mt-3'>
+                                    <p>Product name must be at least 25 characters by including the brand, product type, color, material, or type.
+                                        <br />
+                                        <br />
+                                        It is recommended not to use excessive capital letters, include more than one brand, or use promotional words.
+                                        <br />
+                                        <br />
+                                        The name cannot be changed after the product is sold.
+                                    </p>
                                 </div>
                             </div>
-                            <div className='grid grid-cols-6'>
-                                <div className='col-span-2 pe-24'>
-                                    <div className='flex gap-2'>
-                                        <label className='text-lg'>Category</label>
-                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
-                                    </div>
-                                    <div className='text-sm text-[#606060] mt-3'>
-                                        <p>Choose the appropriate category as
-                                            <b>the service fee will depend on the category.</b>
-                                            If the selected category is inappropriate, Tokopedia will change the category.
-                                            <b className='text-red-500 cursor-pointer'> Learn More</b>
-                                        </p>
-                                    </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                    <input
+                                        className='w-full px-2 outline-none peer'
+                                        type='text'
+                                        placeholder={`Example: Men's Shoes (Product Type/Category) + Tokostore (Brand) + Black Canvas (Description)`}
+                                    />
+                                    <X className={`rounded-full me-5 peer-focus:text-white peer-focus:bg-green-600`} />
                                 </div>
-                                <div className='w-full col-span-4 col-start-3'>
-                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                        <select className='w-full px-2'>
-                                            <option value='' hidden selected>Select Category</option>
-                                            <option value='Furniture'>Furniture</option>
-                                            <option value='Shelves & Storage'>Shelves & Storage</option>
-                                            <option value='Minimalist Kitchen'>Minimalist Kitchen</option>
-                                            <option value='Electronics & Gadgets'>Electronics & Gadgets</option>
-                                            <option value='Household'>Household</option>
-                                            <option value='Home Improvement'>Home Improvement</option>
-                                            <option value='Bed & Bath'>Bed & Bath</option>
-                                            <option value='Hobbies & Lifestyle'>Hobbies & Lifestyle</option>
-                                            <option value='Health & Sports'>Health & Sports</option>
-                                            <option value='Toys & Babies'>Toys & Babies</option>
-                                            <option value='Automotive'>Automotive</option>
-                                        </select>
+                                <div className='flex justify-between text-[#606060]'>
+                                    <p className=''>Tip: Product Type + Product Brand + Additional Information</p>
+                                    <div className='flex text-[#606060]'>
+                                        <p>0</p>
+                                        <p>/255</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </fieldset>
-                    <fieldset className='border rounded-md p-10'>
-                        <h1 className='mb-10 font-semibold text-xl'>Product Details</h1>
-                        <div className='grid gap-10'>
-                            <div className='grid grid-cols-6'>
-                                <div className='col-span-2 pe-24'>
-                                    <div className='flex gap-2'>
-                                        <label className='text-lg'>Product Image</label>
-                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
-                                    </div>
-                                    <div className='text-sm text-[#606060] mt-3'>
-                                        <p>The photo format must be .jpg, .jpeg, or .png, and the minimum size is 300 x 300 px (for optimal image quality, use a minimum size of 1,200 x 1,200 px).
-                                            <br />
-                                            <br />
-                                            Select product images or drag and drop up to 9 images at once here. Upload at least 5 unique and appealing images to attract buyers' attention.
-                                        </p>
-                                    </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Category</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
-                                <div className='w-full col-span-4 col-start-3'>
-                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                        <input
-                                            className='w-full px-2 outline-none peer'
-                                            type='text'
-                                            placeholder='Image Url'
-                                        />
-                                    </div>
+                                <div className='text-sm text-[#606060] mt-3'>
+                                    <p>Choose the appropriate category as
+                                        <b>the service fee will depend on the category.</b>
+                                        If the selected category is inappropriate, Tokopedia will change the category.
+                                        <b className='text-red-500 cursor-pointer'> Learn More</b>
+                                    </p>
                                 </div>
                             </div>
-                            <div className='grid grid-cols-6'>
-                                <div className='col-span-2 pe-24'>
-                                    <div className='flex gap-2'>
-                                        <label className='text-lg'>Product Description</label>
-                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
-                                    </div>
-                                    <div className='text-sm text-[#606060] mt-3'>
-                                        <p>
-                                            Make sure the product description includes detailed information about your product so that buyers can easily understand and find it.
-                                            <br />
-                                            <br />
-                                            It is recommended to <b>avoid including</b> personal information such as phone numbers, emails, etc., in the product description to protect your privacy.
-                                        </p>
-                                    </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                    <select className='w-full px-2 text-[#606060] outline-none'>
+                                        <option value='' hidden selected>Select Category</option>
+                                        <option value='Furniture'>Furniture</option>
+                                        <option value='Shelves & Storage'>Shelves & Storage</option>
+                                        <option value='Minimalist Kitchen'>Minimalist Kitchen</option>
+                                        <option value='Electronics & Gadgets'>Electronics & Gadgets</option>
+                                        <option value='Household'>Household</option>
+                                        <option value='Home Improvement'>Home Improvement</option>
+                                        <option value='Bed & Bath'>Bed & Bath</option>
+                                        <option value='Hobbies & Lifestyle'>Hobbies & Lifestyle</option>
+                                        <option value='Health & Sports'>Health & Sports</option>
+                                        <option value='Toys & Babies'>Toys & Babies</option>
+                                        <option value='Automotive'>Automotive</option>
+                                    </select>
                                 </div>
-                                <div className='w-full col-span-4 col-start-3'>
-                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                        <textarea className='w-full outline-none' rows="13" 
-placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Product Image</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                                <div className='text-sm text-[#606060] mt-3'>
+                                    <p>The photo format must be .jpg, .jpeg, or .png, and the minimum size is 300 x 300 px (for optimal image quality, use a minimum size of 1,200 x 1,200 px).
+                                        <br />
+                                        <br />
+                                        Select product images or drag and drop up to 9 images at once here. Upload at least 5 unique and appealing images to attract buyers' attention.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                    <input
+                                        className='w-full px-2 outline-none peer'
+                                        type='text'
+                                        placeholder='Image Url'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Product Description</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                                <div className='text-sm text-[#606060] mt-3'>
+                                    <p>
+                                        Make sure the product description includes detailed information about your product so that buyers can easily understand and find it.
+                                        <br />
+                                        <br />
+                                        It is recommended to <b>avoid including</b> personal information such as phone numbers, emails, etc., in the product description to protect your privacy.
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                    <textarea className='w-full outline-none' rows="13"
+                                        placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
 
 - Simple model
 - Comfortable to wear
@@ -151,19 +144,57 @@ Size
 
 Limited edition from Tokostore with a new and trendy design for you. Designed to be worn on various occasions. Very comfortable to wear, helping enhance your appearance and confidence. Buy now before it runs out!">
 
-                                        </textarea>
-                                    </div>
-                                    <div className='flex justify-between text-[#606060]'>
-                                        <p className=''>Write your product description with a minimum of 260 characters so that buyers can easily understand it.</p>
-                                        <div className='flex text-[#606060]'>
-                                            <p>0</p>
-                                            <p>/5000</p>
-                                        </div>
+                                    </textarea>
+                                </div>
+                                <div className='flex justify-between text-[#606060]'>
+                                    <p className=''>Write your product description with a minimum of 260 characters so that buyers can easily understand it.</p>
+                                    <div className='flex text-[#606060]'>
+                                        <p>0</p>
+                                        <p>/5000</p>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </fieldset>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Unit Price</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex rounded-md peer-focus:outline-green-600'>
+                                    <h1 className='bg-[#F3F4F5] p-2 rounded-s-md'>Rp</h1>
+                                    <input
+                                        className='w-full px-2 outline-none peer'
+                                        type='number'
+                                        placeholder='Enter the price'
+                                        min='0'
+                                        step='1000'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='flex gap-2'>
+                                    <label className='text-lg'>Product Stock</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='border flex rounded-md peer-focus:outline-green-600 py-2'>
+                                    <input
+                                        className='w-full px-2 outline-none peer'
+                                        type='number'
+                                        placeholder='Enter the stock quantity'
+                                        min='0'
+                                        step='1'
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </form>
             </section>
         </main>
