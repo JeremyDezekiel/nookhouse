@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { X } from 'lucide-react'
 
 function AddProductPage() {
+
     return (
         <main>
             <section>
@@ -57,10 +58,10 @@ function AddProductPage() {
                                         <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                     </div>
                                     <div className='text-sm text-[#606060] mt-3'>
-                                        <p>Choose the appropriate category as 
+                                        <p>Choose the appropriate category as
                                             <b>the service fee will depend on the category.</b>
                                             If the selected category is inappropriate, Tokopedia will change the category.
-                                            <b className='text-red-500 cursor-pointer'>Learn More</b>
+                                            <b className='text-red-500 cursor-pointer'> Learn More</b>
                                         </p>
                                     </div>
                                 </div>
@@ -80,6 +81,84 @@ function AddProductPage() {
                                             <option value='Toys & Babies'>Toys & Babies</option>
                                             <option value='Automotive'>Automotive</option>
                                         </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </fieldset>
+                    <fieldset className='border rounded-md p-10'>
+                        <h1 className='mb-10 font-semibold text-xl'>Product Details</h1>
+                        <div className='grid gap-10'>
+                            <div className='grid grid-cols-6'>
+                                <div className='col-span-2 pe-24'>
+                                    <div className='flex gap-2'>
+                                        <label className='text-lg'>Product Image</label>
+                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                    </div>
+                                    <div className='text-sm text-[#606060] mt-3'>
+                                        <p>The photo format must be .jpg, .jpeg, or .png, and the minimum size is 300 x 300 px (for optimal image quality, use a minimum size of 1,200 x 1,200 px).
+                                            <br />
+                                            <br />
+                                            Select product images or drag and drop up to 9 images at once here. Upload at least 5 unique and appealing images to attract buyers' attention.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='w-full col-span-4 col-start-3'>
+                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                        <input
+                                            className='w-full px-2 outline-none peer'
+                                            type='text'
+                                            placeholder='Image Url'
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                            <div className='grid grid-cols-6'>
+                                <div className='col-span-2 pe-24'>
+                                    <div className='flex gap-2'>
+                                        <label className='text-lg'>Product Description</label>
+                                        <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                    </div>
+                                    <div className='text-sm text-[#606060] mt-3'>
+                                        <p>
+                                            Make sure the product description includes detailed information about your product so that buyers can easily understand and find it.
+                                            <br />
+                                            <br />
+                                            It is recommended to <b>avoid including</b> personal information such as phone numbers, emails, etc., in the product description to protect your privacy.
+                                        </p>
+                                    </div>
+                                </div>
+                                <div className='w-full col-span-4 col-start-3'>
+                                    <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                                        <textarea className='w-full outline-none' rows="13" 
+placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
+
+- Simple model
+- Comfortable to wear
+- Available in black color
+- PVC Sole (injection shoes) that is comfortable and durable for everyday use
+
+Materials:
+Upper: Semi Leather (does not crack)
+Sole: Premium Rubber Sole
+
+Size
+39: 25.5 cm
+40: 26 cm
+41: 26.5 cm
+42: 27 cm
+43: 27.5 - 28 cm
+
+Limited edition from Tokostore with a new and trendy design for you. Designed to be worn on various occasions. Very comfortable to wear, helping enhance your appearance and confidence. Buy now before it runs out!">
+
+                                        </textarea>
+                                    </div>
+                                    <div className='flex justify-between text-[#606060]'>
+                                        <p className=''>Write your product description with a minimum of 260 characters so that buyers can easily understand it.</p>
+                                        <div className='flex text-[#606060]'>
+                                            <p>0</p>
+                                            <p>/5000</p>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
