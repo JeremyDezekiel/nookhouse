@@ -13,12 +13,12 @@ function AdminPage() {
 
     const getProducts = async () => {
         try {
-            const querySnapshot = await getDocs(collection(db, 'products'))
-            let productStore = []
-            querySnapshot.forEach((doc) => {
-                productStore.push({id: doc.id, ...doc.data()})
-            })
-            setProducts(productStore)
+            const products = await getDocs(collection(db, 'products'))
+            const productsStore = products.docs.map((doc) => ({
+                id: doc.id,
+                ...doc.data(),
+            }))
+            setProducts(productsStore)
         } catch (error) {
             console.error(error)
         }

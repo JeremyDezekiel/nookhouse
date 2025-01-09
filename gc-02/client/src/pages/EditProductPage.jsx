@@ -1,13 +1,15 @@
-import React, { useContext, useEffect, useState } from 'react'
 import { X } from 'lucide-react'
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../config/firebase'
-import Swal from 'sweetalert2'
+import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import { useParams } from 'react-router-dom'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../config/firebase'
 
-function AddProductPage() {
+function EditProductPage() {
     const { user, isLoading } = useContext(AuthContext)
-    
+    const { id } = useParams()
+
+    const [product, setProduct] = useState(null)
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [image, setImage] = useState('')
@@ -15,31 +17,10 @@ function AddProductPage() {
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
 
-    const addProduct = async (e) => {
-        e.preventDefault()
+    const getProduct = async (id) => {
         try {
-            const addData = await addDoc(collection(db, "products"), {
-                name: name,
-                category: category,
-                images: [image],
-                description: description,
-                price: Number(price),
-                stock: Number(stock)
-            })
-            Swal.fire({
-                title: "Succes!",
-                text: "Your product has been added",
-                imageUrl: image,
-                imageWidth: 400,
-                imageHeight: 200,
-                imageAlt: name
-            });
-            setName('')
-            setCategory('')
-            setImage('')
-            setDescription('')
-            setPrice('')
-            setStock('')
+            const product = await getDoc(doc(db, 'products', id))
+            setProduct(product.data())
         } catch (error) {
             console.error(error)
         }
@@ -49,19 +30,33 @@ function AddProductPage() {
         if (!isLoading && !user) {
             navigate('/login')
         }
+        getProduct(id)
     }, [user, isLoading])
+
+    useEffect(() => {
+        if (!isLoading && product) {
+            setName(product.name)
+            setCategory(product.category)
+            setImage(product.images[0])
+            setPrice(product.price)
+            setStock(product.stock)
+        }
+    }, [isLoading, product])
 
     return (
         <main>
             <section>
-                <h1 className='text-3xl font-bold'>Add Product</h1>
+                <h1 className='text-3xl font-bold'>Edit Product</h1>
                 <p>Make sure the product does not violate Intellectual Property Rights so that your product is not taken down.
                     <b className='cursor-pointer text-red-500'> Learn T&C</b>
                 </p>
             </section>
             <section>
-                <form className='grid gap-5 mt-5' onSubmit={(e) => addProduct(e)}>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => editProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
+                        <div className='flex justify-center'>
+                            <img width={200} src={image} alt={name}/>
+                        </div>
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='flex gap-2'>
@@ -251,7 +246,7 @@ Limited edition from Tokostore with a new and trendy design for you. Designed to
                             </div>
                         </div>
                         <div className='flex justify-end'>
-                            <button type='submit' className='border border-green-500 px-10 py-2 rounded-md bg-green-400'>Add Product</button>
+                            <button type='submit' className='border border-green-500 px-10 py-2 rounded-md bg-green-400'>Edit Product</button>
                         </div>
                     </div>
                 </form>
@@ -260,4 +255,4 @@ Limited edition from Tokostore with a new and trendy design for you. Designed to
     )
 }
 
-export default AddProductPage
+export default EditProductPage
