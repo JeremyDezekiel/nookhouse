@@ -1,7 +1,46 @@
 import React, { useState } from 'react'
 import { X } from 'lucide-react'
+import { addDoc, collection } from 'firebase/firestore'
+import { db } from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function AddProductPage() {
+    const [name, setName] = useState('')
+    const [category, setCategory] = useState('')
+    const [image, setImage] = useState('')
+    const [description, setDescription] = useState('')
+    const [price, setPrice] = useState('')
+    const [stock, setStock] = useState('')
+
+    const addProduct = async (e) => {
+        e.preventDefault()
+        try {
+            const addData = await addDoc(collection(db, "products"), {
+                name: name,
+                category: category,
+                images: [image],
+                description: description,
+                price: Number(price),
+                stock: Number(stock)
+            })
+            Swal.fire({
+                title: "Succes!",
+                text: "Your product has been added",
+                imageUrl: image,
+                imageWidth: 400,
+                imageHeight: 200,
+                imageAlt: name
+            });
+            setName('')
+            setCategory('')
+            setImage('')
+            setDescription('')
+            setPrice('')
+            setStock('')
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <main>
@@ -12,7 +51,7 @@ function AddProductPage() {
                 </p>
             </section>
             <section>
-                <form className='grid gap-5 mt-5'>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => addProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
@@ -37,6 +76,8 @@ function AddProductPage() {
                                         className='w-full px-2 outline-none peer'
                                         type='text'
                                         placeholder={`Example: Men's Shoes (Product Type/Category) + Tokostore (Brand) + Black Canvas (Description)`}
+                                        value={name}
+                                        onChange={(e) => setName(e.target.value)}
                                     />
                                     <X className={`rounded-full me-5 peer-focus:text-white peer-focus:bg-green-600`} />
                                 </div>
@@ -65,8 +106,8 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                    <select className='w-full px-2 text-[#606060] outline-none'>
-                                        <option value='' hidden selected>Select Category</option>
+                                    <select className='w-full px-2 text-[#606060] outline-none' value={category} onChange={(e) => setCategory(e.target.value)}>
+                                        <option value='' hidden>Select Category</option>
                                         <option value='Furniture'>Furniture</option>
                                         <option value='Shelves & Storage'>Shelves & Storage</option>
                                         <option value='Minimalist Kitchen'>Minimalist Kitchen</option>
@@ -102,6 +143,8 @@ function AddProductPage() {
                                         className='w-full px-2 outline-none peer'
                                         type='text'
                                         placeholder='Image Url'
+                                        value={image}
+                                        onChange={(e) => setImage(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -123,7 +166,7 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
-                                    <textarea className='w-full outline-none' rows="13"
+                                    <textarea className='w-full outline-none' rows="13" value={description} onChange={(e) => setDescription(e.target.value)}
                                         placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
 
 - Simple model
@@ -158,7 +201,7 @@ Limited edition from Tokostore with a new and trendy design for you. Designed to
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='flex gap-2'>
-                                    <label className='text-lg'>Unit Price</label>
+                                    <label className='text-lg'>Product Price</label>
                                     <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
                             </div>
@@ -170,7 +213,9 @@ Limited edition from Tokostore with a new and trendy design for you. Designed to
                                         type='number'
                                         placeholder='Enter the price'
                                         min='0'
-                                        step='1000'
+                                        step='100'
+                                        value={price}
+                                        onChange={(e) => setPrice(e.target.value)}
                                     />
                                 </div>
                             </div>
@@ -190,9 +235,14 @@ Limited edition from Tokostore with a new and trendy design for you. Designed to
                                         placeholder='Enter the stock quantity'
                                         min='0'
                                         step='1'
+                                        value={stock}
+                                        onChange={(e) => setStock(e.target.value)}
                                     />
                                 </div>
                             </div>
+                        </div>
+                        <div className='flex justify-end'>
+                            <button type='submit' className='border border-green-500 px-10 py-2 rounded-md bg-green-400'>Add Product</button>
                         </div>
                     </div>
                 </form>
