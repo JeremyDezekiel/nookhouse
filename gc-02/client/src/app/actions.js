@@ -1,9 +1,10 @@
-import { setErrorProducts, setLoadingProducts, setProducts } from './slices/productSlice'
+import { setErrorProducts, setLoadingProducts, setProduct, setProducts } from './slices/productSlice'
 import { 
     addDoc, 
     collection, 
     deleteDoc, 
     doc, 
+    getDoc, 
     getDocs, 
     query, 
     where 
@@ -24,6 +25,20 @@ export const getProducts = (email) => async (dispatch) => {
             ...doc.data(),
         }))
         dispatch(setProducts(productsStore))
+    } catch (error) {
+        console.error(error)
+        dispatch(setErrorProducts(error.message))
+    } finally {
+        dispatch(setLoadingProducts(false))
+    }
+}
+
+export const getProduct = (id) => async (dispatch) => {
+    try {
+        dispatch(setLoadingProducts(true))
+        dispatch(setErrorProducts(null))
+        const product = await getDoc(doc(db, 'products', id))
+        dispatch(setProduct(product.data()))
     } catch (error) {
         console.error(error)
         dispatch(setErrorProducts(error.message))
@@ -53,6 +68,10 @@ export const addProduct = (product) => async (dispatch) => {
     } finally{
         dispatch(setLoadingProducts(false))
     }
+}
+
+export const editProduct = (product) => async (dispatch) => {
+
 }
 
 export const deleteProduct = async (id) => {

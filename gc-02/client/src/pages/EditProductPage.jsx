@@ -2,31 +2,25 @@ import { X } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate, useParams } from 'react-router-dom'
-import { doc, getDoc, updateDoc } from 'firebase/firestore'
+import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
+import { useDispatch, useSelector } from 'react-redux'
+import { getProduct } from '../app/actions'
 
 function EditProductPage() {
     const { user, isLoading } = useContext(AuthContext)
+    const { product } = useSelector(state => state.product)
     const { id } = useParams()
     const navigate = useNavigate()
+    const dispatch = useDispatch()
 
-    const [product, setProduct] = useState(null)
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [image, setImage] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
-
-    const getProduct = async (id) => {
-        try {
-            const product = await getDoc(doc(db, 'products', id))
-            setProduct(product.data())
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     const editProduct = async (e) => {
         e.preventDefault()
@@ -73,7 +67,7 @@ function EditProductPage() {
         if (!isLoading && !user) {
             navigate('/login')
         }
-        getProduct(id)
+        dispatch(getProduct(id))
     }, [user, isLoading])
 
     useEffect(() => {
