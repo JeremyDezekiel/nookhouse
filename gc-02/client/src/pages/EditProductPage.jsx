@@ -48,7 +48,7 @@ function EditProductPage() {
                         description: description,
                         price: Number(price),
                         stock: Number(stock),
-                        date: new Date()
+                        // date: new Date()
                     })
                     Swal.fire({
                         title: "Edited!",

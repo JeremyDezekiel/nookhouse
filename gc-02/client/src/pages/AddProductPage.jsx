@@ -113,7 +113,7 @@ function AddProductPage() {
                 price: Number(price),
                 stock: Number(stock),
                 createdBy: user.email,
-                date: new Date()
+                // date: new Date()
             })
             Swal.fire({
                 title: "Succes!",
@@ -121,7 +121,8 @@ function AddProductPage() {
                 imageUrl: image,
                 imageWidth: 400,
                 imageHeight: 400,
-                imageAlt: name
+                imageAlt: name,
+                icon: "success"
             })
             navigate('/admin')
             setName('')
