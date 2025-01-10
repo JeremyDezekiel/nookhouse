@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
+import { collection, getDocs, deleteDoc, doc, query, where } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import { ProductAdminTable } from '../components/index'
 import Swal from 'sweetalert2'
@@ -13,7 +13,12 @@ function AdminPage() {
 
     const getProducts = async () => {
         try {
-            const products = await getDocs(collection(db, 'products'))
+
+            const q = query(
+                collection(db, 'products'),
+                where('createdBy', '==', user.email)
+            )
+            const products = await getDocs(q)
             const productsStore = products.docs.map((doc) => ({
                 id: doc.id,
                 ...doc.data(),

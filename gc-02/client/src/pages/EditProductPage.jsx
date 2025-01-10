@@ -47,7 +47,8 @@ function EditProductPage() {
                         images: [image],
                         description: description,
                         price: Number(price),
-                        stock: Number(stock)
+                        stock: Number(stock),
+                        date: new Date()
                     })
                     Swal.fire({
                         title: "Edited!",
@@ -80,6 +81,7 @@ function EditProductPage() {
             setName(product.name)
             setCategory(product.category)
             setImage(product.images[0])
+            setDescription(product.description)
             setPrice(product.price)
             setStock(product.stock)
         }
@@ -234,7 +236,6 @@ Size
 43: 27.5 - 28 cm
 
 Limited edition from Tokostore with a new and trendy design for you. Designed to be worn on various occasions. Very comfortable to wear, helping enhance your appearance and confidence. Buy now before it runs out!">
-
                                     </textarea>
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>

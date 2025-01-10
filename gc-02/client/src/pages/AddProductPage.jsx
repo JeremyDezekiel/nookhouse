@@ -112,7 +112,8 @@ function AddProductPage() {
                 description: description,
                 price: Number(price),
                 stock: Number(stock),
-                createdBy: user.email
+                createdBy: user.email,
+                date: new Date()
             })
             Swal.fire({
                 title: "Succes!",
