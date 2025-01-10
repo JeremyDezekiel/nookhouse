@@ -8,6 +8,7 @@ import { useNavigate } from 'react-router-dom'
 
 function AddProductPage() {
     const { user, isLoading } = useContext(AuthContext)
+    console.log(user)
     const navigate = useNavigate()
     
     const [name, setName] = useState('')
@@ -20,6 +21,7 @@ function AddProductPage() {
     // 
     const [nameLength, setNameLength] = useState(0)
     const [descriptionLenght, setDescriptionLenght] = useState(0)
+    const [isTouch, setIsTouch] = useState(false)
 
     const [nameError, setNameError] = useState('')
     const [categoryError, setCategoryError] = useState('')
@@ -31,10 +33,19 @@ function AddProductPage() {
     const validateName = (name) => {
         if (name.length < 25) {
             setNameError('Product name must be at least 25 characters.')
+            console.log(name.length)
         } else {
             setNameError('')
         }
     }
+
+    const handleBlur = () => {
+        setIsTouch(true)
+    }
+
+    useEffect(() => {
+        validateName(name)
+    }, [name])
 
     const validateCategory = (category) => {
         if (category === '') {
@@ -78,13 +89,7 @@ function AddProductPage() {
         }
     }
 
-    useEffect(() => {
-        const intervalInput = setInterval(() => {
-            validateName(name)
-        }, 500)
-
-        return () => clearInterval(intervalInput)
-    }, [name])
+    
 
     // 
 
@@ -106,7 +111,8 @@ function AddProductPage() {
                 images: [image],
                 description: description,
                 price: Number(price),
-                stock: Number(stock)
+                stock: Number(stock),
+                createdBy: user.email
             })
             Swal.fire({
                 title: "Succes!",
@@ -163,7 +169,7 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border flex py-2 rounded-md peer-focus:outline-green-600 ${nameError ? 'border-red-600' : 'border-green-600'}`}>
+                                <div className={`border flex py-2 rounded-md ${nameError ? 'border-red-600' : 'border-green-600'}`}>
                                     <input
                                         className='w-full px-2 outline-none peer'
                                         type='text'
@@ -172,10 +178,15 @@ function AddProductPage() {
                                         onChange={(e) => {
                                             setName(e.target.value)
                                             setNameLength(e.target.value.length)
+                                            if (name.length >= 0) {
+                                                validateName(name)
+                                            }
                                         }}
-                                        onBlur={() => validateName(name)}
+                                        onBlur={() => {
+                                            handleBlur()
+                                        }}
                                     />
-                                    { nameError ? <X className='rounded-full me-5 text-white bg-red-600'/> : <Check className='rounded-full me-5 text-white bg-green-600'/> } 
+                                    {nameError ? <X className='rounded-full me-5 text-white bg-red-600'/> : <Check className='rounded-full me-5 text-white bg-green-600'/>} 
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>
                                     { nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
@@ -270,6 +281,7 @@ function AddProductPage() {
                                         onChange={(e) => {
                                             setDescription(e.target.value)
                                             setDescriptionLenght(e.target.value.length)
+                                            // validateDescription(description)
                                         }} 
                                         onBlur={() => validateDescription(description)}
                                         placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
