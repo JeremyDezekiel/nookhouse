@@ -1,7 +1,14 @@
 import { setErrorProducts, setLoadingProducts, setProducts } from './slices/productSlice'
-import { collection, deleteDoc, doc, getDocs, query, where } from 'firebase/firestore'
+import { 
+    addDoc, 
+    collection, 
+    deleteDoc, 
+    doc, 
+    getDocs, 
+    query, 
+    where 
+} from 'firebase/firestore'
 import { db } from '../config/firebase'
-import Swal from 'sweetalert2'
 
 export const getProducts = (email) => async (dispatch) => {
     try {
@@ -21,6 +28,29 @@ export const getProducts = (email) => async (dispatch) => {
         console.error(error)
         dispatch(setErrorProducts(error.message))
     } finally {
+        dispatch(setLoadingProducts(false))
+    }
+}
+
+export const addProduct = (product) => async (dispatch) => {
+    try {
+        dispatch(setLoadingProducts(true))
+        dispatch(setErrorProducts(null))
+        await addDoc(collection(db, 'products'), {
+            name: product.name,
+            category: product.category,
+            images: [product.image],
+            description: product.description,
+            price: Number(product.price),
+            stock: Number(product.stock),
+            createdBy: product.email
+            // date: new Date()
+        })
+        dispatch(getProducts(product.email))
+    } catch (error) {
+        console.error(error)
+        dispatch(setErrorProducts(error.message))
+    } finally{
         dispatch(setLoadingProducts(false))
     }
 }

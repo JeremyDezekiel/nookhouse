@@ -1,23 +1,26 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Check, X } from 'lucide-react'
-import { addDoc, collection } from 'firebase/firestore'
-import { db } from '../config/firebase'
+// import { addDoc, collection } from 'firebase/firestore'
+// import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
+import { addProduct } from '../app/actions'
+import { useDispatch } from 'react-redux'
 
 function AddProductPage() {
-    const { user, isLoading } = useContext(AuthContext)
-    console.log(user)
+    const dispatch = useDispatch()
     const navigate = useNavigate()
-    
+    const { user, isLoading } = useContext(AuthContext)
+    const email = user?.email
+
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
     const [image, setImage] = useState('')
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
-    
+
     // 
     const [nameLength, setNameLength] = useState(0)
     const [descriptionLenght, setDescriptionLenght] = useState(0)
@@ -33,7 +36,6 @@ function AddProductPage() {
     const validateName = (name) => {
         if (name.length < 25) {
             setNameError('Product name must be at least 25 characters.')
-            console.log(name.length)
         } else {
             setNameError('')
         }
@@ -75,7 +77,7 @@ function AddProductPage() {
         if (price === '') {
             setPriceError('The price is required to be filled in.')
         } else if (price < 100) {
-            setPriceError('The minimum price of the product is Rp 100.') 
+            setPriceError('The minimum price of the product is Rp 100.')
         } else {
             setPriceError('')
         }
@@ -89,11 +91,11 @@ function AddProductPage() {
         }
     }
 
-    
+
 
     // 
 
-    const addProduct = async (e) => {
+    const handleAddProdcut = async (e) => {
         e.preventDefault()
         validateName(name)
         validateCategory(category)
@@ -105,16 +107,9 @@ function AddProductPage() {
             return
         }
         try {
-            const addData = await addDoc(collection(db, "products"), {
-                name: name,
-                category: category,
-                images: [image],
-                description: description,
-                price: Number(price),
-                stock: Number(stock),
-                createdBy: user.email,
-                // date: new Date()
-            })
+            dispatch(addProduct({ 
+                name, category, image, description, price, stock, email
+            }))
             Swal.fire({
                 title: "Succes!",
                 text: "Your product has been added",
@@ -132,7 +127,7 @@ function AddProductPage() {
             setPrice('')
             setStock('')
         } catch (error) {
-            console.error(error)
+            console.log(error)
         }
     }
 
@@ -151,7 +146,7 @@ function AddProductPage() {
                 </p>
             </section>
             <section>
-                <form className='grid gap-5 mt-5' onSubmit={(e) => addProduct(e)}>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => handleAddProdcut(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
@@ -188,11 +183,11 @@ function AddProductPage() {
                                             handleBlur()
                                         }}
                                     />
-                                    {nameError ? <X className='rounded-full me-5 text-white bg-red-600'/> : <Check className='rounded-full me-5 text-white bg-green-600'/>} 
+                                    {nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-green-600' />}
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>
-                                    { nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
-                                    <div className={`flex ${ nameError ? 'text-red-600' : 'text-[#606060]'}`}>
+                                    {nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
+                                    <div className={`flex ${nameError ? 'text-red-600' : 'text-[#606060]'}`}>
                                         <p>{nameLength}</p>
                                         <p>/255</p>
                                     </div>
@@ -230,7 +225,7 @@ function AddProductPage() {
                                         <option value='Automotive'>Automotive</option>
                                     </select>
                                 </div>
-                                { categoryError && <span className='text-red-600'>{categoryError}</span>}
+                                {categoryError && <span className='text-red-600'>{categoryError}</span>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
@@ -258,7 +253,7 @@ function AddProductPage() {
                                         onBlur={() => validateImage(image)}
                                     />
                                 </div>
-                                { imageError && <span className='text-red-600'>{imageError}</span>}
+                                {imageError && <span className='text-red-600'>{imageError}</span>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
@@ -278,13 +273,13 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className='flex py-2 rounded-md'>
-                                    <textarea className={`w-full border ${descriptionError && 'border-red-600'} focus:outline-green-600`} rows="13" 
-                                        value={description} 
+                                    <textarea className={`w-full border ${descriptionError && 'border-red-600'} focus:outline-green-600`} rows="13"
+                                        value={description}
                                         onChange={(e) => {
                                             setDescription(e.target.value)
                                             setDescriptionLenght(e.target.value.length)
                                             // validateDescription(description)
-                                        }} 
+                                        }}
                                         onBlur={() => validateDescription(description)}
                                         placeholder="Tokostore Men's Canvas Sneakers Black Series C28B
 
