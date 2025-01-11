@@ -70,32 +70,20 @@ export const addProduct = (product) => async (dispatch) => {
     }
 }
 
-export const editProduct = (product) => async (dispatch) => {
+export const editProduct = (id) => async (dispatch) => {
 
 }
 
-export const deleteProduct = async (id) => {
+export const deleteProduct = (id) => async (dispatch) => {
     try {
-        Swal.fire({
-            title: "Are you sure?",
-            text: "You won't be able to revert this!",
-            icon: "warning",
-            showCancelButton: true,
-            confirmButtonColor: "#3085d6",
-            cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, delete it!"
-        }).then(async (result) => {
-            if (result.isConfirmed) {
-                await deleteDoc(doc(db, 'products', id))
-                Swal.fire({
-                    title: "Deleted!",
-                    text: "Your product has been deleted.",
-                    icon: "success"
-                });
-                dispatch(getProducts())
-            }
-        });
+        dispatch(setLoadingProducts(true))
+        dispatch(setErrorProducts(null))
+        await deleteDoc(doc(db, 'products', id))
+        dispatch(getProducts())
     } catch (error) {
         console.error(error)
+        dispatch(setErrorProducts(error.message))
+    } finally{
+        dispatch(setLoadingProducts(false))
     }
 }

@@ -6,7 +6,7 @@ import { AuthContext } from '../context/AuthContext'
 import { ProductAdminTable } from '../components/index'
 // import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProducts, deleteProduct } from '../app/actions'
+import { getProducts } from '../app/actions'
 
 function AdminPage() {
     const dispatch = useDispatch()
@@ -35,7 +35,7 @@ function AdminPage() {
         <main>
             <h1 className='font-bold text-4xl'>Welcome to Admin Page</h1>
             <h3>User: {user?.email}</h3>
-            <ProductAdminTable products={products} deleteProduct={deleteProduct} />
+            <ProductAdminTable products={products} />
         </main>
     )
 }

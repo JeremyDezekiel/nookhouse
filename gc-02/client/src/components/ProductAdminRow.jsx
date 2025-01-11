@@ -1,9 +1,44 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Edit, Trash } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
+import { deleteDoc, doc } from 'firebase/firestore'
+import { db } from '../config/firebase'
+import Swal from 'sweetalert2'
+import { useDispatch } from 'react-redux'
+import { getProducts } from '../app/actions'
+import { AuthContext } from '../context/AuthContext'
 
-function ProductAdminRow({ product, index , deleteProduct}) {
+function ProductAdminRow({ product, index }) {
     const navigate = useNavigate()
+    const dispatch = useDispatch()
+    const { user } = useContext(AuthContext)
+    const email = user?.email
+    
+    const deleteProduct = async (id) => {
+        try {
+            Swal.fire({
+                title: "Are you sure?",
+                text: "You won't be able to revert this!",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonColor: "#3085d6",
+                cancelButtonColor: "#d33",
+                confirmButtonText: "Yes, delete it!"
+            }).then(async (result) => {
+                if (result.isConfirmed) {
+                    await deleteDoc(doc(db, 'products', id))
+                    Swal.fire({
+                        title: "Deleted!",
+                        text: "Your product has been deleted.",
+                        icon: "success"
+                    });
+                    dispatch(getProducts(email))
+                }
+            });
+        } catch (error) {
+            console.error(error)
+        }
+    }
 
     return (
         <tr>
