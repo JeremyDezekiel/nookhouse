@@ -74,12 +74,12 @@ export const editProduct = (id) => async (dispatch) => {
 
 }
 
-export const deleteProduct = (id) => async (dispatch) => {
+export const deleteProduct = (id, email) => async (dispatch) => {
     try {
         dispatch(setLoadingProducts(true))
         dispatch(setErrorProducts(null))
         await deleteDoc(doc(db, 'products', id))
-        dispatch(getProducts())
+        dispatch(getProducts(email))
     } catch (error) {
         console.error(error)
         dispatch(setErrorProducts(error.message))
