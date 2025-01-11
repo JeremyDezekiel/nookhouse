@@ -1,13 +1,14 @@
 import { setErrorProducts, setLoadingProducts, setProduct, setProducts } from './slices/productSlice'
-import { 
-    addDoc, 
-    collection, 
-    deleteDoc, 
-    doc, 
-    getDoc, 
-    getDocs, 
-    query, 
-    where 
+import {
+    addDoc,
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    updateDoc,
+    where
 } from 'firebase/firestore'
 import { db } from '../config/firebase'
 
@@ -65,13 +66,31 @@ export const addProduct = (product) => async (dispatch) => {
     } catch (error) {
         console.error(error)
         dispatch(setErrorProducts(error.message))
-    } finally{
+    } finally {
         dispatch(setLoadingProducts(false))
     }
 }
 
-export const editProduct = (id) => async (dispatch) => {
-
+export const editProduct = (product, email) => async (dispatch) => {
+    try {
+        dispatch(setLoadingProducts(true))
+        dispatch(setErrorProducts(null))
+        await updateDoc(doc(db, 'products', product.id), {
+            name: product.name,
+            category: product.category,
+            images: [product.image],
+            description: product.description,
+            price: Number(product.price),
+            stock: Number(product.stock),
+            // date: new Date()
+        })
+        dispatch(getProducts(email))
+    } catch (error) {
+        console.error(error)
+        dispatch(setErrorProducts(error.message))
+    } finally {
+        dispatch(setLoadingProducts(false))
+    }
 }
 
 export const deleteProduct = (id, email) => async (dispatch) => {
@@ -83,7 +102,7 @@ export const deleteProduct = (id, email) => async (dispatch) => {
     } catch (error) {
         console.error(error)
         dispatch(setErrorProducts(error.message))
-    } finally{
+    } finally {
         dispatch(setLoadingProducts(false))
     }
 }

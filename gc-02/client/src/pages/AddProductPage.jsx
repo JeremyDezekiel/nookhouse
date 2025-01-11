@@ -103,7 +103,7 @@ function AddProductPage() {
         validateDescription(description)
         validatePrice(price)
         validateStock(stock)
-        if (nameError || categoryError || imageError || descriptionError || priceError || stockError) {
+        if (nameError && categoryError && imageError && descriptionError && priceError && stockError) {
             return
         }
         try {

@@ -2,11 +2,9 @@ import { X } from 'lucide-react'
 import React, { useContext, useEffect, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate, useParams } from 'react-router-dom'
-import { doc, updateDoc } from 'firebase/firestore'
-import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProduct } from '../app/actions'
+import { editProduct, getProduct } from '../app/actions'
 
 function EditProductPage() {
     const { user, isLoading } = useContext(AuthContext)
@@ -14,6 +12,7 @@ function EditProductPage() {
     const { id } = useParams()
     const navigate = useNavigate()
     const dispatch = useDispatch()
+    const email = user?.email
 
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
@@ -22,28 +21,27 @@ function EditProductPage() {
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
 
-    const editProduct = async (e) => {
+    const handleEditProduct = async (e) => {
         e.preventDefault()
         try {
-            const editProduct = doc(db, 'products', id)
             Swal.fire({
                 title: "Do you want to save the changes?",
                 showDenyButton: true,
                 showCancelButton: true,
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`
-            }).then( async (result) => {
+            }).then( (result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
-                    await updateDoc(editProduct, {
-                        name: name,
-                        category: category,
-                        images: [image],
-                        description: description,
-                        price: Number(price),
-                        stock: Number(stock),
-                        // date: new Date()
-                    })
+                    dispatch(editProduct({
+                        id,
+                        name,
+                        category,
+                        image,
+                        description,
+                        price,
+                        stock,
+                    }, email))
                     Swal.fire({
                         title: "Edited!",
                         text: "Your product has been edited",
@@ -90,7 +88,7 @@ function EditProductPage() {
                 </p>
             </section>
             <section>
-                <form className='grid gap-5 mt-5' onSubmit={(e) => editProduct(e)}>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => handleEditProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
                         {product && (
                             <div className='flex justify-center'>
