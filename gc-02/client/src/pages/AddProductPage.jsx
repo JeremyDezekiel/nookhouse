@@ -7,6 +7,7 @@ import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { addProduct } from '../app/actions'
 import { useDispatch } from 'react-redux'
+import UploadWidget from '../components/UploadWidget'
 
 function AddProductPage() {
     const dispatch = useDispatch()
@@ -91,8 +92,6 @@ function AddProductPage() {
         }
     }
 
-
-
     // 
 
     const handleAddProdcut = async (e) => {
@@ -103,11 +102,11 @@ function AddProductPage() {
         validateDescription(description)
         validatePrice(price)
         validateStock(stock)
-        if (nameError && categoryError && imageError && descriptionError && priceError && stockError) {
+        if (nameError || categoryError || imageError || descriptionError || priceError || stockError) {
             return
         }
         try {
-            dispatch(addProduct({ 
+            dispatch(addProduct({
                 name, category, image, description, price, stock, email
             }))
             Swal.fire({
@@ -243,17 +242,22 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border py-2 rounded-md ${imageError && 'border-red-600'}`}>
+                                <div className='flex gap-5'>
                                     <input
-                                        className='w-full px-2 outline-none peer'
+                                        className={`border p-2 rounded-md outline-none peer flex-1 ${imageError && 'border-red-600'}`}
                                         type='text'
                                         placeholder='Image Url'
                                         value={image}
                                         onChange={(e) => setImage(e.target.value)}
                                         onBlur={() => validateImage(image)}
+                                        disabled
                                     />
+                                    <UploadWidget setImage={setImage} />
                                 </div>
                                 {imageError && <span className='text-red-600'>{imageError}</span>}
+                                {image && <div className='flex justify-center mt-5'>
+                                    <img src={image} alt='image' />
+                                </div>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>

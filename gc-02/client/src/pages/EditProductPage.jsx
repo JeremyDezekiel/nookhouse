@@ -5,6 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { editProduct, getProduct } from '../app/actions'
+import UploadWidget from '../components/UploadWidget'
 
 function EditProductPage() {
     const { user, isLoading } = useContext(AuthContext)
@@ -30,7 +31,7 @@ function EditProductPage() {
                 showCancelButton: true,
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`
-            }).then( (result) => {
+            }).then((result) => {
                 /* Read more about isConfirmed, isDenied below */
                 if (result.isConfirmed) {
                     dispatch(editProduct({
@@ -90,11 +91,6 @@ function EditProductPage() {
             <section>
                 <form className='grid gap-5 mt-5' onSubmit={(e) => handleEditProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
-                        {product && (
-                            <div className='flex justify-center'>
-                                <img width={200} src={image} alt={name} />
-                            </div>
-                        )}
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='flex gap-2'>
@@ -180,15 +176,21 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className='border flex py-2 rounded-md peer-focus:outline-green-600'>
+                            <div className='flex gap-5'>
                                     <input
-                                        className='w-full px-2 outline-none peer'
+                                        className={`border p-2 rounded-md outline-none peer flex-1`}
                                         type='text'
                                         placeholder='Image Url'
                                         value={image}
                                         onChange={(e) => setImage(e.target.value)}
+                                        onBlur={() => validateImage(image)}
+                                        disabled
                                     />
+                                    <UploadWidget setImage={setImage} />
                                 </div>
+                                {image && <div className='flex justify-center mt-5'>
+                                    <img src={image} alt='image' />
+                                </div>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
