@@ -33,8 +33,8 @@ function AdminPage() {
 
     return (
         <main>
-            <h1 className='font-bold text-4xl'>Welcome to Admin Page</h1>
-            <h3>User: {user?.email}</h3>
+            <h1 className='font-bold md:text-4xl'>Welcome to Admin Page</h1>
+            <h3 className='text-xs md:text-base'>User: {user?.email}</h3>
             <ProductAdminTable products={products} />
         </main>
     )

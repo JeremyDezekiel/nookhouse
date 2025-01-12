@@ -11,7 +11,8 @@ function ProductAdminTable({ products, deleteProduct }) {
                     <th className='p-2 border'>Image</th>
                     <th className='p-2 border'>Category</th>
                     <th className='p-2 border'>Price</th>
-                    <th className='p-2 border'>Product Specifications</th>
+                    <th className='p-2 border'>Stock</th>
+                    <th className='p-2 border hidden'>Product Specifications</th>
                     <th className='p-2 border'>Action</th>
                 </tr>
             </thead>
