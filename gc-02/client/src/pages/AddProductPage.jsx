@@ -201,7 +201,7 @@ function AddProductPage() {
                                 </div>
                                 <div className='text-sm text-[#606060] mt-3 hidden lg:block'>
                                     <p>Choose the appropriate category as
-                                        <b>the service fee will depend on the category.</b>
+                                        <b> the service fee will depend on the category. </b>
                                         If the selected category is inappropriate, Tokopedia will change the category.
                                         <b className='text-red-500 cursor-pointer'> Learn More</b>
                                     </p>
@@ -313,7 +313,7 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className={`border flex rounded-md ${priceError && 'border-red-600'}`}>
-                                    <h1 className='bg-[#F3F4F5] p-2 rounded-s-md'>Rp</h1>
+                                    <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
                                     <input
                                         className='w-full px-2 outline-none peer'
                                         type='number'
