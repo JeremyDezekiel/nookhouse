@@ -18,11 +18,17 @@ function ProductAdminTable({ products, deleteProduct }) {
             </thead>
             <tbody>
                 {
-                    products.map((product, index) => {
-                        return (
-                            <ProductAdminRow key={product.id} product={product} index={index} deleteProduct={deleteProduct}/>
-                        )
-                    })
+                    products.length !== 0 ? (
+                        products.map((product, index) => {
+                            return (
+                                <ProductAdminRow key={product.id} product={product} index={index} deleteProduct={deleteProduct} />
+                            )
+                        })
+                    ) : (
+                        <tr>
+                            <td colSpan="8" className="text-center p-4">No data products</td>
+                        </tr>
+                    )
                 }
             </tbody>
         </table>
