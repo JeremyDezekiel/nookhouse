@@ -1,9 +1,20 @@
 import { createUserWithEmailAndPassword } from "firebase/auth"
-import { auth } from "../config/firebase"
+import { auth, db } from "../config/firebase"
+import { doc, setDoc } from "firebase/firestore"
 
-export const useRegister = async (email, password) => {
+export const useRegister = async (username, email, password) => {
     try {
         const userCredential = await createUserWithEmailAndPassword(auth, email, password)
+        // create user to firestore
+        if (userCredential) {
+            await setDoc(doc(db, 'users', userCredential.user.uid), {
+                username: username,
+                email: email,
+                role: 'customer',
+                fullName: '',
+                birthday: ''
+            })
+        }
         return userCredential.user
     } catch (error) {
         let customMessage

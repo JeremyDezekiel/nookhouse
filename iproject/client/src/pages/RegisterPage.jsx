@@ -12,29 +12,22 @@ import { useRegister } from '../hooks/useRegister'
 function RegisterPage() {
     const { user, isLoading } = useContext(AuthContext)
     const { theme } = useContext(ThemeContext)
-    const { password, setPassword, passwordError, listenPasswordNumber, listenPasswordLowercase, listenPasswordUppercase, listenPasswordEightCharacters, validatePassword, email, setEmail, emailRegex, validateEmail, emailError, confirmPasswordError, validateConfirmPassword,} = ValidateInput()
+    const { password, setPassword, passwordError, listenPasswordNumber, listenPasswordLowercase, listenPasswordUppercase, listenPasswordEightCharacters, validatePassword, email, setEmail, emailRegex, validateEmail, emailError, confirmPasswordError, validateConfirmPassword, username, setUsername, usernameError, validateUsername} = ValidateInput()
     const { showPassword, toggleShowPassword, showConfirmPassword, toggleShowConfirmPassword, } = ToggleShowPass()
     const navigate = useNavigate()
     const [confirmPassword, setConfirmPassword] = useState('')
-    const [username, setUsername] = useState('')
-    const [usernameError, setUsernameError] = useState('')
-
-    const validateUsername = (username) => {
-        if (username === '') {
-            setUsernameError('Please enter a username.')
-        }
-    }
 
     const handleRegisterForm = async (e) => {
         e.preventDefault()
+        validateUsername(username)
         validateEmail(email)
         validatePassword(password)
         validateConfirmPassword(confirmPassword)
-        if (emailError || passwordError || confirmPasswordError) {
+        if (usernameError || emailError || passwordError || confirmPasswordError) {
             return
         }
         try {
-            const userCredential = await useRegister(email, password)
+            const userCredential = await useRegister(username, email, password)
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -77,8 +70,8 @@ function RegisterPage() {
                             onChange={(e) => setUsername(e.target.value)}
                             onBlur={() => validateUsername(username)}
                         />
-                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${emailError ? 'text-red-500' : 'text-green-600'}`}>Username*</label>
-                        {emailError && <p className='text-red-500 text-sm peer-focus:hidden'>{emailError}</p>}
+                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${usernameError ? 'text-red-500' : 'text-green-600'}`}>Username*</label>
+                        {usernameError && <p className='text-red-500 text-sm peer-focus:hidden'>{usernameError}</p>}
                     </fieldset>
                     <fieldset className='relative'>
                         <input
@@ -128,7 +121,7 @@ function RegisterPage() {
                         </div>
                         {confirmPasswordError && <p className='text-red-500 text-sm peer-focus:hidden'>{confirmPasswordError}</p>}
                     </fieldset>
-                    {emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ?
+                    {usernameError === true || emailError === true || passwordError === true || confirmPasswordError === true || !emailRegex.test(email) || password === '' || confirmPassword !== password ?
                         <button className='border p-3 font-semibold bg-[#e2e2e2] cursor-not-allowed text-gray-500' type='submit' disabled>Register Account</button> :
                         <button className='border p-3 font-semibold hover:bg-[#e2e2e2]' type='submit'>Register Account</button>}
                 </form>

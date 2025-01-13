@@ -7,8 +7,10 @@ const passRegexUppercase = /^(?=.*[A-Z]).+$/
 const passRegexEightCharacters = /^.{7,}.+$/
 
 export const ValidateInput = () => {
+    const [username, setUsername] = useState('')
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
+    const [usernameError, setUsernameError] = useState('')
     const [passwordError, setPasswordError] = useState('')
     const [emailError, setEmailError] = useState('')
     const [confirmPasswordError, setConfirmPasswordError] = useState('')
@@ -19,6 +21,14 @@ export const ValidateInput = () => {
     const [listenPasswordEightCharacters, setListenPasswordEightCharacters] = useState('')
 
     const emailRegex = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/
+
+    const validateUsername = (username) => {
+        if (username === '') {
+            setUsernameError('Please enter a username.')
+        } else {
+            setUsernameError('')
+        }
+    }
 
     const validateEmail = (email) => {
         if (email === '') {
@@ -104,5 +114,9 @@ export const ValidateInput = () => {
         confirmPasswordError,
         validateConfirmPassword,
         validateLoginPassword,
+        username,
+        setUsername,
+        usernameError,
+        validateUsername,
     }
 }
