@@ -42,7 +42,7 @@ function AddProductPage() {
         }
     }
 
-    const handleBlur = () => {
+    const handleTouch = () => {
         setIsTouch(true)
     }
 
@@ -165,7 +165,7 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border flex py-2 rounded-md ${nameError ? 'border-red-600' : 'border-green-600'}`}>
+                                <div className={`border flex py-2 rounded-md ${isTouch ? nameError ? 'border-red-600' : 'border-green-600' : ''}`}>
                                     <input
                                         className='w-full px-2 outline-none peer'
                                         type='text'
@@ -174,19 +174,21 @@ function AddProductPage() {
                                         onChange={(e) => {
                                             setName(e.target.value)
                                             setNameLength(e.target.value.length)
-                                            if (name.length >= 0) {
-                                                validateName(name)
-                                            }
+                                            // if (name.length >= 0) {
+                                            //     validateName(name)
+                                            // }
                                         }}
                                         onBlur={() => {
-                                            handleBlur()
+                                            handleTouch()
+                                            validateName(name)
                                         }}
+                                        // onBlur={() => validateName(name)}
                                     />
-                                    {nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-green-600' />}
+                                    {isTouch ? nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-green-600' /> : ''}
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>
-                                    {nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
-                                    <div className={`flex ${nameError ? 'text-red-600' : 'text-[#606060]'}`}>
+                                    { isTouch ? nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
+                                    <div className={`flex ${ isTouch ? nameError ? 'text-red-600' : 'text-[#606060]' : 'text-[#606060]'}`}>
                                         <p>{nameLength}</p>
                                         <p>/255</p>
                                     </div>
@@ -336,7 +338,7 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className='border flex rounded-md py-2'>
+                                <div className={`border flex rounded-md py-2 ${stockError && 'border-red-600'}`}>
                                     <input
                                         className='w-full px-2 outline-none peer'
                                         type='number'
