@@ -9,7 +9,7 @@ function AdminPage() {
     const dispatch = useDispatch()
     const navigate = useNavigate('')
     const { products, loadingProducts } = useSelector(state => state.product)
-    const { user, isLoading } = useContext(AuthContext)
+    const { user, isLoading, role, username } = useContext(AuthContext)
 
     const email = user?.email
 
@@ -31,7 +31,7 @@ function AdminPage() {
     return (
         <main>
             <h1 className='font-bold md:text-4xl'>Welcome to Admin Page</h1>
-            {!isLoading ? <h3 className='text-xs md:text-base'>User: {user?.email}</h3> : <h1>Loading User ...</h1>}
+            {!isLoading ? <h3 className='text-xs md:text-base'>User: {username} - {user?.email} - {role}</h3> : <h1>Loading User ...</h1>}
             {!isLoading && !loadingProducts ? <ProductAdminTable products={products}/> : <h1>Loading Data ...</h1>}
         </main>
     )
