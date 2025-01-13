@@ -16,6 +16,14 @@ function RegisterPage() {
     const { showPassword, toggleShowPassword, showConfirmPassword, toggleShowConfirmPassword, } = ToggleShowPass()
     const navigate = useNavigate()
     const [confirmPassword, setConfirmPassword] = useState('')
+    const [username, setUsername] = useState('')
+    const [usernameError, setUsernameError] = useState('')
+
+    const validateUsername = (username) => {
+        if (username === '') {
+            setUsernameError('Please enter a username.')
+        }
+    }
 
     const handleRegisterForm = async (e) => {
         e.preventDefault()
@@ -60,6 +68,18 @@ function RegisterPage() {
             <section className={`col-span-3 border p-5 grid gap-5 ${theme === 'dark' && 'border-[#757575]'}`}>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
+                    <fieldset className='relative'>
+                        <input
+                            className={`block w-full p-5 text-black text-base border focus:outline-green-600 appearance-none focus:text-black peer ${usernameError ? 'border-red-500' : ''}`}
+                            type='text'
+                            placeholder=''
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            onBlur={() => validateUsername(username)}
+                        />
+                        <label className={`absolute text-base duration-300 transform -translate-y-4 left-5 scale-90 top-5 z-10 origin-[0] peer-focus:top-5 peer-focus:left-5 peer-focus:text-green-600 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-90 peer-focus:-translate-y-4 peer-placeholder-shown:text-[#BBBEC4] ${emailError ? 'text-red-500' : 'text-green-600'}`}>Username*</label>
+                        {emailError && <p className='text-red-500 text-sm peer-focus:hidden'>{emailError}</p>}
+                    </fieldset>
                     <fieldset className='relative'>
                         <input
                             className={`block w-full p-5 text-black text-base border focus:outline-green-600 appearance-none focus:text-black peer ${emailError ? 'border-red-500' : ''}`}
