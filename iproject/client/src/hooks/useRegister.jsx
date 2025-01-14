@@ -12,7 +12,8 @@ export const useRegister = async (username, email, password) => {
                 email: email,
                 role: 'customer',
                 fullName: '',
-                birthday: ''
+                birthDay: '',
+                phoneNumber: '',
             })
         }
         return userCredential.user

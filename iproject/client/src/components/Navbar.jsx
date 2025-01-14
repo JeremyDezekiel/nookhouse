@@ -5,13 +5,13 @@ import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../config/firebase'
 import Swal from 'sweetalert2'
-import { Sun, Moon } from 'lucide-react'
+import { Sun, Moon, CircleUserIcon, ShoppingCart } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
 import { AuthContext } from '../context/AuthContext'
 
 function Navbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
-    const { user, role } = useContext(AuthContext)
+    const { user, role, profile } = useContext(AuthContext)
     const navigate = useNavigate()
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
@@ -51,51 +51,41 @@ function Navbar() {
             </div>
             <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
                 {user && (
-                    <>
-                        <div className='lg:hidden'>
-                            <button onClick={toggleDropdown} className='cursor-pointer border p-2 rounded-md' aria-label='User Menu'>
-                                <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" aria-hidden="true" className="h-6 w-6 shrink-0" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
-                                    <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
-                                </svg>
-                            </button>
-                            {dropdownOpen && (
-                                <div className='absolute right-1 mt-2 bg-white border rounded-md shadow-lg'>
-                                    { role === 'admin' && (
-                                        <button
+                    <>  
+                        <div className='flex items-center cursor-pointer relative'>
+                            <ShoppingCart />
+                            <p className='absolute border'>25</p>
+                        </div>
+                        <div className='relative grid group'>
+                            <div className='flex gap-1 items-center cursor-pointer peer'>
+                                <CircleUserIcon />
+                                <span>{profile.username}</span>
+                            </div>
+                            <div className='absolute right-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
+                                {role === 'admin' && (
+                                    <button
                                         onClick={() => navigate('/admin')}
-                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                                        className='w-full text-left hover:underline p-2 hover:bg-gray-100'
                                         aria-label='Admin Page'
                                     >
-                                        Admin Page
+                                        Admin page
                                     </button>
-                                    )}
-                                    <button
-                                        onClick={handleLogout}
-                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
-                                        aria-label='Logout'
-                                    >
-                                        Logout
-                                    </button>
-                                </div>
-                            )}
-                        </div>
-                        <div className='hidden lg:flex gap-2 lg:gap-5'>
-                            { role === 'admin' && (
+                                )}
                                 <button
-                                onClick={() => navigate('/admin')}
-                                className='hover:underline'
-                                aria-label='Admin Page'
-                            >
-                                Admin page
-                            </button>
-                            )}
-                            <button
-                                onClick={handleLogout}
-                                className='hover:underline'
-                                aria-label='Logout'
-                            >
-                                Logout
-                            </button>
+                                    onClick={() => navigate('/userprofilepage/' + user.uid)}
+                                    className='min-w-32 text-left hover:underline p-2 hover:bg-gray-100'
+                                    aria-label='User Profile Page'
+                                >
+                                    My Account
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    className='w-full text-left hover:underline p-2 hover:bg-gray-100'
+                                    aria-label='Logout'
+                                >
+                                    Logout
+                                </button>
+                            </div>
                         </div>
                     </>
                 )}

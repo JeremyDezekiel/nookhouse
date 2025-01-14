@@ -8,13 +8,15 @@ export const AuthContext = createContext({
     isLoading: true,
     role: null,
     username: null,
+    profile: null,
 })
 
 export default function AuthContextProvider ({children}) {
     const [user, setUser] = useState(null)
-    const [role, setRole] = useState()
-    const [username, SetUsername] = useState()
+    const [role, setRole] = useState(null)
+    const [username, SetUsername] = useState(null)
     const [isLoading, setIsLoading] = useState(true)
+    const [profile, setProfile] = useState(null)
 
     useEffect (() => {
         setIsLoading(true)
@@ -27,10 +29,12 @@ export default function AuthContextProvider ({children}) {
                 SetUsername(userData.username)
                 setRole(userData.role)
                 setUser(user)
+                setProfile(userData)
             } else {
                 SetUsername(null)
                 setRole(null)
                 setUser(null)
+                setProfile(null)
             }
             setIsLoading(false)
         })
@@ -39,7 +43,7 @@ export default function AuthContextProvider ({children}) {
     }, [user])
 
     const value = {
-        user, isLoading, role, username
+        user, isLoading, role, username, profile, setProfile
     }
 
     return (

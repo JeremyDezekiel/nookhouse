@@ -3,6 +3,7 @@ import { MainLayout, AdminLayout } from '../layout/index'
 import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage, AddProductPage, EditProductPage } from '../pages/index'
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
+import UserProfilePage from '../pages/UserProfilePage'
 
 const ProtectedRoute = ({ children }) => {
     const { role, isLoading } = useContext(AuthContext)
@@ -30,6 +31,10 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <LoginPage/>
+            },
+            {
+                path: '/userprofilepage/:id',
+                element: <UserProfilePage/>
             }
         ]
     },

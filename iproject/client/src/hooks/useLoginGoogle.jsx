@@ -6,7 +6,7 @@ export const useLoginGoogle = async () => {
     try {
         const userCredential = await signInWithPopup(auth, provider)
         // create user to firestore
-        if (userCredential && userCredential.user) {
+        if (userCredential && !userCredential.user) {
             const { user } = userCredential
             const displayName = user.displayName || 'Anonymous'
             const fullName = user.fullName || ''
@@ -16,7 +16,8 @@ export const useLoginGoogle = async () => {
                 email: user.email,
                 role: 'customer',
                 fullName: fullName,
-                birthday: ''
+                birthDay: '',
+                phoneNumber: '',
             })
         }
         return userCredential.user
