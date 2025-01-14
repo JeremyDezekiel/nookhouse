@@ -62,6 +62,13 @@ function AdminNavbar() {
                             {dropdownOpen && (
                                 <div className='absolute right-1 mt-2 bg-white border rounded-md shadow-lg'>
                                     <button
+                                        onClick={() => navigate('/')}
+                                        className='hover:underline'
+                                        aria-label='Home Page'
+                                    >
+                                        Home Page
+                                    </button>
+                                    <button
                                         onClick={() => navigate('/add-product')}
                                         className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                                         aria-label='Add Product'
@@ -79,6 +86,13 @@ function AdminNavbar() {
                             )}
                         </div>
                         <div className='hidden lg:flex gap-2 lg:gap-5'>
+                            <button
+                                onClick={() => navigate('/')}
+                                className='hover:underline'
+                                aria-label='Home Page'
+                            >
+                                Home Page
+                            </button>
                             <button
                                 onClick={() => navigate('/add-product')}
                                 className='hover:underline'

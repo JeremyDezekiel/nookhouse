@@ -1,6 +1,18 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { MainLayout, AdminLayout } from '../layout/index'
 import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage, AddProductPage, EditProductPage } from '../pages/index'
+import { useContext } from 'react'
+import { AuthContext } from '../context/AuthContext'
+
+const ProtectedRoute = ({ children }) => {
+    const { role, isLoading } = useContext(AuthContext)
+    if (!isLoading) {
+        if (role === 'customer') {
+            return <Navigate to='/'/>
+        }
+    }
+    return children
+}
 
 const router = createBrowserRouter([
     {
@@ -10,15 +22,6 @@ const router = createBrowserRouter([
             {
                 path: '/',
                 element: <HomePage/>
-            }
-        ]
-    },
-    {
-        element: <AdminLayout/>,
-        children: [
-            {
-                path: '/admin',
-                element: <AdminPage/>
             },
             {
                 path: '/register',
@@ -27,6 +30,18 @@ const router = createBrowserRouter([
             {
                 path: '/login',
                 element: <LoginPage/>
+            }
+        ]
+    },
+    {
+        element: 
+        <ProtectedRoute>
+            <AdminLayout/>
+        </ProtectedRoute>,
+        children: [
+            {
+                path: '/admin',
+                element: <AdminPage/>
             },
             {
                 path: '/add-product',
