@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../config/firebase'
 import Swal from 'sweetalert2'
-import { Sun, Moon, CircleUserIcon, ShoppingCart } from 'lucide-react'
+import { Sun, Moon, CircleUserIcon, ShoppingCart, Search } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
 import { AuthContext } from '../context/AuthContext'
 
@@ -45,16 +45,26 @@ function Navbar() {
     }
 
     return (
-        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 pt-5 px-5 lg:px-10`}>
-            <div className='flex col-span-2'>
-                {theme === 'light' ? <img className='xl:w-[24%] cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-[24%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
+        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-6 pt-5 px-5 lg:px-10`}>
+            <div className='w-full flex'>
+                {theme === 'light' ? <img className='xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-[24%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
+            </div>
+            <div className='col-span-4 ms-16'>
+                <div className='flex items-center bg-white rounded-md ps-1'>
+                    <input
+                        className='flex-1 p-2 focus:outline-green-400'
+                    />
+                    <button className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'>
+                        <Search/>
+                    </button>
+                </div>
             </div>
             <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
                 {user && (
                     <>  
-                        <div className='flex items-center cursor-pointer relative'>
-                            <ShoppingCart />
-                            <p className='absolute border'>25</p>
+                        <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart/' + user.uid)}>
+                            <ShoppingCart size={35} />
+                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>25</p>
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>

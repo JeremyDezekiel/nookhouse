@@ -14,7 +14,6 @@ function UserProfilePage() {
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [birthDay, setBirthDay] = useState('')
-    console.log(profile, "profile lama")
 
     const handleEditProfile = async (e) => {
         e.preventDefault()
