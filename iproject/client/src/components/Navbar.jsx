@@ -55,13 +55,13 @@ function Navbar() {
                         className='flex-1 p-2 focus:outline-green-400'
                     />
                     <button className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'>
-                        <Search/>
+                        <Search />
                     </button>
                 </div>
             </div>
             <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
-                {user && (
-                    <>  
+                {user ? (
+                    <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart/' + user.uid)}>
                             <ShoppingCart size={35} />
                             <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>25</p>
@@ -97,6 +97,23 @@ function Navbar() {
                                 </button>
                             </div>
                         </div>
+                    </>
+                ) : (
+                    <>
+                        <button
+                            onClick={() => navigate('/login')}
+                            className='hover:underline'
+                            aria-label='Sign In'
+                        >
+                            Sign In
+                        </button>
+                        <button
+                            onClick={() => navigate('/register')}
+                            className='hover:underline'
+                            aria-label='Sign Up'
+                        >
+                            Sign Up
+                        </button>
                     </>
                 )}
                 <button className={`cursor-pointer border p-2 rounded-md`} onClick={toggleTheme} aria-label='Toggle theme'>
