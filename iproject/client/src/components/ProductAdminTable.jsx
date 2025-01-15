@@ -1,7 +1,7 @@
 import React from 'react'
 import { ProductAdminRow } from '../components/index'
 
-function ProductAdminTable({ products }) {
+function ProductAdminTable({ productsByEmail }) {
     return (
         <div className='overflow-x-auto'>
             <table className='border border-collapse w-full mt-5 text-center table-auto overflow-scroll'>
@@ -19,8 +19,8 @@ function ProductAdminTable({ products }) {
                 </thead>
                 <tbody>
                     {
-                        products.length !== 0 ? (
-                            products.map((product, index) => {
+                        productsByEmail.length !== 0 ? (
+                            productsByEmail.map((product, index) => {
                                 return (
                                     <ProductAdminRow key={product.id} product={product} index={index}/>
                                 )
