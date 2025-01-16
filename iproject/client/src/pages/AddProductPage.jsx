@@ -1,7 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { Check, X } from 'lucide-react'
-// import { addDoc, collection } from 'firebase/firestore'
-// import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'

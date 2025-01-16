@@ -88,7 +88,7 @@ function HomePage() {
                     <option value='asc'>Price: Low to High</option>
                     <option value='desc'>price: High to Low</option>
                 </select>
-                <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button>
+                { filter || sort ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
             </div>
             <div className='w-full text-center text-9xl'>Banner</div>
             <div>

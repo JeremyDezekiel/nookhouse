@@ -1,7 +1,7 @@
 import React, { useContext, useState } from 'react'
 import logo from '../assets/h_1.png'
 import logoDarkMode from '../assets/darkMode.png'
-import { useNavigate } from 'react-router-dom'
+import { useLocation, useNavigate } from 'react-router-dom'
 import { signOut } from 'firebase/auth'
 import { auth } from '../config/firebase'
 import Swal from 'sweetalert2'
@@ -13,6 +13,7 @@ function Navbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
     const { user, role, profile } = useContext(AuthContext)
     const navigate = useNavigate()
+    const location = useLocation()
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const toggleDropdown = () => {
@@ -99,22 +100,24 @@ function Navbar() {
                         </div>
                     </>
                 ) : (
-                    <>
-                        <button
-                            onClick={() => navigate('/login')}
-                            className='hover:underline'
-                            aria-label='Sign In'
-                        >
-                            Sign In
-                        </button>
-                        <button
-                            onClick={() => navigate('/register')}
-                            className='hover:underline'
-                            aria-label='Sign Up'
-                        >
-                            Sign Up
-                        </button>
-                    </>
+                    location.pathname === '/' && (
+                        <>
+                            <button
+                                onClick={() => navigate('/login')}
+                                className='hover:underline'
+                                aria-label='Sign In'
+                            >
+                                Sign In
+                            </button>
+                            <button
+                                onClick={() => navigate('/register')}
+                                className='hover:underline'
+                                aria-label='Sign Up'
+                            >
+                                Sign Up
+                            </button>
+                        </>
+                    )
                 )}
                 <button className={`cursor-pointer border p-2 rounded-md`} onClick={toggleTheme} aria-label='Toggle theme'>
                     {theme === 'light' ? <Moon /> : <Sun />}
