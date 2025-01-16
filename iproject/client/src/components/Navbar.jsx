@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import logo from '../assets/h_1.png'
 import logoDarkMode from '../assets/darkMode.png'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -8,12 +8,17 @@ import Swal from 'sweetalert2'
 import { Sun, Moon, CircleUserIcon, ShoppingCart, Search } from 'lucide-react'
 import { ThemeContext } from '../context/ThemeContext'
 import { AuthContext } from '../context/AuthContext'
+import { useDispatch, useSelector } from 'react-redux'
+import { setSearch } from '../app/slices/productSlice'
 
 function Navbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
     const { user, role, profile } = useContext(AuthContext)
+    const { search } = useSelector(state => state.product)
     const navigate = useNavigate()
     const location = useLocation()
+    const dispatch = useDispatch()
+
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const toggleDropdown = () => {
@@ -51,14 +56,19 @@ function Navbar() {
                 {theme === 'light' ? <img className='xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-[24%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
             </div>
             <div className='col-span-4 ms-16'>
-                <div className='flex items-center bg-white rounded-md ps-1'>
+                <form className='flex items-center bg-white rounded-md ps-1'>
                     <input
                         className='flex-1 p-2 focus:outline-green-400'
+                        value={search}
+                        onChange={(e) => dispatch(setSearch(e.target.value))}
                     />
-                    <button className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'>
+                    <button 
+                        className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'
+                        type='submit'
+                    >
                         <Search />
                     </button>
-                </div>
+                </form>
             </div>
             <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
                 {user ? (

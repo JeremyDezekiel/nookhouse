@@ -54,7 +54,7 @@ export const getProductsByEmail = (email) => async (dispatch) => {
     }
 }
 
-export const getFilterProducts = (filter, sort) => async (dispatch) => {
+export const getFilterProducts = (filter, sort, search) => async (dispatch) => {
     let q = query(collection(db, 'products'))
     try {
         dispatch(setLoadingProducts(true))
@@ -67,6 +67,10 @@ export const getFilterProducts = (filter, sort) => async (dispatch) => {
             q = query(q, orderBy('price', 'asc'))
         } else if (sort == 'desc') {
             q = query(q, orderBy('price', 'desc'))
+        }
+
+        if (search) {
+            q = query(q, where('name', '>=', search), where('name', '<=', search + '\uf8ff'))
         }
 
         const products = await getDocs(q)

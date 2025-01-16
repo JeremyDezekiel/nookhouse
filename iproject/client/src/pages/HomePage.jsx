@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import ProductUserCard from '../components/ProductUserCard'
 import { getFilterProducts, getProducts } from '../app/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { setFilteredProducts } from '../app/slices/productSlice'
+import { setFilteredProducts, setSearch } from '../app/slices/productSlice'
 
 function HomePage() {
     const dispatch = useDispatch()
-    const { products, isLoading, filteredProducts } = useSelector(state => state.product)
+    const { products, isLoading, filteredProducts, search } = useSelector(state => state.product)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
@@ -14,14 +14,15 @@ function HomePage() {
     const handleReset = () => {
         setSort('')
         setFilter('')
+        dispatch(setSearch(''))
     }
     
     useEffect(() => {
         const handleFilter = async () => {
-            dispatch(getFilterProducts(filter, sort))
+            dispatch(getFilterProducts(filter, sort, search))
         }
         handleFilter()
-    }, [filter, sort])
+    }, [filter, sort, search])
 
     useEffect(() => {
         if (!isLoading) {
@@ -62,7 +63,7 @@ function HomePage() {
                     <option value='asc'>Price: Low to High</option>
                     <option value='desc'>price: High to Low</option>
                 </select>
-                { filter || sort ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
+                { filter || sort || search ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
             </div>
             <div className='w-full text-center text-9xl'>Banner</div>
             <div>
