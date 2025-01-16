@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext } from 'react'
 import logo from '../assets/h_1.png'
 import logoDarkMode from '../assets/darkMode.png'
 import { useLocation, useNavigate } from 'react-router-dom'
@@ -18,12 +18,6 @@ function Navbar() {
     const navigate = useNavigate()
     const location = useLocation()
     const dispatch = useDispatch()
-
-    const [dropdownOpen, setDropdownOpen] = useState(false)
-
-    const toggleDropdown = () => {
-        setDropdownOpen(prevState => !prevState)
-    }
 
     const handleLogout = async () => {
         try {
@@ -53,7 +47,7 @@ function Navbar() {
     return (
         <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-6 pt-5 px-5 lg:px-10`}>
             <div className='w-full flex'>
-                {theme === 'light' ? <img className='xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-[24%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
+                {theme === 'light' ? <img className='xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-72 cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
             </div>
             <div className='col-span-4 ms-16'>
                 <form className='flex items-center bg-white rounded-md ps-1'>

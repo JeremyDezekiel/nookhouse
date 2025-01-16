@@ -1,10 +1,8 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { MainLayout, AdminLayout } from '../layout/index'
-import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage, AddProductPage, EditProductPage } from '../pages/index'
+import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage, AddProductPage, EditProductPage, UserProfilePage, CartPage, ProductDetailsPage } from '../pages/index'
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import UserProfilePage from '../pages/UserProfilePage'
-import CartPage from '../pages/CartPage'
 
 const ProtectedRoute = ({ children }) => {
     const { role, isLoading } = useContext(AuthContext)
@@ -40,6 +38,10 @@ const router = createBrowserRouter([
             {
                 path: '/cart/:id',
                 element: <CartPage/>
+            },
+            {
+                path: '/product/:id',
+                element: <ProductDetailsPage/>
             }
         ]
     },
