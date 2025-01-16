@@ -1,59 +1,33 @@
 import React, { useEffect, useState } from 'react'
 import ProductUserCard from '../components/ProductUserCard'
-import { getProducts } from '../app/actions'
+import { getFilterProducts, getProducts } from '../app/actions'
 import { useDispatch, useSelector } from 'react-redux'
-import { collection, getDocs, orderBy, query, where } from 'firebase/firestore'
-import { setErrorProducts, setLoadingProducts } from '../app/slices/productSlice'
-import { db } from '../config/firebase'
+import { setFilteredProducts } from '../app/slices/productSlice'
 
 function HomePage() {
     const dispatch = useDispatch()
-    const { products, isLoading } = useSelector(state => state.product)
+    const { products, isLoading, filteredProducts } = useSelector(state => state.product)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
-    const [filteredProducts, setFilterProducts] = useState([])
 
     const handleReset = () => {
         setSort('')
         setFilter('')
     }
-
+    
     useEffect(() => {
-        const filterProducts = async () => {
-            let q = query(collection(db, 'products'))
-            try {
-                dispatch(setLoadingProducts(true))
-                dispatch(setErrorProducts(null))
-                if (filter) {
-                    q = query(q, where('category', '==', filter))
-                }
-
-                if (sort == 'asc') {
-                    q = query(q, orderBy('price', 'asc'))
-                } else  if (sort == 'desc') {
-                    q = query(q, orderBy('price', 'desc'))
-                }
-
-                const products = await getDocs(q)
-                const productsStore = products.docs.map((doc) => ({
-                    id: doc.id,
-                    ...doc.data(),
-                }))
-                setFilterProducts(productsStore)
-            } catch (error) {
-                console.error(error)
-                dispatch(setErrorProducts(error.message))
-            } finally {
-                dispatch(setLoadingProducts(false))
-            }
+        const handleFilter = async () => {
+            dispatch(getFilterProducts(filter, sort))
         }
-        filterProducts()
+        handleFilter()
     }, [filter, sort])
 
     useEffect(() => {
-        dispatch(getProducts())
-        setFilterProducts(products)
+        if (!isLoading) {
+            dispatch(getProducts())
+            dispatch(setFilteredProducts(products))
+        }
     }, [isLoading])
 
     return (

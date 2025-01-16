@@ -1,4 +1,4 @@
-import { setErrorProducts, setLoadingProducts, setProduct, setProducts, setProductsByEmail } from './slices/productSlice'
+import { setErrorProducts, setFilteredProducts, setLoadingProducts, setProduct, setProducts, setProductsByEmail } from './slices/productSlice'
 import {
     addDoc,
     collection,
@@ -6,6 +6,7 @@ import {
     doc,
     getDoc,
     getDocs,
+    orderBy,
     query,
     updateDoc,
     where
@@ -45,6 +46,35 @@ export const getProductsByEmail = (email) => async (dispatch) => {
             ...doc.data(),
         }))
         dispatch(setProductsByEmail(productsStore))
+    } catch (error) {
+        console.error(error)
+        dispatch(setErrorProducts(error.message))
+    } finally {
+        dispatch(setLoadingProducts(false))
+    }
+}
+
+export const getFilterProducts = (filter, sort) => async (dispatch) => {
+    let q = query(collection(db, 'products'))
+    try {
+        dispatch(setLoadingProducts(true))
+        dispatch(setErrorProducts(null))
+        if (filter) {
+            q = query(q, where('category', '==', filter))
+        }
+
+        if (sort == 'asc') {
+            q = query(q, orderBy('price', 'asc'))
+        } else if (sort == 'desc') {
+            q = query(q, orderBy('price', 'desc'))
+        }
+
+        const products = await getDocs(q)
+        const productsStore = products.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data(),
+        }))
+        dispatch(setFilteredProducts(productsStore))
     } catch (error) {
         console.error(error)
         dispatch(setErrorProducts(error.message))
