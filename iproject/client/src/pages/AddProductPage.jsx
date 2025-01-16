@@ -19,6 +19,7 @@ function AddProductPage() {
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
+    const [weight, setWeight] = useState('')
 
     // 
     const [nameLength, setNameLength] = useState(0)
@@ -31,6 +32,7 @@ function AddProductPage() {
     const [descriptionError, setDescriptionError] = useState('')
     const [priceError, setPriceError] = useState('')
     const [stockError, setStockError] = useState('')
+    const [weightError, setWeightError] = useState('')
 
     const validateName = (name) => {
         if (name.length < 25) {
@@ -90,6 +92,14 @@ function AddProductPage() {
         }
     }
 
+    const validateWeight = (weight) => {
+        if (weight === '' || weight < 1 || weight > 500000) {
+            setWeightError('The weight must be between 1 gram and 500,000 grams')
+        } else {
+            setWeightError('')
+        }
+    }
+
     // 
 
     const handleAddProdcut = async (e) => {
@@ -100,7 +110,8 @@ function AddProductPage() {
         validateDescription(description)
         validatePrice(price)
         validateStock(stock)
-        if (nameError || categoryError || imageError || descriptionError || priceError || stockError) {
+        validateWeight(weight)
+        if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError ) {
             return
         }
         try {
@@ -172,21 +183,17 @@ function AddProductPage() {
                                         onChange={(e) => {
                                             setName(e.target.value)
                                             setNameLength(e.target.value.length)
-                                            // if (name.length >= 0) {
-                                            //     validateName(name)
-                                            // }
                                         }}
                                         onBlur={() => {
                                             handleTouch()
                                             validateName(name)
                                         }}
-                                        // onBlur={() => validateName(name)}
                                     />
                                     {isTouch ? nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-green-600' /> : ''}
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>
-                                    { isTouch ? nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
-                                    <div className={`flex ${ isTouch ? nameError ? 'text-red-600' : 'text-[#606060]' : 'text-[#606060]'}`}>
+                                    {isTouch ? nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
+                                    <div className={`flex ${isTouch ? nameError ? 'text-red-600' : 'text-[#606060]' : 'text-[#606060]'}`}>
                                         <p>{nameLength}</p>
                                         <p>/255</p>
                                     </div>
@@ -209,10 +216,10 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className={`border py-2 rounded-md ${categoryError && 'border-red-600'}`}>
-                                    <select 
-                                        className='w-full px-2 text-[#606060] outline-none cursor-pointer' 
-                                        value={category} 
-                                        onChange={(e) => setCategory(e.target.value)} 
+                                    <select
+                                        className='w-full px-2 text-[#606060] outline-none cursor-pointer'
+                                        value={category}
+                                        onChange={(e) => setCategory(e.target.value)}
                                         onBlur={() => validateCategory(category)}
                                     >
                                         <option value='' hidden>Select Category</option>
@@ -282,14 +289,13 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className='flex py-2'>
-                                    <textarea 
-                                        className={`w-full border rounded-md ${descriptionError && 'border-red-600'} focus:outline-green-600 px-2`} 
+                                    <textarea
+                                        className={`w-full border rounded-md ${descriptionError && 'border-red-600'} focus:outline-green-600 px-2`}
                                         rows="7"
                                         value={description}
                                         onChange={(e) => {
                                             setDescription(e.target.value)
                                             setDescriptionLenght(e.target.value.length)
-                                            // validateDescription(description)
                                         }}
                                         onBlur={() => validateDescription(description)}
                                         placeholder="The Krisbow Tori series metal rack offers a functional and rust-resistant storage solution. This rack features a strong construction capable of holding up to 175 kg on each shelf. With adjustable shelf spacing, it can easily accommodate items of various sizes. The easy installation and sturdy construction make it an ideal choice for storing household tools, equipment, or other items. Perfect for providing an efficient and durable storage solution in warehouses, schools, offices, hospitals, or factories.">
@@ -302,6 +308,35 @@ function AddProductPage() {
                                         <p>/5000</p>
                                     </div>
                                 </div>
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='grid lg:flex gap-2'>
+                                    <label className='text-lg'>Product Weight</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                                <div className='text-sm text-[#606060] mt-3 hidden lg:block'>
+                                    <p>Enter the weight by weighing the product after it is packaged. Make sure the weight is accurate to avoid discrepancies in shipping costs with the courier.
+                                        <b className='text-red-500 cursor-pointer'> Learn More</b>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className={`border w-[50%] flex rounded-md ${weightError && 'border-red-600'}`}>
+                                    <input
+                                        className='w-full px-2 outline-none peer rounded-s-md'
+                                        type='number'
+                                        placeholder='Product Weight'
+                                        min='0'
+                                        step='1'
+                                        value={weight}
+                                        onChange={(e) => setWeight(e.target.value)}
+                                        onBlur={() => validateWeight(weight)}
+                                    />
+                                    <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>gram</h1>
+                                </div>
+                                {weightError && <p className='text-red-600'>{weightError}</p>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>

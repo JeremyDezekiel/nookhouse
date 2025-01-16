@@ -6,7 +6,7 @@ import { setFilteredProducts, setSearch } from '../app/slices/productSlice'
 
 function HomePage() {
     const dispatch = useDispatch()
-    const { products, isLoading, filteredProducts, search } = useSelector(state => state.product)
+    const { products, filteredProducts, search } = useSelector(state => state.product)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
@@ -25,11 +25,9 @@ function HomePage() {
     }, [filter, sort, search])
 
     useEffect(() => {
-        if (!isLoading) {
             dispatch(getProducts())
             dispatch(setFilteredProducts(products))
-        }
-    }, [isLoading])
+    }, [])
 
     return (
         <div>
