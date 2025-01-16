@@ -108,10 +108,16 @@ export const addProduct = (product) => async (dispatch) => {
         await addDoc(collection(db, 'products'), {
             name: product.name,
             category: product.category,
-            images: [product.image],
+            images: product.images,
             description: product.description,
             price: Number(product.price),
             stock: Number(product.stock),
+            weight: Number(product.weight),
+            length: Number(product.length),
+            width: Number(product.width),
+            height: Number(product.height),
+            color: product.color,
+            discount: product.discount,
             createdBy: product.email
             // date: new Date()
         })

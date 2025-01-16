@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom'
 import { addProduct } from '../app/actions'
 import { useDispatch } from 'react-redux'
 import UploadWidget from '../components/UploadWidget'
+import ImagesAddProduct from '../components/imagesAddProduct'
 
 function AddProductPage() {
     const dispatch = useDispatch()
@@ -15,11 +16,16 @@ function AddProductPage() {
 
     const [name, setName] = useState('')
     const [category, setCategory] = useState('')
-    const [image, setImage] = useState('')
+    const [images, setImages] = useState([])
     const [description, setDescription] = useState('')
     const [price, setPrice] = useState('')
     const [stock, setStock] = useState('')
     const [weight, setWeight] = useState('')
+    const [length, setLength] = useState('')
+    const [width, setWidth] = useState('')
+    const [height, setHeight] = useState('')
+    const [color, setColor] = useState('')
+    const [discount, setDiscount] = useState('')
 
     // 
     const [nameLength, setNameLength] = useState(0)
@@ -33,6 +39,14 @@ function AddProductPage() {
     const [priceError, setPriceError] = useState('')
     const [stockError, setStockError] = useState('')
     const [weightError, setWeightError] = useState('')
+    const [lengthError, setLengthError] = useState('')
+    const [widthError, setWidthError] = useState('')
+    const [heightError, setHeightError] = useState('')
+    const [colorError, setColorError] = useState('')
+
+    const handleDeleteImage = (indexToDelete) => {
+        setImages((prevImages) => prevImages.filter((_, index) => index !== indexToDelete))
+    }
 
     const validateName = (name) => {
         if (name.length < 25) {
@@ -58,8 +72,8 @@ function AddProductPage() {
         }
     }
 
-    const validateImage = (image) => {
-        if (image === '') {
+    const validateImage = (images) => {
+        if (images.length < 1) {
             setImageError('Product must have at least 1 image.')
         } else {
             setImageError('')
@@ -94,9 +108,41 @@ function AddProductPage() {
 
     const validateWeight = (weight) => {
         if (weight === '' || weight < 1 || weight > 500000) {
-            setWeightError('The weight must be between 1 gram and 500,000 grams')
+            setWeightError('The weight must be between 1 gram and 500,000 grams.')
         } else {
             setWeightError('')
+        }
+    }
+
+    const validateLength = (length) => {
+        if (length === '' || length < 1 || length > 1000) {
+            setLengthError('The dimensions must be between 1 cm and 1000 cm.')
+        } else {
+            setLengthError('')
+        }
+    }
+
+    const validateWidth = (width) => {
+        if (width === '' || width < 1 || width > 1000) {
+            setWidthError('The dimensions must be between 1 cm and 1000 cm.')
+        } else {
+            setWidthError('')
+        }
+    }
+
+    const validateHeight = (height) => {
+        if (height === '' || height < 1 || height > 1000) {
+            setHeightError('The dimensions must be between 1 cm and 1000 cm.')
+        } else {
+            setHeightError('')
+        }
+    }
+
+    const validateColor = (color) => {
+        if (color === '') {
+            setColorError('Product description is required.')
+        } else {
+            setColorError('')
         }
     }
 
@@ -106,22 +152,26 @@ function AddProductPage() {
         e.preventDefault()
         validateName(name)
         validateCategory(category)
-        validateImage(image)
+        validateImage(images)
         validateDescription(description)
         validatePrice(price)
         validateStock(stock)
         validateWeight(weight)
-        if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError ) {
+        validateLength(length)
+        validateWidth(width)
+        validateHeight(height)
+        validateColor(color)
+        if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError || lengthError || widthError || heightError || colorError) {
             return
         }
         try {
             dispatch(addProduct({
-                name, category, image, description, price, stock, email
+                name, category, images, description, price, stock, email, weight, length, width, height, color, discount
             }))
             Swal.fire({
                 title: "Succes!",
                 text: "Your product has been added",
-                imageUrl: image,
+                imageUrl: images[0],
                 imageWidth: 400,
                 imageHeight: 400,
                 imageAlt: name,
@@ -130,10 +180,16 @@ function AddProductPage() {
             navigate('/admin')
             setName('')
             setCategory('')
-            setImage('')
+            setImages([])
             setDescription('')
             setPrice('')
             setStock('')
+            setWeight('')
+            setLength('')
+            setWidth('')
+            setHeight('')
+            setColor('')
+            setDiscount('')
         } catch (error) {
             console.log(error)
         }
@@ -242,6 +298,38 @@ function AddProductPage() {
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='grid lg:flex gap-2'>
+                                    <label className='text-lg'>Color</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                            </div>
+                            <div className='col-span-4 col-start-3'>
+                                <div className={`w-fit border py-2 rounded-md ${colorError && 'border-red-600'}`}>
+                                    <select
+                                        className='w-full px-2 text-[#606060] outline-none cursor-pointer'
+                                        value={color}
+                                        onChange={(e) => setColor(e.target.value)}
+                                        onBlur={() => validateColor(color)}
+                                    >
+                                        <option value='' hidden>Select Color</option>
+                                        <option value='Black'>Black</option>
+                                        <option value='White'>White</option>
+                                        <option value='Brown'>Brown</option>
+                                        <option value='Grey'>Grey</option>
+                                        <option value='Cream'>Cream</option>
+                                        {/* <option value='Home Improvement'>Home Improvement</option>
+                                        <option value='Bed & Bath'>Bed & Bath</option>
+                                        <option value='Hobbies & Lifestyle'>Hobbies & Lifestyle</option>
+                                        <option value='Health & Sports'>Health & Sports</option>
+                                        <option value='Toys & Babies'>Toys & Babies</option>
+                                        <option value='Automotive'>Automotive</option> */}
+                                    </select>
+                                </div>
+                                {colorError && <span className='text-red-600'>{colorError}</span>}
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='grid lg:flex gap-2'>
                                     <label className='text-lg'>Product Image</label>
                                     <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
@@ -249,27 +337,31 @@ function AddProductPage() {
                                     <p>The photo format must be .jpg, .jpeg, or .png, and the minimum size is 300 x 300 px (for optimal image quality, use a minimum size of 1,200 x 1,200 px).
                                         <br />
                                         <br />
-                                        Select product images or drag and drop up to 9 images at once here. Upload at least 5 unique and appealing images to attract buyers' attention.
+                                        Select product images or drag and drop up to 8 images at once here. Upload at least 5 unique and appealing images to attract buyers' attention.
                                     </p>
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className='grid lg:flex gap-5'>
-                                    <input
+                                {images.length > 0 && (
+                                    <div className='grid grid-cols-4 gap-5 mt-5'>
+                                        {images.map((image, index) => (
+                                            <ImagesAddProduct key={index} image={image} index={index} handleDeleteImage={handleDeleteImage}/>
+                                        ))}
+                                    </div>
+                                )}
+                                <div className='grid lg:grid mt-5'>
+                                    {/* <input
                                         className={`border p-2 rounded-md outline-none peer flex-1 ${imageError && 'border-red-600'}`}
                                         type='text'
                                         placeholder='Image Url'
-                                        value={image}
-                                        onChange={(e) => setImage(e.target.value)}
-                                        onBlur={() => validateImage(image)}
+                                        value={images}
+                                        onChange={(e) => setImages(e.target.value)}
+                                        onBlur={() => validateImage(images)}
                                         disabled
-                                    />
-                                    <UploadWidget setImage={setImage} />
+                                    /> */}
+                                    <UploadWidget images={images} setImages={setImages} validateImage={validateImage}/>
+                                    {imageError && <span className='text-red-600'>{imageError}</span>}
                                 </div>
-                                {imageError && <span className='text-red-600'>{imageError}</span>}
-                                {image && <div className='flex justify-center mt-5'>
-                                    <img src={image} alt='image' />
-                                </div>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
@@ -323,9 +415,9 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border w-[50%] flex rounded-md ${weightError && 'border-red-600'}`}>
+                                <div className={`border w-[50%] flex rounded-md group-focus:border-green-400 ${weightError && 'border-red-600'}`}>
                                     <input
-                                        className='w-full px-2 outline-none peer rounded-s-md'
+                                        className='w-full px-2 outline-none group rounded-s-md'
                                         type='number'
                                         placeholder='Product Weight'
                                         min='0'
@@ -342,6 +434,72 @@ function AddProductPage() {
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
                                 <div className='grid lg:flex gap-2'>
+                                    <label className='text-lg'>Product Size</label>
+                                    <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
+                                </div>
+                                <div className='text-sm text-[#606060] mt-3 hidden lg:block'>
+                                    <p>Enter the product dimensions after packaging to calculate the volumetric weight
+                                        <br />
+                                        <b className='text-red-500 cursor-pointer'> Learn about Volumetric Weight</b>
+                                    </p>
+                                </div>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className='grid grid-cols-4 gap-5'>
+                                    <div>
+                                        <div className={`border flex rounded-md ${lengthError && 'border-red-600'}`}>
+                                            <input
+                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                type='number'
+                                                placeholder='Length'
+                                                min='0'
+                                                step='1'
+                                                value={length}
+                                                onChange={(e) => setLength(e.target.value)}
+                                                onBlur={() => validateLength(length)}
+                                            />
+                                            <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>cm</h1>
+                                        </div>
+                                        {lengthError && <p className='text-red-600'>{lengthError}</p>}
+                                    </div>
+                                    <div>
+                                        <div className={`border flex rounded-md ${widthError && 'border-red-600'}`}>
+                                            <input
+                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                type='number'
+                                                placeholder='Width'
+                                                min='0'
+                                                step='1'
+                                                value={width}
+                                                onChange={(e) => setWidth(e.target.value)}
+                                                onBlur={() => validateWidth(width)}
+                                            />
+                                            <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>cm</h1>
+                                        </div>
+                                        {widthError && <p className='text-red-600'>{widthError}</p>}
+                                    </div>
+                                    <div>
+                                        <div className={`border flex rounded-md ${heightError && 'border-red-600'}`}>
+                                            <input
+                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                type='number'
+                                                placeholder='Height'
+                                                min='0'
+                                                step='1'
+                                                value={height}
+                                                onChange={(e) => setHeight(e.target.value)}
+                                                onBlur={() => validateHeight(height)}
+                                            />
+                                            <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>cm</h1>
+                                        </div>
+                                        {heightError && <p className='text-red-600'>{heightError}</p>}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <div className='grid lg:flex gap-2'>
                                     <label className='text-lg'>Product Price</label>
                                     <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
@@ -350,7 +508,7 @@ function AddProductPage() {
                                 <div className={`border flex rounded-md ${priceError && 'border-red-600'}`}>
                                     <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
                                     <input
-                                        className='w-full px-2 outline-none peer'
+                                        className='w-full rounded-e-md px-2 outline-none peer'
                                         type='number'
                                         placeholder='Enter the price'
                                         min='0'
@@ -361,6 +519,26 @@ function AddProductPage() {
                                     />
                                 </div>
                                 {priceError && <p className='text-red-600'>{priceError}</p>}
+                            </div>
+                        </div>
+                        <div className='grid grid-cols-6'>
+                            <div className='col-span-2 pe-24'>
+                                <label className='text-lg'>Discount</label>
+                            </div>
+                            <div className='w-full col-span-4 col-start-3'>
+                                <div className={`w-[25%] border flex rounded-md`}>
+                                    <input
+                                        className='w-full rounded-md p-2 outline-none peer'
+                                        type='number'
+                                        placeholder='Enter the discount'
+                                        min='0'
+                                        step='10'
+                                        max='90'
+                                        value={discount}
+                                        onChange={(e) => setDiscount(e.target.value)}
+                                    />
+                                    <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>%</h1>
+                                </div>
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
