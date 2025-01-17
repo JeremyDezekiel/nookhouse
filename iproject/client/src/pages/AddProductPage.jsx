@@ -7,176 +7,31 @@ import { addProduct } from '../app/actions'
 import { useDispatch } from 'react-redux'
 import UploadWidget from '../components/UploadWidget'
 import ImagesAddProduct from '../components/imagesAddProduct'
+import { ValidateInput } from '../services/ValidateInput'
 
 function AddProductPage() {
+    const {
+        name, setName, category, setCategory, images, setImages, description, setDescription, price, setPrice, stock, setStock, weight, setWeight, length, setLength, width, setWidth, height, setHeight, color, setColor, discount, setDiscount, discountPrice, setDiscountPrice,
+        nameLength, setNameLength, descriptionLength, setDescriptionLength, isTouch, isTouchImages, nameError, categoryError, imageError, descriptionError, priceError, stockError, weightError, lengthError, widthError, heightError, colorError, discountError,
+        handleDiscount, handleDeleteImage, handleTouch, handleTouchImages,
+        validateName, validateCategory, validateImage, validateDescription, validatePrice, validateStock, validateWeight, validateLength, validateWidth, validateHeight, validateColor, validateDiscount
+        } = ValidateInput()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { user, isLoading } = useContext(AuthContext)
     const email = user?.email
 
-    const [name, setName] = useState('')
-    const [category, setCategory] = useState('')
-    const [images, setImages] = useState([])
-    const [description, setDescription] = useState('')
-    const [price, setPrice] = useState('')
-    const [stock, setStock] = useState('')
-    const [weight, setWeight] = useState('')
-    const [length, setLength] = useState('')
-    const [width, setWidth] = useState('')
-    const [height, setHeight] = useState('')
-    const [color, setColor] = useState('')
-    const [discount, setDiscount] = useState('')
-    const [discountPrice, setDiscountPrice] = useState('')
-
-    // 
-    const [nameLength, setNameLength] = useState(0)
-    const [descriptionLenght, setDescriptionLenght] = useState(0)
-    const [isTouch, setIsTouch] = useState(false)
-    const [isTouchImages, setIsTouchImages] = useState(false)
-
-    const [nameError, setNameError] = useState('')
-    const [categoryError, setCategoryError] = useState('')
-    const [imageError, setImageError] = useState('')
-    const [descriptionError, setDescriptionError] = useState('')
-    const [priceError, setPriceError] = useState('')
-    const [stockError, setStockError] = useState('')
-    const [weightError, setWeightError] = useState('')
-    const [lengthError, setLengthError] = useState('')
-    const [widthError, setWidthError] = useState('')
-    const [heightError, setHeightError] = useState('')
-    const [colorError, setColorError] = useState('')
-    const [discountError, setDiscountError] = useState('')
-    
-    const handleDiscount = () => {
-        if (discount > 0 && discount <= 90 && price > 0) {
-            setDiscountPrice(price - (price * (discount / 100)))
-        } else {
-            setDiscountPrice('')
-        }
-    }
-
     useEffect(() => {
         handleDiscount()
     }, [discount, price])
-
-    const handleDeleteImage = (indexToDelete) => {
-        setImages((prevImages) => prevImages.filter((_, index) => index !== indexToDelete))
-    }
-
-    const validateName = (name) => {
-        if (name.length < 25) {
-            setNameError('Product name must be at least 25 characters.')
-        } else {
-            setNameError('')
-        }
-    }
-
-    const handleTouch = () => {
-        setIsTouch(true)
-    }
 
     useEffect(() => {
         validateName(name)
     }, [name])
 
-    const validateCategory = (category) => {
-        if (category === '') {
-            setCategoryError('Product category is required.')
-        } else {
-            setCategoryError('')
-        }
-    }
-
-    const validateImage = (images) => {
-        if (images.length < 1) {
-            setImageError('Product must have at least 1 image.')
-        } else {
-            setImageError('')
-        }
-    }
-    const handleTouchImages = () => {
-        setIsTouchImages(true)
-    }
-
     useEffect(() => {
         validateImage(images)
     }, [images])
-
-    const validateDescription = (description) => {
-        if (description === '') {
-            setDescriptionError('Product description is required.')
-        } else {
-            setDescriptionError('')
-        }
-    }
-
-    const validatePrice = (price) => {
-        if (price === '') {
-            setPriceError('The price is required to be filled in.')
-        } else if (price < 100) {
-            setPriceError('The minimum price of the product is Rp 100.')
-        } else {
-            setPriceError('')
-        }
-    }
-
-    const validateStock = (stock) => {
-        if (stock === '') {
-            setStockError('The stock is required to be filled in.')
-        } else {
-            setStockError('')
-        }
-    }
-
-    const validateWeight = (weight) => {
-        if (weight === '' || weight < 1 || weight > 500000) {
-            setWeightError('The weight must be between 1 gram and 500,000 grams.')
-        } else {
-            setWeightError('')
-        }
-    }
-
-    const validateLength = (length) => {
-        if (length === '' || length < 1 || length > 1000) {
-            setLengthError('The dimensions must be between 1 cm and 1000 cm.')
-        } else {
-            setLengthError('')
-        }
-    }
-
-    const validateWidth = (width) => {
-        if (width === '' || width < 1 || width > 1000) {
-            setWidthError('The dimensions must be between 1 cm and 1000 cm.')
-        } else {
-            setWidthError('')
-        }
-    }
-
-    const validateHeight = (height) => {
-        if (height === '' || height < 1 || height > 1000) {
-            setHeightError('The dimensions must be between 1 cm and 1000 cm.')
-        } else {
-            setHeightError('')
-        }
-    }
-
-    const validateColor = (color) => {
-        if (color === '') {
-            setColorError('Product description is required.')
-        } else {
-            setColorError('')
-        }
-    }
-
-    const validateDiscount = (discount) => {
-        if (discount > 90) {
-            setDiscountError('Enter a discount of less than 90%.')
-        } else {
-            setDiscountError('')
-        }
-    }
-
-    // 
 
     const handleAddProdcut = async (e) => {
         e.preventDefault()
@@ -381,16 +236,7 @@ function AddProductPage() {
                                         ))}
                                     </div>
                                 )}
-                                <div className='grid lg:grid mt-5'>
-                                    {/* <input
-                                        className={`border p-2 rounded-md outline-none peer flex-1 ${imageError && 'border-red-600'}`}
-                                        type='text'
-                                        placeholder='Image Url'
-                                        value={images}
-                                        onChange={(e) => setImages(e.target.value)}
-                                        onBlur={() => validateImage(images)}
-                                        disabled
-                                    /> */}
+                                <div className='mt-5'>
                                     <UploadWidget images={images} setImages={setImages} validateImage={validateImage} handleTouchImages={handleTouchImages}/>
                                     { isTouchImages && imageError && <span className='text-red-600'>{imageError}</span>}
                                 </div>
@@ -419,7 +265,7 @@ function AddProductPage() {
                                         value={description}
                                         onChange={(e) => {
                                             setDescription(e.target.value)
-                                            setDescriptionLenght(e.target.value.length)
+                                            setDescriptionLength(e.target.value.length)
                                         }}
                                         onBlur={() => validateDescription(description)}
                                         placeholder="The Krisbow Tori series metal rack offers a functional and rust-resistant storage solution. This rack features a strong construction capable of holding up to 175 kg on each shelf. With adjustable shelf spacing, it can easily accommodate items of various sizes. The easy installation and sturdy construction make it an ideal choice for storing household tools, equipment, or other items. Perfect for providing an efficient and durable storage solution in warehouses, schools, offices, hospitals, or factories.">
@@ -428,7 +274,7 @@ function AddProductPage() {
                                 <div className='flex justify-between text-[#606060]'>
                                     {descriptionError ? <p className='text-red-600'>{descriptionError}</p> : <p>Write your product description with a minimum of 260 characters so that buyers can easily understand it.</p>}
                                     <div className={`flex ${descriptionError ? 'text-red-600' : 'text-[#606060]'}`}>
-                                        <p>{descriptionLenght}</p>
+                                        <p>{descriptionLength}</p>
                                         <p>/5000</p>
                                     </div>
                                 </div>
