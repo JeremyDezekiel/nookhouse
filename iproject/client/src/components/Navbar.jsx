@@ -54,7 +54,7 @@ function Navbar() {
                     <input
                         className='flex-1 p-2 focus:outline-green-400'
                         value={search}
-                        onChange={(e) => dispatch(setSearch(e.target.value))}
+                        onChange={(e) => dispatch(setSearch(e.target.value.toLowerCase()))}
                     />
                     <button 
                         className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'

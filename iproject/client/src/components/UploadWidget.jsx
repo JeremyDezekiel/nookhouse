@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 
-const UploadWidget = ({ setImages, images, validateImage }) => {
+const UploadWidget = ({ setImages, images, handleTouchImages }) => {
     const cloudinaryRef = useRef();
     const widgetRef = useRef();
 
@@ -25,7 +25,7 @@ const UploadWidget = ({ setImages, images, validateImage }) => {
             type='button'
             onClick={() => {
                 widgetRef.current.open()
-                validateImage(images)
+                handleTouchImages()
             }}
             disabled={images.length >= 8}
         >

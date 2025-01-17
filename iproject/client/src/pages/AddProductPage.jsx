@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { Check, X } from 'lucide-react'
+import { ArrowBigRightDash, Check, X } from 'lucide-react'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
@@ -26,11 +26,13 @@ function AddProductPage() {
     const [height, setHeight] = useState('')
     const [color, setColor] = useState('')
     const [discount, setDiscount] = useState('')
+    const [discountPrice, setDiscountPrice] = useState('')
 
     // 
     const [nameLength, setNameLength] = useState(0)
     const [descriptionLenght, setDescriptionLenght] = useState(0)
     const [isTouch, setIsTouch] = useState(false)
+    const [isTouchImages, setIsTouchImages] = useState(false)
 
     const [nameError, setNameError] = useState('')
     const [categoryError, setCategoryError] = useState('')
@@ -43,6 +45,19 @@ function AddProductPage() {
     const [widthError, setWidthError] = useState('')
     const [heightError, setHeightError] = useState('')
     const [colorError, setColorError] = useState('')
+    const [discountError, setDiscountError] = useState('')
+    
+    const handleDiscount = () => {
+        if (discount > 0 && discount <= 90 && price > 0) {
+            setDiscountPrice(price - (price * (discount / 100)))
+        } else {
+            setDiscountPrice('')
+        }
+    }
+
+    useEffect(() => {
+        handleDiscount()
+    }, [discount, price])
 
     const handleDeleteImage = (indexToDelete) => {
         setImages((prevImages) => prevImages.filter((_, index) => index !== indexToDelete))
@@ -79,6 +94,13 @@ function AddProductPage() {
             setImageError('')
         }
     }
+    const handleTouchImages = () => {
+        setIsTouchImages(true)
+    }
+
+    useEffect(() => {
+        validateImage(images)
+    }, [images])
 
     const validateDescription = (description) => {
         if (description === '') {
@@ -146,6 +168,14 @@ function AddProductPage() {
         }
     }
 
+    const validateDiscount = (discount) => {
+        if (discount > 90) {
+            setDiscountError('Enter a discount of less than 90%.')
+        } else {
+            setDiscountError('')
+        }
+    }
+
     // 
 
     const handleAddProdcut = async (e) => {
@@ -161,12 +191,13 @@ function AddProductPage() {
         validateWidth(width)
         validateHeight(height)
         validateColor(color)
-        if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError || lengthError || widthError || heightError || colorError) {
+        validateDiscount(discount)
+        if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError || lengthError || widthError || heightError || colorError || discountError) {
             return
         }
         try {
             dispatch(addProduct({
-                name, category, images, description, price, stock, email, weight, length, width, height, color, discount
+                name, category, images, description, price, stock, email, weight, length, width, height, color, discount, discountPrice
             }))
             Swal.fire({
                 title: "Succes!",
@@ -190,6 +221,7 @@ function AddProductPage() {
             setHeight('')
             setColor('')
             setDiscount('')
+            setDiscountPrice('')
         } catch (error) {
             console.log(error)
         }
@@ -311,11 +343,11 @@ function AddProductPage() {
                                         onBlur={() => validateColor(color)}
                                     >
                                         <option value='' hidden>Select Color</option>
-                                        <option value='Black'>Black</option>
-                                        <option value='White'>White</option>
-                                        <option value='Brown'>Brown</option>
-                                        <option value='Grey'>Grey</option>
-                                        <option value='Cream'>Cream</option>
+                                        <option value='black'>Black</option>
+                                        <option value='white'>White</option>
+                                        <option value='brown'>Brown</option>
+                                        <option value='grey'>Grey</option>
+                                        <option value='cream'>Cream</option>
                                         {/* <option value='Home Improvement'>Home Improvement</option>
                                         <option value='Bed & Bath'>Bed & Bath</option>
                                         <option value='Hobbies & Lifestyle'>Hobbies & Lifestyle</option>
@@ -345,7 +377,7 @@ function AddProductPage() {
                                 {images.length > 0 && (
                                     <div className='grid grid-cols-4 gap-5 mt-5'>
                                         {images.map((image, index) => (
-                                            <ImagesAddProduct key={index} image={image} index={index} handleDeleteImage={handleDeleteImage}/>
+                                            <ImagesAddProduct key={index} image={image} index={index} handleDeleteImage={handleDeleteImage} />
                                         ))}
                                     </div>
                                 )}
@@ -359,8 +391,8 @@ function AddProductPage() {
                                         onBlur={() => validateImage(images)}
                                         disabled
                                     /> */}
-                                    <UploadWidget images={images} setImages={setImages} validateImage={validateImage}/>
-                                    {imageError && <span className='text-red-600'>{imageError}</span>}
+                                    <UploadWidget images={images} setImages={setImages} validateImage={validateImage} handleTouchImages={handleTouchImages}/>
+                                    { isTouchImages && imageError && <span className='text-red-600'>{imageError}</span>}
                                 </div>
                             </div>
                         </div>
@@ -504,21 +536,42 @@ function AddProductPage() {
                                     <span className='rounded-md bg-[#F3F4F5] px-1 text-gray-400'>required</span>
                                 </div>
                             </div>
-                            <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border flex rounded-md ${priceError && 'border-red-600'}`}>
-                                    <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
-                                    <input
-                                        className='w-full rounded-e-md px-2 outline-none peer'
-                                        type='number'
-                                        placeholder='Enter the price'
-                                        min='0'
-                                        step='100'
-                                        value={price}
-                                        onChange={(e) => setPrice(e.target.value)}
-                                        onBlur={() => validatePrice(price)}
-                                    />
+                            <div className='w-full col-span-4 col-start-3 flex items-center gap-5'>
+                                <div>
+                                    <div className={`border flex rounded-md ${priceError && 'border-red-600'}`}>
+                                        <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
+                                        <input
+                                            className='w-full rounded-e-md px-2 outline-none peer'
+                                            type='number'
+                                            placeholder='Enter the price'
+                                            min='0'
+                                            step='100'
+                                            value={price}
+                                            onChange={(e) => setPrice(e.target.value)}
+                                            onBlur={() => validatePrice(price)}
+                                        />
+                                    </div>
+                                    {priceError && <p className='text-red-600 absolute'>{priceError}</p>}
                                 </div>
-                                {priceError && <p className='text-red-600'>{priceError}</p>}
+                                { discountPrice && (
+                                    <>
+                                        <ArrowBigRightDash />
+                                        <div>
+                                            <div className={`border flex rounded-md`}>
+                                                <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
+                                                <input
+                                                    className='w-full rounded-e-md px-2 outline-none peer'
+                                                    type='number'
+                                                    placeholder='Discount Price'
+                                                    min='0'
+                                                    step='100'
+                                                    value={discountPrice}
+                                                    disabled
+                                                />
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
@@ -526,19 +579,21 @@ function AddProductPage() {
                                 <label className='text-lg'>Discount</label>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`w-[25%] border flex rounded-md`}>
+                                <div className={`w-[25%] border flex rounded-md ${discountError && 'border-red-600'}`}>
                                     <input
                                         className='w-full rounded-md p-2 outline-none peer'
                                         type='number'
                                         placeholder='Enter the discount'
                                         min='0'
-                                        step='10'
+                                        step='5'
                                         max='90'
                                         value={discount}
                                         onChange={(e) => setDiscount(e.target.value)}
+                                        onBlur={() => validateDiscount(discount)}
                                     />
                                     <h1 className='bg-[#F3F4F5] p-2 rounded-e-md text-gray-500'>%</h1>
                                 </div>
+                                {discountError && <p className='text-red-600'>{discountError}</p>}
                             </div>
                         </div>
                         <div className='grid grid-cols-6'>
@@ -565,7 +620,16 @@ function AddProductPage() {
                             </div>
                         </div>
                         <div className='flex justify-end'>
-                            <button type='submit' className='border border-green-500 px-10 py-2 rounded-md bg-green-400'>Add Product</button>
+                            <button 
+                                type='submit' 
+                                className='border border-green-500 px-10 py-2 rounded-md bg-green-400'
+                                onClick={() => {
+                                    handleTouch()
+                                    handleTouchImages()
+                                }}
+                            >
+                                Add Product
+                            </button>
                         </div>
                     </div>
                 </form>

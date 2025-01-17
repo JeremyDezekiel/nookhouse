@@ -118,6 +118,8 @@ export const addProduct = (product) => async (dispatch) => {
             height: Number(product.height),
             color: product.color,
             discount: product.discount,
+            discountPrice: product.discountPrice,
+            keyword: product.name.toLowerCase(),
             createdBy: product.email
             // date: new Date()
         })

@@ -117,7 +117,7 @@ function UserProfilePage() {
                             className='p-2'
                             value={birthDay ?? ''}
                             placeholder='BirhtDay'
-                            type='text'
+                            type='date'
                             onChange={(e) => setBirthDay(e.target.value)}
                         />
                     </fieldset>
