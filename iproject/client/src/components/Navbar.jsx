@@ -67,7 +67,7 @@ function Navbar() {
             <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
                 {user ? (
                     <>
-                        <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart/' + user.uid)}>
+                        <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
                             <ShoppingCart size={35} />
                             <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>25</p>
                         </div>
@@ -87,7 +87,7 @@ function Navbar() {
                                     </button>
                                 )}
                                 <button
-                                    onClick={() => navigate('/userprofilepage/' + user.uid)}
+                                    onClick={() => navigate('/userprofilepage')}
                                     className='min-w-32 text-left hover:underline p-2 hover:bg-gray-100'
                                     aria-label='User Profile Page'
                                 >

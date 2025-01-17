@@ -14,6 +14,9 @@ export const useRegister = async (username, email, password) => {
                 fullName: '',
                 birthDay: '',
                 phoneNumber: '',
+                cart: {},
+                photoUrl: '',
+                id: user.uid,
             })
         }
         return userCredential.user

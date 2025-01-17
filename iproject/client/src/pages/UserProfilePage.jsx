@@ -1,13 +1,14 @@
 import React, { useContext, useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
 
 function UserProfilePage() {
-    const { id } = useParams()
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
+    const navigate = useNavigate()
+    const id = user?.uid
 
     const [username, SetUsername] = useState('')
     const [fullName, setFullName] = useState('')

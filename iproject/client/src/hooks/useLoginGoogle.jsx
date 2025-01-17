@@ -1,25 +1,33 @@
 import { signInWithPopup } from "firebase/auth"
 import { auth, db, provider } from "../config/firebase"
-import { doc, setDoc } from "firebase/firestore"
+// import { doc, getDoc, setDoc } from "firebase/firestore"
 
 export const useLoginGoogle = async () => {
     try {
         const userCredential = await signInWithPopup(auth, provider)
         // create user to firestore
-        if (userCredential && !userCredential.user) {
-            const { user } = userCredential
-            const displayName = user.displayName || 'Anonymous'
-            const fullName = user.fullName || ''
+        // if (userCredential && userCredential.user) {
+        //     const { user } = userCredential
+        //     const displayName = user.displayName || 'Anonymous'
+        //     const fullName = user.fullName || ''
 
-            await setDoc(doc(db, 'users', user.uid), {
-                username: displayName,
-                email: user.email,
-                role: 'customer',
-                fullName: fullName,
-                birthDay: '',
-                phoneNumber: '',
-            })
-        }
+        //     const userDocRef = doc(db, 'users', user.uid)
+        //     const userDocSnapshot = await getDoc(userDocRef)
+
+        //     // If user does not exist, create the user document
+        //     if (!userDocSnapshot.exists()) {
+        //         // Create user document in Firestore and wait until it's completed
+        //         await setDoc(userDocRef, {
+        //             username: displayName,
+        //             email: user.email,
+        //             role: 'customer',
+        //             fullName: fullName,
+        //             birthDay: '',
+        //             phoneNumber: '',
+        //             cart: {},
+        //         })
+        //     }
+        // }
         return userCredential.user
     } catch (error) {
         console.error(error)

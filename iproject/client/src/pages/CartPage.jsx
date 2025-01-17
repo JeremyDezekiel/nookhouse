@@ -1,10 +1,11 @@
 import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
-import { useParams } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 
 function CartPage() {
     const { user, isLoading } = useContext(AuthContext)
-    const { id } = useParams()
+    const navigate = useNavigate()
+    const id = user?.uid
 
     useEffect(() => {
         if (!isLoading && !user) {
