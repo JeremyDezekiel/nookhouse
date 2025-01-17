@@ -15,7 +15,7 @@ function AddProductPage() {
         nameLength, setNameLength, descriptionLength, setDescriptionLength, isTouch, isTouchImages, nameError, categoryError, imageError, descriptionError, priceError, stockError, weightError, lengthError, widthError, heightError, colorError, discountError,
         handleDiscount, handleDeleteImage, handleTouch, handleTouchImages,
         validateName, validateCategory, validateImage, validateDescription, validatePrice, validateStock, validateWeight, validateLength, validateWidth, validateHeight, validateColor, validateDiscount
-        } = ValidateInput()
+    } = ValidateInput()
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { user, isLoading } = useContext(AuthContext)
@@ -33,7 +33,7 @@ function AddProductPage() {
         validateImage(images)
     }, [images])
 
-    const handleAddProdcut = async (e) => {
+    const handleAddProduct = async (e) => {
         e.preventDefault()
         validateName(name)
         validateCategory(category)
@@ -97,7 +97,7 @@ function AddProductPage() {
                 </p>
             </section>
             <section>
-                <form className='grid gap-5 mt-5' onSubmit={(e) => handleAddProdcut(e)}>
+                <form className='grid gap-5 mt-5' onSubmit={(e) => handleAddProduct(e)}>
                     <div className='border rounded-md p-10 grid gap-10'>
                         <div className='grid grid-cols-6'>
                             <div className='col-span-2 pe-24'>
@@ -237,8 +237,8 @@ function AddProductPage() {
                                     </div>
                                 )}
                                 <div className='mt-5'>
-                                    <UploadWidget images={images} setImages={setImages} validateImage={validateImage} handleTouchImages={handleTouchImages}/>
-                                    { isTouchImages && imageError && <span className='text-red-600'>{imageError}</span>}
+                                    <UploadWidget images={images} setImages={setImages} validateImage={validateImage} handleTouchImages={handleTouchImages} />
+                                    {isTouchImages && imageError && <span className='text-red-600'>{imageError}</span>}
                                 </div>
                             </div>
                         </div>
@@ -399,7 +399,7 @@ function AddProductPage() {
                                     </div>
                                     {priceError && <p className='text-red-600 absolute'>{priceError}</p>}
                                 </div>
-                                { discountPrice && (
+                                {discountPrice && (
                                     <>
                                         <ArrowBigRightDash />
                                         <div>
@@ -466,8 +466,8 @@ function AddProductPage() {
                             </div>
                         </div>
                         <div className='flex justify-end'>
-                            <button 
-                                type='submit' 
+                            <button
+                                type='submit'
                                 className='border border-green-500 px-10 py-2 rounded-md bg-green-400'
                                 onClick={() => {
                                     handleTouch()

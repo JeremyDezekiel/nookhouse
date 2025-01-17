@@ -139,10 +139,19 @@ export const editProduct = (product, email) => async (dispatch) => {
         await updateDoc(doc(db, 'products', product.id), {
             name: product.name,
             category: product.category,
-            images: [product.image],
+            images: product.images,
             description: product.description,
             price: Number(product.price),
             stock: Number(product.stock),
+            weight: Number(product.weight),
+            length: Number(product.length),
+            width: Number(product.width),
+            height: Number(product.height),
+            color: product.color,
+            discount: product.discount,
+            discountPrice: product.discountPrice,
+            keyword: product.name.toLowerCase(),
+            createdBy: email
             // date: new Date()
         })
         dispatch(getProductsByEmail(email))
