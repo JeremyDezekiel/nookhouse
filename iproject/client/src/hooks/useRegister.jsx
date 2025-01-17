@@ -8,6 +8,7 @@ export const useRegister = async (username, email, password) => {
         // create user to firestore
         if (userCredential) {
             await setDoc(doc(db, 'users', userCredential.user.uid), {
+                id: userCredential.user.uid,
                 username: username,
                 email: email,
                 role: 'customer',
@@ -15,8 +16,7 @@ export const useRegister = async (username, email, password) => {
                 birthDay: '',
                 phoneNumber: '',
                 cart: {},
-                photoUrl: '',
-                id: user.uid,
+                photoURL: '',
             })
         }
         return userCredential.user

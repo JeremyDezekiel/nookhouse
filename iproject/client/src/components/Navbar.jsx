@@ -73,10 +73,10 @@ function Navbar() {
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
-                                <CircleUserIcon />
-                                <span>{profile.username}</span>
+                                {profile?.photoURL ? <img className='size-6 rounded-full' src={profile.photoURL} alt={profile.username}/> : <CircleUserIcon />}
+                                <span>{profile?.username}</span>
                             </div>
-                            <div className='absolute right-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
+                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
                                 {role === 'admin' && (
                                     <button
                                         onClick={() => navigate('/admin')}
