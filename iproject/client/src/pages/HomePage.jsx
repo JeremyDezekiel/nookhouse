@@ -1,12 +1,14 @@
-import React, { useEffect, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import ProductUserCard from '../components/ProductUserCard'
 import { getFilterProducts, getProducts } from '../app/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilteredProducts, setSearch } from '../app/slices/productSlice'
+import { AuthContext } from '../context/AuthContext'
 
 function HomePage() {
     const dispatch = useDispatch()
     const { products, filteredProducts, search } = useSelector(state => state.product)
+    const { isLoading } = useContext(AuthContext)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
@@ -28,6 +30,17 @@ function HomePage() {
             dispatch(getProducts())
             dispatch(setFilteredProducts(products))
     }, [])
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
+                <div
+                    className="w-40 h-40 border-4 border-gray-500 border-dashed rounded-full animate-spin"
+                    style={{ animationDuration: '10s' }}>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div>

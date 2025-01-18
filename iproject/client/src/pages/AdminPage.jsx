@@ -22,12 +22,17 @@ function AdminPage() {
         }
     }, [user, isLoading])
     
-    // if (isLoading) return (
-    //     <div className='flex flex-col justify-center items-center h-[calc(100vh-100px)]'>
-    //         <h1 className='text-2xl'>Loading...</h1>
-    //     </div>
-    // )
-
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
+                <div
+                    className="w-40 h-40 border-4 border-gray-500 border-dashed rounded-full animate-spin"
+                    style={{ animationDuration: '10s' }}>
+                </div>
+            </div>
+        )
+    }
+    
     return (
         <main>
             <h1 className='font-bold md:text-4xl'>Welcome to Admin Page</h1>
