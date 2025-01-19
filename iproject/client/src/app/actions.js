@@ -8,10 +8,12 @@ import {
     getDocs,
     orderBy,
     query,
+    setDoc,
     updateDoc,
     where
 } from 'firebase/firestore'
 import { db } from '../config/firebase'
+import { setCartProduct, setErrorCart, setLoadingCart } from './slices/cartSlice'
 
 export const getProducts = () => async (dispatch) => {
     try {
@@ -117,8 +119,8 @@ export const addProduct = (product) => async (dispatch) => {
             width: Number(product.width),
             height: Number(product.height),
             color: product.color,
-            discount: product.discount,
-            discountPrice: product.discountPrice,
+            discount: Number(product.discount),
+            discountPrice: Number(product.discountPrice),
             keyword: product.name.toLowerCase(),
             createdBy: product.email
             // date: new Date()
@@ -148,8 +150,8 @@ export const editProduct = (product, email) => async (dispatch) => {
             width: Number(product.width),
             height: Number(product.height),
             color: product.color,
-            discount: product.discount,
-            discountPrice: product.discountPrice,
+            discount: Number(product.discount),
+            discountPrice: Number(product.discountPrice),
             keyword: product.name.toLowerCase(),
             createdBy: email
             // date: new Date()
@@ -174,5 +176,49 @@ export const deleteProduct = (id, email) => async (dispatch) => {
         dispatch(setErrorProducts(error.message))
     } finally {
         dispatch(setLoadingProducts(false))
+    }
+}
+
+//  Cart
+
+export const addProductToCart = (idUser, idProduct, product, qty) => async (dispatch) => {
+    try {
+        dispatch(setLoadingCart(true))
+        dispatch(setErrorCart(null))
+
+        const userRef = doc(db, 'users', idUser)
+        const cartsRef = doc(userRef, 'cart', idProduct)
+
+        await setDoc(cartsRef, {
+            ...product,
+            quantity: qty
+        })
+    } catch (error) {
+        console.log(error)
+        dispatch(setErrorCart(error.message))
+    } finally {
+        dispatch(setLoadingCart(false))
+    }
+}
+
+export const getCartByUser = (idUser) => async (dispatch) => {
+    try {
+        dispatch(setLoadingCart(true))
+        dispatch(setErrorCart(null))
+
+        const userRef = doc(db, 'users', idUser)
+        const cartRef = collection(userRef, 'cart')
+
+        const cart = await getDocs(cartRef)
+        const cartStore = cart.docs.map((doc) => ({
+            id: doc.id,
+            ...doc.data()
+    }))
+        dispatch(setCartProduct(cartStore))
+    } catch (error) {
+        console.log(error)
+        dispatch(setErrorCart(error.message))
+    } finally {
+        dispatch(setLoadingCart(false))
     }
 }
