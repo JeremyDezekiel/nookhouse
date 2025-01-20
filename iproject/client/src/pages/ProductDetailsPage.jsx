@@ -7,6 +7,7 @@ import ImagesDetailsProduct from '../components/ImagesDetailsProduct'
 import { AuthContext } from '../context/AuthContext'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function ProductDetailsPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
@@ -22,10 +23,13 @@ function ProductDetailsPage() {
     const [totalQuantity, setTotalQuantity] = useState(0)
 
     const color = {
-        grey: 'bg-[#CBCBCB]',
+        black: 'bg-[#000000]',
         white: 'bg-[#FFFFFF]',
         brown: 'bg-[#A2501D]',
+        grey: 'bg-[#CBCBCB]',
+        cream: 'bg-[#F6E3BA]',
         silver: 'bg-[#F2F6FE]',
+        yellow: 'bg-[#FDE047]',
     }
 
     const dataCategory = [
@@ -58,6 +62,13 @@ function ProductDetailsPage() {
     const handleAddCart = async (qty) => {
         try {
             dispatch(addProductToCart(idUser, idProduct, product, qty))
+            Swal.fire({
+                position: "center",
+                icon: "success",
+                title: "The product has been added to your shopping cart",
+                showConfirmButton: false,
+                timer: 1500
+            })
             dispatch(getCartByUser(idUser))
         } catch (error) {
             console.log(error)

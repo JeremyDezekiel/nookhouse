@@ -261,3 +261,26 @@ export const deleteProductInCart = (idUser, idProduct) => async (dispatch) => {
         dispatch(setLoadingCart(false))
     }
 }
+
+export const checkoutCart = (idUser) => async (dispatch) => {
+    try {
+        dispatch(setLoadingCart(true))
+        dispatch(setErrorCart(null))
+
+        const userRef = doc(db, 'users', idUser)
+        const cartRef = collection(userRef, 'cart')
+
+        const querySnapshot = await getDocs(cartRef)
+
+        querySnapshot.forEach((docSnapshot) => {
+            deleteDoc(doc(cartRef, docSnapshot.id))
+        })
+
+        dispatch(getCartByUser(idUser))
+    } catch (error) {
+        console.log(error)
+        dispatch(setErrorCart(error.message))
+    } finally {
+        dispatch(setLoadingCart(false))
+    }
+}

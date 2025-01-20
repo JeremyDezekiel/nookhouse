@@ -204,6 +204,7 @@ function AddProductPage() {
                                         <option value='grey'>Grey</option>
                                         <option value='cream'>Cream</option>
                                         <option value='silver'>Silver</option>
+                                        <option value='yellow'>Yellow</option>
                                     </select>
                                 </div>
                                 {colorError && <span className='text-red-600'>{colorError}</span>}
