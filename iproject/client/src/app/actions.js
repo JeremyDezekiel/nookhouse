@@ -128,7 +128,6 @@ export const addProduct = (product) => async (dispatch) => {
             discountPrice: Number(product.discountPrice),
             keyword: product.name.toLowerCase(),
             createdBy: product.email
-            // date: new Date()
         })
         dispatch(getProductsByEmail(product.email))
     } catch (error) {
@@ -159,7 +158,6 @@ export const editProduct = (product, email) => async (dispatch) => {
             discountPrice: Number(product.discountPrice),
             keyword: product.name.toLowerCase(),
             createdBy: email
-            // date: new Date()
         })
         dispatch(getProductsByEmail(email))
     } catch (error) {
@@ -194,9 +192,7 @@ export const addProductToCart = (idUser, idProduct, product, qty) => async (disp
         const userRef = doc(db, 'users', idUser)
         const cartsRef = doc(userRef, 'cart', idProduct)
         const dataCart = await getDoc(cartsRef)
-        console.log(dataCart.data(), "dataCart")
         const detailCart = dataCart.data()
-        console.log(detailCart, "detailCart")
         if (detailCart) {
             await setDoc(cartsRef, {
                 ...product,

@@ -1,12 +1,11 @@
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { ArrowBigRightDash, Check, X } from 'lucide-react'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { addProduct } from '../app/actions'
 import { useDispatch } from 'react-redux'
-import UploadWidget from '../components/UploadWidget'
-import ImagesAddProduct from '../components/imagesAddProduct'
+import { ImagesAddProduct, UploadWidget } from '../components'
 import { ValidateInput } from '../services/ValidateInput'
 
 function AddProductPage() {

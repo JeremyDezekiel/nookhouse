@@ -1,23 +1,23 @@
-import HomePage from "./HomePage"
-import AdminPage from "./AdminPage"
-import LoginPage from "./LoginPage"
-import RegisterPage from "./RegisterPage"
-import ErrorPage from "./ErrorPage"
 import AddProductPage from "./AddProductPage"
-import EditProductPage from "./EditProductPage"
-import UserProfilePage from "./UserProfilePage"
+import AdminPage from "./AdminPage"
 import CartPage from "./CartPage"
+import EditProductPage from "./EditProductPage"
+import ErrorPage from "./ErrorPage"
+import HomePage from "./HomePage"
+import LoginPage from "./LoginPage"
 import ProductDetailsPage from "./ProductDetailsPage"
+import RegisterPage from "./RegisterPage"
+import UserProfilePage from "./UserProfilePage"
 
 export {
-    HomePage,
-    AdminPage,
-    LoginPage,
-    RegisterPage,
-    ErrorPage,
     AddProductPage,
-    EditProductPage,
-    UserProfilePage,
+    AdminPage,
     CartPage,
+    EditProductPage,
+    ErrorPage,
+    HomePage,
+    LoginPage,
     ProductDetailsPage,
+    RegisterPage,
+    UserProfilePage,
 }

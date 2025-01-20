@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from 'react'
-import ProductUserCard from '../components/ProductUserCard'
+import { ProductUserCard } from '../components'
 import { getFilterProducts, getProducts } from '../app/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilteredProducts, setSearch } from '../app/slices/productSlice'

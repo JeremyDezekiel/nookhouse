@@ -3,10 +3,10 @@ import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkoutCart, getCartByUser, deleteProductInCart, editProductInCart } from '../app/actions'
-import ProductCart from '../components/ProductCart'
 import Swal from 'sweetalert2'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
+import { ProductCart } from '../components'
 
 function CartPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
@@ -27,18 +27,18 @@ function CartPage() {
     const handleCheckout = () => {
         Swal.fire({
             title: "Are you sure?",
-            text: "You won't be able to revert this!",
+            text: "You won't be able to return!",
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
-            confirmButtonText: "Yes, checkout it!"
+            confirmButtonText: "Yes, Im sure!"
         }).then((result) => {
             if (result.isConfirmed) {
                 dispatch(checkoutCart(idUser))
                 Swal.fire({
                     title: "Sweet!",
-                    text: "Modal with a custom image.",
+                    text: "Your order has been received and is being processed.",
                     imageUrl: "https://media2.giphy.com/media/v1.Y2lkPTc5MGI3NjExcXRjYmxpZTQ3djcwZHB3YzFua21hOHJqbHAzYjhsMzludWQxanY3OSZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/EEehD3gmtFcHmQ4nhI/giphy.gif",
                     imageWidth: 400,
                     imageHeight: 200,
@@ -72,7 +72,7 @@ function CartPage() {
                 dispatch(deleteProductInCart(idUser, idProduct))
                 Swal.fire({
                     title: "Deleted!",
-                    text: "Your product has been deleted.",
+                    text: "Your product has been delete.",
                     icon: "success"
                 })
             }

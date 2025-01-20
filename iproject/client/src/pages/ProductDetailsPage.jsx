@@ -3,11 +3,11 @@ import { useDispatch, useSelector } from 'react-redux'
 import { useParams } from 'react-router-dom'
 import { addProductToCart, getCartByUser, getProduct } from '../app/actions'
 import { ArrowLeftCircle, ArrowRightCircle, Circle, Drill, ThumbsUp, Truck, Warehouse } from 'lucide-react'
-import ImagesDetailsProduct from '../components/ImagesDetailsProduct'
 import { AuthContext } from '../context/AuthContext'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
+import { ImagesDetailsProduct } from '../components'
 
 function ProductDetailsPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)

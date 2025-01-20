@@ -1,12 +1,11 @@
 import { ArrowBigRightDash, Check, X } from 'lucide-react'
-import React, { useContext, useEffect, useState } from 'react'
+import React, { useContext, useEffect } from 'react'
 import { AuthContext } from '../context/AuthContext'
 import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { editProduct, getProduct } from '../app/actions'
-import UploadWidget from '../components/UploadWidget'
-import ImagesAddProduct from '../components/imagesAddProduct'
+import { ImagesAddProduct, UploadWidget } from '../components'
 import { ValidateInput } from '../services/ValidateInput'
 
 function EditProductPage() {

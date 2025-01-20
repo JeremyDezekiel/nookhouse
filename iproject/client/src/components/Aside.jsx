@@ -1,7 +1,7 @@
 import React, { useContext } from 'react'
 import { ThemeContext } from '../context/ThemeContext'
 
-function AdminAside() {
+function Aside() {
     const { theme } = useContext(ThemeContext)
     
     return (
@@ -50,4 +50,4 @@ function AdminAside() {
     )
 }
 
-export default AdminAside
+export default Aside

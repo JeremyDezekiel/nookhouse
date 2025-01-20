@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { AuthContext } from '../context/AuthContext'
 import { Eye, EyeOff } from 'lucide-react'
-import AdminAside from '../components/AdminAside'
 import { ThemeContext } from '../context/ThemeContext'
 import { ValidateInput } from '../services/ValidateInput'
 import { ToggleShowPass } from '../services/ToggleShowPass'
 import { useRegister } from '../hooks/useRegister'
+import { Aside } from '../components'
 
 function RegisterPage() {
     const { user, isLoading } = useContext(AuthContext)
@@ -57,7 +57,7 @@ function RegisterPage() {
 
     return (
         <main className='lg:grid grid-cols-6 pb-12 mb-10'>
-            <AdminAside />
+            <Aside/>
             <section className={`col-span-3 border p-5 grid gap-5 ${theme === 'dark' && 'border-[#757575]'}`}>
                 <form className='grid gap-5' onSubmit={(e) => handleRegisterForm(e)}>
                     <h1 className='font-medium text-xl'>Register</h1>
