@@ -191,7 +191,8 @@ export const addProductToCart = (idUser, idProduct, product, qty) => async (disp
 
         await setDoc(cartsRef, {
             ...product,
-            quantity: qty
+            quantity: qty,
+            totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
         })
     } catch (error) {
         console.log(error)
@@ -215,6 +216,26 @@ export const getCartByUser = (idUser) => async (dispatch) => {
             ...doc.data()
     }))
         dispatch(setCartProduct(cartStore))
+    } catch (error) {
+        console.log(error)
+        dispatch(setErrorCart(error.message))
+    } finally {
+        dispatch(setLoadingCart(false))
+    }
+}
+
+export const editProductInCart = (idUser, idProduct, productsCart, qtyProduct) => async (dispatch) => {
+    try {
+        dispatch(setLoadingCart(true))
+        dispatch(setErrorCart(null))
+
+        const userRef = doc(db, 'users', idUser)
+        const cartsRef = doc(userRef, 'cart', idProduct)
+
+        await updateDoc(cartsRef, {
+            quantity: qtyProduct,
+            totalPrice: productsCart.discount ? productsCart.discountPrice * qtyProduct : productsCart.price * qtyProduct
+        })
     } catch (error) {
         console.log(error)
         dispatch(setErrorCart(error.message))

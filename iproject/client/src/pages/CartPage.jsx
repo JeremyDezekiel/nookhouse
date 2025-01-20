@@ -6,7 +6,7 @@ import { getCartByUser } from '../app/actions'
 import ProductCart from '../components/ProductCart'
 
 function CartPage() {
-    const { user, isLoading } = useContext(AuthContext)
+    const { user, isLoading, profile, setProfile } = useContext(AuthContext)
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const idUser = user?.uid
@@ -48,7 +48,7 @@ function CartPage() {
                 cartProduct.lenght !== 0 ? (
                     cartProduct.map((productsCart) => {
                         return (
-                            <ProductCart key={productsCart.id} productsCart={productsCart}/>
+                            <ProductCart key={productsCart.id} productsCart={productsCart} idUser={idUser} profile={profile} setProfile={setProfile} cartProduct={cartProduct} />
                         )
                     })
                 ) : (

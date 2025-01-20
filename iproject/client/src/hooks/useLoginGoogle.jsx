@@ -28,7 +28,7 @@ export const useLoginGoogle = async () => {
                     fullName: '',
                     birthDay: '',
                     phoneNumber: '',
-                    cart: {},
+                    totalCartQty: 0
                 })
             }
         }

@@ -1,7 +1,53 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react'
+import { useDispatch } from 'react-redux'
+import { editProductInCart, getCartByUser } from '../app/actions'
+import { doc, updateDoc } from 'firebase/firestore'
+import { db } from '../config/firebase'
 
-function ProductCart({ productsCart }) {
+function ProductCart({ productsCart, idUser, profile, setProfile, cartProduct }) {
+    const dispatch = useDispatch()
+
+    const idProduct = productsCart?.id
+
+    const [qtyProductUser, setQtyProductUser] = useState(productsCart.quantity)
+    const [totalPriceUser, setTotalPriceUser] = useState(productsCart.totalPrice)
+
+    const total = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
+
+    const handleUpdate = async (qty) => {
+        try {
+            const updatedTotalPrice = productsCart.discount ? productsCart.discountPrice * qty : productsCart.price * qty
+            dispatch(editProductInCart(idUser, idProduct, productsCart, qty, updatedTotalPrice))
+            dispatch(getCartByUser(idUser))
+        } catch (error) {
+            console.log(error)
+        }
+    }
+    const updateUser = async () => {
+        try {
+            await updateDoc(doc(db, 'users', idUser), {
+                totalCartQty: total
+            })
+        } catch (error) {
+            console.error()
+        }
+    }
+
+    useEffect(() => {
+        setProfile({
+            ...profile,
+            totalCartQty:total
+        })
+        if (idUser && total !== profile.totalCartQty) {
+            updateUser()
+        }
+    }, [total])
+
+    useEffect(() => {
+        setTotalPriceUser(productsCart.totalPrice)
+        setQtyProductUser(productsCart.quantity)
+    }, [productsCart])
     return (
         <div className='border-b-[1px] py-5'>
             <div className='flex justify-between'>
@@ -16,30 +62,39 @@ function ProductCart({ productsCart }) {
                                 <h2 className='text-red-500 text-2xl ms-5'>Rp {productsCart.discountPrice.toLocaleString()}</h2>
                             )}
                         </div>
-                        <p>Berat Product: {productsCart.weight} Kg</p>
+                        <p>Berat Product: {productsCart.weight / 1000} Kg</p>
                         <p>Dimensi Product: {productsCart.length} x {productsCart.width} x {productsCart.height}</p>
                     </div>
                 </div>
                 <div className='flex gap-40'>
                     <div className='flex border m-auto rounded-full items-center justify-end h-fit'>
                         <button
-                            className={`px-4 py-2 rounded-s-full`}
+                            className={`px-4 py-2 rounded-s-full ${qtyProductUser === 1 ? 'text-gray-300' : 'hover:bg-gray-100'}`}
+                            onClick={() => {
+                                const newQty = qtyProductUser - 1
+                                setQtyProductUser(newQty)
+                                handleUpdate(newQty)
+                            }}
+                            disabled={qtyProductUser === 1}
                         >
                             -
                         </button>
-                        <p className='px-4'>{productsCart.quantity}</p>
+                        <p className='px-4'>{qtyProductUser}</p>
                         <button
-                            className={`px-4 py-2 rounded-e-full `}
+                            className={`px-4 py-2 rounded-e-full ${qtyProductUser === productsCart.stock ? 'text-gray-300' : 'hover:bg-gray-100'}`}
+                            onClick={() => {
+                                const newQty = qtyProductUser + 1
+                                setQtyProductUser(newQty)
+                                handleUpdate(newQty)
+                            }}
+                            disabled={qtyProductUser === productsCart.stock}
                         >
                             +
                         </button>
                     </div>
+                        {/* <button onClick={() => handleUpdate()}>test</button> */}
                     <div className='m-auto'>
-                        {productsCart.discountPrice ? (
-                            <h1 className='text-3xl'>Rp {productsCart.discountPrice.toLocaleString()}</h1>
-                        ) : (
-                            <h1 className='text-3xl'>Rp {productsCart.price.toLocaleString()}</h1>
-                        )}
+                        <h1 className='text-3xl'>Rp {totalPriceUser.toLocaleString()}</h1>
                     </div>
                 </div>
             </div>
