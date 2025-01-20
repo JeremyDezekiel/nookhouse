@@ -8,10 +8,12 @@ import { ValidateInput } from '../services/ValidateInput'
 import { ToggleShowPass } from '../services/ToggleShowPass'
 import { useLogin } from '../hooks/useLogin'
 import { useLoginGoogle } from '../hooks/useLoginGoogle'
+import { doc, getDoc } from 'firebase/firestore'
+import { db } from '../config/firebase'
 
 function LoginPage() {
     const { theme } = useContext(ThemeContext)
-    const { user, isLoading } = useContext(AuthContext)
+    const { user, isLoading, setUser, setUsername, setRole, setProfile } = useContext(AuthContext)
     const { emailRegex, email, setEmail, password, setPassword, emailError, validateEmail, passwordError, validateLoginPassword } = ValidateInput()
     const { showPassword, toggleShowPassword } = ToggleShowPass()
     const navigate = useNavigate()
@@ -48,6 +50,20 @@ function LoginPage() {
     const handleSignInWithGoogle = async () => {
         try {
             const result = await useLoginGoogle()
+            const userCredential = await getDoc(doc(db, 'users', result.uid))
+            console.log(userCredential.data(), "loginGoogle")
+            const userData = userCredential.data()
+            if (userData) {
+                setUser(userData)
+                console.log(userData, "user")
+                console.log(user, "userAuth")
+                setUsername(userData.username)
+                console.log(userData.username, "username")
+                setRole(userData.role)
+                console.log(userData.role, "role")
+                setProfile(userData)
+                console.log(userData, "userData")
+            }
             Swal.fire({
                 position: "top-end",
                 icon: "success",
