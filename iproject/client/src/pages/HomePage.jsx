@@ -12,19 +12,21 @@ function HomePage() {
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
+    const [filterColor, setFilterColor] = useState('')
 
     const handleReset = () => {
         setSort('')
         setFilter('')
         dispatch(setSearch(''))
+        setFilterColor('')
     }
     
     useEffect(() => {
         const handleFilter = async () => {
-            dispatch(getFilterProducts(filter, sort, search))
+            dispatch(getFilterProducts(filter, sort, search, filterColor))
         }
         handleFilter()
-    }, [filter, sort, search])
+    }, [filter, sort, search, filterColor])
 
     useEffect(() => {
             dispatch(getProducts())
@@ -74,7 +76,23 @@ function HomePage() {
                     <option value='asc'>Price: Low to High</option>
                     <option value='desc'>price: High to Low</option>
                 </select>
-                { filter || sort || search ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
+
+                <select
+                    className='border py-1 px-2 rounded-md cursor-pointer'
+                    value={filterColor}
+                    onChange={(e) => setFilterColor(e.target.value)}
+                >
+                    <option value='' hidden>Filter by Color</option>
+                    <option value=''>All</option>
+                    <option value='black'>Black</option>
+                    <option value='white'>White</option>
+                    <option value='brown'>Brown</option>
+                    <option value='grey'>Grey</option>
+                    <option value='cream'>Cream</option>
+                    <option value='silver'>Silver</option>
+                    <option value='yellow'>Yellow</option>
+                </select>
+                { filter || sort || search || filterColor ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
             </div>
             <div className='w-full text-center text-9xl'>Banner</div>
             <div>

@@ -56,13 +56,18 @@ export const getProductsByEmail = (email) => async (dispatch) => {
     }
 }
 
-export const getFilterProducts = (filter, sort, search) => async (dispatch) => {
+export const getFilterProducts = (filter, sort, search, filterColor) => async (dispatch) => {
     let q = query(collection(db, 'products'))
     try {
         dispatch(setLoadingProducts(true))
         dispatch(setErrorProducts(null))
+        
         if (filter) {
             q = query(q, where('category', '==', filter))
+        }
+
+        if (search) {
+            q = query(q, where('keyword', '>=', search), where('keyword', '<=', search + '\uf8ff'))
         }
 
         if (sort == 'asc') {
@@ -71,8 +76,8 @@ export const getFilterProducts = (filter, sort, search) => async (dispatch) => {
             q = query(q, orderBy('price', 'desc'))
         }
 
-        if (search) {
-            q = query(q, where('name', '>=', search), where('name', '<=', search + '\uf8ff'))
+        if (filterColor) {
+            q = query(q, where('color', '==', filterColor))
         }
 
         const products = await getDocs(q)
@@ -188,12 +193,23 @@ export const addProductToCart = (idUser, idProduct, product, qty) => async (disp
 
         const userRef = doc(db, 'users', idUser)
         const cartsRef = doc(userRef, 'cart', idProduct)
-
-        await setDoc(cartsRef, {
-            ...product,
-            quantity: qty,
-            totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
-        })
+        const dataCart = await getDoc(cartsRef)
+        console.log(dataCart.data(), "dataCart")
+        const detailCart = dataCart.data()
+        console.log(detailCart, "detailCart")
+        if (detailCart) {
+            await setDoc(cartsRef, {
+                ...product,
+                quantity: qty + Number(detailCart.quantity ?? 0),
+                totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
+            })
+        } else {
+            await setDoc(cartsRef, {
+                ...product,
+                quantity: qty,
+                totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
+            })
+        }
     } catch (error) {
         console.log(error)
         dispatch(setErrorCart(error.message))
