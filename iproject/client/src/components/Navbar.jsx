@@ -69,11 +69,11 @@ function Navbar() {
                     <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
                             <ShoppingCart size={35} />
-                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>{profile.totalCartQty ? profile.totalCartQty : 0}</p>
+                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
-                                {profile?.photoURL ? <img className='size-6 rounded-full' src={profile.photoURL} alt={profile.username}/> : <CircleUserIcon />}
+                                {profile?.photoURL ? <img className='size-6 rounded-full' src={profile?.photoURL} alt={profile?.username}/> : <CircleUserIcon />}
                                 <span>{profile?.username}</span>
                             </div>
                             <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
