@@ -203,12 +203,7 @@ function AddProductPage() {
                                         <option value='brown'>Brown</option>
                                         <option value='grey'>Grey</option>
                                         <option value='cream'>Cream</option>
-                                        {/* <option value='Home Improvement'>Home Improvement</option>
-                                        <option value='Bed & Bath'>Bed & Bath</option>
-                                        <option value='Hobbies & Lifestyle'>Hobbies & Lifestyle</option>
-                                        <option value='Health & Sports'>Health & Sports</option>
-                                        <option value='Toys & Babies'>Toys & Babies</option>
-                                        <option value='Automotive'>Automotive</option> */}
+                                        <option value='silver'>Silver</option>
                                     </select>
                                 </div>
                                 {colorError && <span className='text-red-600'>{colorError}</span>}

@@ -23,7 +23,9 @@ function ProductDetailsPage() {
 
     const color = {
         grey: 'bg-[#CBCBCB]',
-        white: 'bg-[#FFFFFF]'
+        white: 'bg-[#FFFFFF]',
+        brown: 'bg-[#A2501D]',
+        silver: 'bg-[#F2F6FE]',
     }
 
     const dataCategory = [
@@ -83,9 +85,9 @@ function ProductDetailsPage() {
             ...profile,
             totalCartQty: totalQuantity
         })
-        // if (idUser && totalQuantity !== profile?.totalCartQty) {
-        //     updateUser()
-        // }
+        if (idUser && totalQuantity !== profile?.totalCartQty) {
+            updateUser()
+        }
     }, [cartProduct, totalQuantity])
     
     useEffect(() => {
