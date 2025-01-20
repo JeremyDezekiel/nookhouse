@@ -243,3 +243,21 @@ export const editProductInCart = (idUser, idProduct, productsCart, qtyProduct) =
         dispatch(setLoadingCart(false))
     }
 }
+
+export const deleteProductInCart = (idUser, idProduct) => async (dispatch) => {
+    try {
+        dispatch(setLoadingCart(true))
+        dispatch(setErrorCart(null))
+
+        const userRef = doc(db, 'users', idUser)
+
+        await deleteDoc(doc(userRef, 'cart', idProduct))
+
+        dispatch(getCartByUser(idUser))
+    } catch (error) {
+        console.log(error)
+        dispatch(setErrorCart(error.message))
+    } finally {
+        dispatch(setLoadingCart(false))
+    }
+}

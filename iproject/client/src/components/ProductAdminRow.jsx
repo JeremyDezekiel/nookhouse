@@ -26,7 +26,7 @@ function ProductAdminRow({ product, index }) {
                 dispatch(deleteProduct(id, email))
                 Swal.fire({
                     title: "Deleted!",
-                    text: "Your file has been deleted.",
+                    text: "Your product has been deleted.",
                     icon: "success"
                 });
             }

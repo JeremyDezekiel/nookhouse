@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { Trash2 } from 'lucide-react'
 import { useDispatch } from 'react-redux'
-import { editProductInCart, getCartByUser } from '../app/actions'
+import { deleteProductInCart, editProductInCart, getCartByUser } from '../app/actions'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
+import Swal from 'sweetalert2'
 
 function ProductCart({ productsCart, idUser, profile, setProfile, cartProduct }) {
     const dispatch = useDispatch()
@@ -32,6 +33,27 @@ function ProductCart({ productsCart, idUser, profile, setProfile, cartProduct })
         } catch (error) {
             console.error()
         }
+    }
+
+    const handleDeleteProductInCart = () => {
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                dispatch(deleteProductInCart(idUser, idProduct))
+                Swal.fire({
+                    title: "Deleted!",
+                    text: "Your product has been deleted.",
+                    icon: "success"
+                });
+            }
+        });
     }
 
     useEffect(() => {
@@ -92,7 +114,6 @@ function ProductCart({ productsCart, idUser, profile, setProfile, cartProduct })
                             +
                         </button>
                     </div>
-                        {/* <button onClick={() => handleUpdate()}>test</button> */}
                     <div className='m-auto'>
                         <h1 className='text-3xl'>Rp {totalPriceUser.toLocaleString()}</h1>
                     </div>
@@ -100,6 +121,7 @@ function ProductCart({ productsCart, idUser, profile, setProfile, cartProduct })
             </div>
             <div className='flex justify-end mt-5'>
                 <button
+                    onClick={() => handleDeleteProductInCart()}
                 >
                     <Trash2 />
                 </button>
