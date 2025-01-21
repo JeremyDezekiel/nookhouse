@@ -5,14 +5,19 @@ import { useDispatch, useSelector } from 'react-redux'
 import { setFilteredProducts, setSearch } from '../app/slices/productSlice'
 import { AuthContext } from '../context/AuthContext'
 
+const Page_Size = 10
+
 function HomePage() {
     const dispatch = useDispatch()
-    const { products, filteredProducts, search } = useSelector(state => state.product)
+    const { products, filteredProducts, search, loadingProducts } = useSelector(state => state.product)
     const { isLoading } = useContext(AuthContext)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
     const [filterColor, setFilterColor] = useState('')
+    const [totalPages, setTotalPages] = useState(1)
+    const [currentPage, setCurrentPage] = useState(1)
+    // console.log(totalPages)
 
     const handleReset = () => {
         setSort('')
@@ -20,20 +25,23 @@ function HomePage() {
         dispatch(setSearch(''))
         setFilterColor('')
     }
+
+    const handleNextPage = () => setCurrentPage((prevPage) => prevPage + 1)
+    const handlePrevPage = () => setCurrentPage((prevPage) => prevPage - 1)
     
     useEffect(() => {
         const handleFilter = async () => {
-            dispatch(getFilterProducts(filter, sort, search, filterColor))
+            dispatch(getFilterProducts(filter, sort, search, filterColor, Page_Size, setTotalPages, setCurrentPage, currentPage))
         }
         handleFilter()
-    }, [filter, sort, search, filterColor])
+    }, [filter, sort, search, filterColor, currentPage])
 
     useEffect(() => {
             dispatch(getProducts())
             dispatch(setFilteredProducts(products))
     }, [])
 
-    if (isLoading) {
+    if (isLoading ) {
         return (
             <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
                 <div
@@ -98,21 +106,46 @@ function HomePage() {
                 Banner
             </div>
             <div>
-                <div className='grid grid-cols-5 gap-5'>
+                <div className="grid grid-cols-5 gap-5">
                     {
-                        filteredProducts.length !== 0 ? (
-                            filteredProducts.map((filteredProduct) => {
-                                return (
-                                    <ProductUserCard key={filteredProduct.id} filteredProduct={filteredProduct} />
-                                )
-                            })
-                        ) : (
-                            <div className='col-span-6 text-center'>
-                                <p>No Data Products</p>
+                        !filteredProducts || loadingProducts ? (
+                            <div className="col-span-5 text-center text-4xl">
+                                <h1>Loading ...</h1>
                             </div>
+                        ) : (
+                            filteredProducts.length !== 0 ? (
+                                filteredProducts.map((filteredProduct) => {
+                                    return (
+                                        <ProductUserCard key={filteredProduct.id} filteredProduct={filteredProduct} />
+                                    );
+                                })
+                            ) : (
+                                <div className="col-span-5 text-center">
+                                    <p>No Data Products</p>
+                                </div>
+                            )
                         )
                     }
                 </div>
+            </div>
+            <div className='flex items-center justify-end gap-4 mt-10'>
+                <button
+                    className={`bg-blue-700 text-white py-1 px-2 rounded-lg ${currentPage === 1 || currentPage === 0 ? 'bg-gray-400' : 'hover:bg-blue-600'}`}
+                    onClick={handlePrevPage}
+                    disabled={currentPage === 1 || currentPage === 0}
+                >
+                    Prev
+                </button>
+                <p>
+                    Page {currentPage} of {totalPages}
+                </p>
+                <button 
+                    className={`bg-blue-700 text-white py-1 px-2 rounded-lg ${currentPage === totalPages ? 'bg-gray-400' : 'hover:bg-blue-600'}`}
+                    onClick={handleNextPage}
+                    disabled={currentPage === totalPages}
+                >
+                    Next
+                </button>
             </div>
         </div>
     )

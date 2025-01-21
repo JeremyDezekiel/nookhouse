@@ -10,7 +10,9 @@ import {
     query,
     setDoc,
     updateDoc,
-    where
+    where,
+    limit,
+    startAfter
 } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import { setCartProduct, setErrorCart, setLoadingCart } from './slices/cartSlice'
@@ -56,7 +58,7 @@ export const getProductsByEmail = (email) => async (dispatch) => {
     }
 }
 
-export const getFilterProducts = (filter, sort, search, filterColor) => async (dispatch) => {
+export const getFilterProducts = (filter, sort, search, filterColor, Page_Size, setTotalPages, setCurrentPage, currentPage) => async (dispatch) => {
     let q = query(collection(db, 'products'))
     try {
         dispatch(setLoadingProducts(true))
@@ -80,6 +82,37 @@ export const getFilterProducts = (filter, sort, search, filterColor) => async (d
             q = query(q, where('color', '==', filterColor))
         }
 
+        // Get Total Pages
+        const totalFilteredProducts = (await getDocs(q)).size
+        const calculateTotalPage = Math.ceil(totalFilteredProducts / Page_Size)
+        setTotalPages(calculateTotalPage)
+        // console.log(totalFilteredProducts, "filterProduct")
+
+        // reset pagination
+        if (calculateTotalPage === 0) {
+            setCurrentPage(0) 
+        } else if (currentPage === 0 || currentPage > calculateTotalPage) {
+            setCurrentPage(1)
+        }
+
+        q = query(q, limit(Page_Size))
+
+        // Query pagination
+        if (currentPage > 1) {
+            // page 1 = 0
+            // page 2 = 10
+            // page 3 = 20
+
+            const prevPageSnapshots = await getDocs(query(q, limit((currentPage - 1) * Page_Size)))
+            // curent page (1 - 1) * 10 = 0
+            // curent page (2 - 1) * 10 = 10
+            // curent page (3 - 1) * 10 = 20
+            const lastVisible = prevPageSnapshots.docs[prevPageSnapshots.docs.length-1]
+
+            q = query(q, startAfter(lastVisible), limit(Page_Size))
+        }
+
+        // Get Products by query
         const products = await getDocs(q)
         const productsStore = products.docs.map((doc) => ({
             id: doc.id,
