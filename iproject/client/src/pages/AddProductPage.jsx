@@ -59,8 +59,7 @@ function AddProductPage() {
                 imageUrl: images[0],
                 imageWidth: 400,
                 imageHeight: 400,
-                imageAlt: name,
-                icon: "success"
+                imageAlt: name
             })
             navigate('/admin')
             setName('')

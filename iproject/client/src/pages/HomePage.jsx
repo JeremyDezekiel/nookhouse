@@ -94,13 +94,11 @@ function HomePage() {
                 </select>
                 { filter || sort || search || filterColor ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
             </div>
-            <div className='w-full text-center text-9xl'>Banner</div>
-            <div>
-
+            <div className='w-full text-center text-9xl'>
+                Banner
             </div>
             <div>
-                <h1 className='text-center'>Products</h1>
-                <div className='grid grid-cols-6 gap-5'>
+                <div className='grid grid-cols-5 gap-5'>
                     {
                         filteredProducts.length !== 0 ? (
                             filteredProducts.map((filteredProduct) => {

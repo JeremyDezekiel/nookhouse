@@ -51,18 +51,12 @@ function LoginPage() {
         try {
             const result = await useLoginGoogle()
             const userCredential = await getDoc(doc(db, 'users', result.uid))
-            console.log(userCredential.data(), "loginGoogle")
             const userData = userCredential.data()
             if (userData) {
                 setUser(userData)
-                console.log(userData, "user")
-                console.log(user, "userAuth")
                 setUsername(userData.username)
-                console.log(userData.username, "username")
                 setRole(userData.role)
-                console.log(userData.role, "role")
                 setProfile(userData)
-                console.log(userData, "userData")
             }
             Swal.fire({
                 position: "top-end",
