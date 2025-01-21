@@ -71,9 +71,9 @@ export const getFilterProducts = (filter, sort, search, filterColor) => async (d
         }
 
         if (sort == 'asc') {
-            q = query(q, orderBy('price', 'asc'))
+            q = query(q, orderBy('discountPrice', 'asc'))
         } else if (sort == 'desc') {
-            q = query(q, orderBy('price', 'desc'))
+            q = query(q, orderBy('discountPrice', 'desc'))
         }
 
         if (filterColor) {

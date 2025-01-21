@@ -33,7 +33,7 @@ export const ValidateInput = () => {
     const [width, setWidth] = useState('')
     const [height, setHeight] = useState('')
     const [color, setColor] = useState('')
-    const [discount, setDiscount] = useState('')
+    const [discount, setDiscount] = useState(0)
     const [discountPrice, setDiscountPrice] = useState('')
 
     const [nameLength, setNameLength] = useState(0)
@@ -136,8 +136,10 @@ export const ValidateInput = () => {
     // function validate data product
 
     const handleDiscount = () => {
-        if (discount > 0 && discount <= 90 && price > 0) {
+        if (discount >= 0 && discount <= 90 && price > 0) {
             setDiscountPrice(price - (price * (discount / 100)))
+        } else if (discount < 0) {
+            setDiscountPrice('')
         } else {
             setDiscountPrice('')
         }
@@ -245,7 +247,13 @@ export const ValidateInput = () => {
     }
 
     const validateDiscount = (discount) => {
-        if (discount > 90) {
+        if (isNaN(discount)) {
+            setDiscountError('Please enter a valid number for the discount.')
+        } else if (discount.trim() === '') {
+            setDiscountError('Please enter a discount or 0%.')
+        } else if (discount < 0) {
+            setDiscountError('Enter a discount greater than or equal to 0%.')
+        } else if (discount > 90) {
             setDiscountError('Enter a discount of less than 90%.')
         } else {
             setDiscountError('')
