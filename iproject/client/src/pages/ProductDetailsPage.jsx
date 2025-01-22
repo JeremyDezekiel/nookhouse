@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { addProductToCart, getCartByUser, getProduct } from '../app/actions'
 import { ArrowLeftCircle, ArrowRightCircle, Circle, Drill, ThumbsUp, Truck, Warehouse } from 'lucide-react'
 import { AuthContext } from '../context/AuthContext'
@@ -12,6 +12,7 @@ import { ImagesDetailsProduct } from '../components'
 function ProductDetailsPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { id } = useParams()
     const { product } = useSelector(state => state.product)
     const { cartProduct } = useSelector(state => state.cart)
