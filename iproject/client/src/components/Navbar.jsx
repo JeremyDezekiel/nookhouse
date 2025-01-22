@@ -46,10 +46,49 @@ function Navbar() {
 
     return (
         <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 xl:grid-cols-6 pt-5 px-5 lg:px-10`}>
-            <div className='w-full flex'>
-                {theme === 'light' ? <img className='w-fit xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-72 cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
+            <div
+                className='w-full flex lg:hidden relative'
+            >
+                {
+                    theme === 'light' ? (
+                        <img
+                            className='absolute bottom-0 lg:relative cursor-pointer'
+                            src={logo}
+                            alt='logo'
+                            onClick={() => navigate('/')}
+                        />
+                    ) : (
+                        <img
+                            className='absolute bottom-0 lg:relative cursor-pointer'
+                            src={logoDarkMode}
+                            alt='logo'
+                            onClick={() => navigate('/')}
+                        />
+                    )
+                }
             </div>
-            <div className='flex xl:hidden col-span-2 justify-end gap-2 lg:gap-5 pb-5'>
+            <div
+                className='w-full hidden lg:flex'
+            >
+                {
+                    theme === 'light' ? (
+                        <img
+                            className='xl:w-72 cursor-pointer'
+                            src={logo}
+                            alt='logo'
+                            onClick={() => navigate('/')}
+                        />
+                    ) : (
+                        <img
+                            className='xl:w-72 cursor-pointer'
+                            src={logoDarkMode}
+                            alt='logo'
+                            onClick={() => navigate('/')}
+                        />
+                    )
+                }
+            </div>
+            <div className='flex xl:hidden col-span-2 justify-end gap-2 lg:gap-5 pb-1 items-center'>
                 {user ? (
                     <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
@@ -58,7 +97,7 @@ function Navbar() {
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
-                                {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username}/> : <CircleUserIcon />}
+                                {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username} /> : <CircleUserIcon />}
                                 <span>{profile?.username}</span>
                             </div>
                             <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
@@ -119,7 +158,7 @@ function Navbar() {
                         value={search}
                         onChange={(e) => dispatch(setSearch(e.target.value.toLowerCase()))}
                     />
-                    <button 
+                    <button
                         className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'
                         type='submit'
                     >
@@ -136,7 +175,7 @@ function Navbar() {
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
-                                {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username}/> : <CircleUserIcon />}
+                                {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username} /> : <CircleUserIcon />}
                                 <span>{profile?.username}</span>
                             </div>
                             <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
