@@ -4,6 +4,7 @@ import { AuthContext } from '../context/AuthContext'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
+import { UploadProfilePicture } from '../components'
 
 function UserProfilePage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
@@ -15,6 +16,7 @@ function UserProfilePage() {
     const [email, setEmail] = useState('')
     const [phoneNumber, setPhoneNumber] = useState('')
     const [birthDay, setBirthDay] = useState('')
+    const [profilePicture, setProfilePicture] = useState('')
 
     const handleEditProfile = async (e) => {
         e.preventDefault()
@@ -25,6 +27,7 @@ function UserProfilePage() {
                 email: email,
                 phoneNumber: phoneNumber,
                 birthDay: birthDay,
+                photoURL: profilePicture,
             })
             Swal.fire({
                 position: "top-end",
@@ -40,10 +43,15 @@ function UserProfilePage() {
                 email: email,
                 phoneNumber: phoneNumber,
                 birthDay: birthDay,
+                photoURL: profilePicture,
             })
         } catch (error) {
             console.error(error)
         }
+    }
+
+    const handleDeletePP = () => {
+        setProfilePicture('')
     }
 
     useEffect(() => {
@@ -59,9 +67,21 @@ function UserProfilePage() {
             setEmail(profile.email)
             setPhoneNumber(profile.phoneNumber)
             setBirthDay(profile.birthDay)
+            setProfilePicture(profile.photoURL)
 
         }
     }, [isLoading, profile])
+
+    if (isLoading) {
+        return (
+            <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
+                <div
+                    className="w-40 h-40 border-4 border-gray-500 border-dashed rounded-full animate-spin"
+                    style={{ animationDuration: '10s' }}>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className='bg-[#F5F5F5] p-5'>
@@ -69,60 +89,85 @@ function UserProfilePage() {
                 <h1 className='text-xl font-bold mb-1'>My Profile</h1>
                 <p className='mb-5'>Manage your profile information to control, protect, and secure your account.</p>
             </div>
-            <div className='grid grid-cols-4'>
-                <form className='col-span-3' onSubmit={(e) => handleEditProfile(e)}>
-                    <fieldset className='grid grid-cols-2 my-3'>
-                        <label>Username</label>
-                        <input 
-                            className='p-2' 
-                            value={username ?? ''} 
-                            placeholder='Username'
-                            type='text'
-                            onChange={(e) => SetUsername(e.target.value)}
-                        />
+            <div className=''>
+                <form className='col-span-3 grid grid-cols-3' onSubmit={(e) => handleEditProfile(e)}>
+                    <div className='col-span-2'>
+                        <fieldset className='grid grid-cols-2 my-3'>
+                            <label>Username</label>
+                            <input
+                                className='p-2'
+                                value={username ?? ''}
+                                placeholder='Username'
+                                type='text'
+                                onChange={(e) => SetUsername(e.target.value)}
+                            />
+                        </fieldset>
+                        <fieldset className='grid grid-cols-2 mb-3'>
+                            <label>Name</label>
+                            <input
+                                className='p-2'
+                                value={fullName ?? ''}
+                                placeholder='Name'
+                                type='text'
+                                onChange={(e) => setFullName(e.target.value)}
+                            />
+                        </fieldset>
+                        <fieldset className='grid grid-cols-2 mb-3'>
+                            <label>Email</label>
+                            <input
+                                className='p-2'
+                                value={email ?? ''}
+                                placeholder='Your email'
+                                disabled
+                                type='email'
+                                onChange={(e) => setEmail(e.target.value)}
+                            />
+                        </fieldset>
+                        <fieldset className='grid grid-cols-2 mb-3'>
+                            <label>Phone Number</label>
+                            <input
+                                className='p-2'
+                                value={phoneNumber ?? ''}
+                                placeholder='Phone Number'
+                                type='text'
+                                onChange={(e) => setPhoneNumber(e.target.value)}
+                            />
+                        </fieldset>
+                        <fieldset className='grid grid-cols-2 mb-3'>
+                            <label>Date of Birth</label>
+                            <input
+                                className='p-2'
+                                value={birthDay ?? ''}
+                                placeholder='BirhtDay'
+                                type='date'
+                                onChange={(e) => setBirthDay(e.target.value)}
+                            />
+                        </fieldset>
+                    </div>
+                    <fieldset className='flex flex-col justify-center gap-5 items-center'>
+                        <label className='hidden'>Profile Picture</label>
+                        {profile.photoURL === '' && profilePicture === '' ? (
+                            <div className='w-24 h-24 border-2 border-black border-dashed text-center flex flex-col justify-center'>
+                                <p>96 x 96</p>
+                            </div>
+                        ) : profilePicture === '' ? (
+                            <div className='w-24 h-24 border-2 border-black border-dashed text-center flex flex-col justify-center'>
+                                <p>96 x 96</p>
+                            </div>
+                        ) : (
+                            <div className='flex flex-col items-center gap-1'>
+                                <img className='size-24 object-cover rounded-md' src={profilePicture} alt={profile.fullName} />
+                                <button
+                                    className='text-white p-1 rounded-md bg-red-500 hover:bg-red-400 w-fit'
+                                    onClick={handleDeletePP}
+                                    type='button'>
+                                    delete
+                                </button>
+                            </div>
+                        )}
+                        <UploadProfilePicture setProfilePicture={setProfilePicture} />
                     </fieldset>
-                    <fieldset className='grid grid-cols-2 mb-3'>
-                        <label>Name</label>
-                        <input 
-                            className='p-2'
-                            value={fullName ?? ''}
-                            placeholder='Name'
-                            type='text'
-                            onChange={(e) => setFullName(e.target.value)}
-                        />
-                    </fieldset>
-                    <fieldset className='grid grid-cols-2 mb-3'>
-                        <label>Email</label>
-                        <input 
-                            className='p-2' 
-                            value={email ?? ''}
-                            placeholder='Your email'
-                            disabled
-                            type='email'
-                            onChange={(e) => setEmail(e.target.value)}
-                        />
-                    </fieldset>
-                    <fieldset className='grid grid-cols-2 mb-3'>
-                        <label>Phone Number</label>
-                        <input 
-                            className='p-2'
-                            value={phoneNumber ?? ''}
-                            placeholder='Phone Number'
-                            type='text'
-                            onChange={(e) => setPhoneNumber(e.target.value)}
-                        />
-                    </fieldset>
-                    <fieldset className='grid grid-cols-2 mb-3'>
-                        <label>Date of Birth</label>
-                        <input 
-                            className='p-2'
-                            value={birthDay ?? ''}
-                            placeholder='BirhtDay'
-                            type='date'
-                            onChange={(e) => setBirthDay(e.target.value)}
-                        />
-                    </fieldset>
-                    <div className='flex justify-end'>
+                    <div className='flex justify-end col-span-3'>
                         <button type='submit' className='py-2 px-4 rounded-md bg-green-400 hover:bg-green-300'>Save</button>
                     </div>
                 </form>
