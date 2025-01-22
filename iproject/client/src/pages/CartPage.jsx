@@ -44,6 +44,7 @@ function CartPage() {
                     imageHeight: 200,
                     imageAlt: "Custom image"
                 })
+                navigate('/')
             }
         })
     }
