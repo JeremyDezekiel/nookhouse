@@ -56,10 +56,10 @@ function EditProductPage() {
                 confirmButtonText: "Save",
                 denyButtonText: `Don't save`
             }).then((result) => {
-                if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError || lengthError || widthError || heightError || colorError || discountError) {
-                    return
-                }
                 if (result.isConfirmed) {
+                    if (nameError || categoryError || imageError || descriptionError || priceError || stockError || weightError || lengthError || widthError || heightError || colorError || discountError) {
+                        return
+                    }
                     dispatch(editProduct({
                         id, name, category, images, description, price, stock, weight, length, width, height, color, discount, discountPrice
                     }, email))
