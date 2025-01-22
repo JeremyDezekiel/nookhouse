@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useRef, useState } from 'react'
 import logo from '../assets/h_1.png'
 import logoDarkMode from '../assets/darkMode.png'
 import { useNavigate } from 'react-router-dom'
@@ -13,11 +13,28 @@ function AdminNavbar() {
     const { theme, toggleTheme } = useContext(ThemeContext)
     const { user } = useContext(AuthContext)
     const navigate = useNavigate()
+    const dropdownRef = useRef(null)
+    const menuButtonRef = useRef(null)
     const [dropdownOpen, setDropdownOpen] = useState(false)
 
     const toggleDropdown = () => {
         setDropdownOpen(prevState => !prevState)
     }
+
+    const handleClickOutside = (e) => {
+        if (
+            dropdownRef.current && !dropdownRef.current.contains(e.target) &&
+            menuButtonRef.current && !menuButtonRef.current.contains(e.target)
+        ) {
+            setDropdownOpen(false)
+        }
+    }
+    useEffect(() => {
+        document.addEventListener('mousedown', handleClickOutside)
+        return () => {
+            document.removeEventListener('mousedown', handleClickOutside)
+        }
+    }, [])
 
     const handleLogout = async () => {
         try {
@@ -54,30 +71,36 @@ function AdminNavbar() {
                 {user && (
                     <>
                         <div className='xl:hidden'>
-                            <button onClick={toggleDropdown} className='cursor-pointer border p-2 rounded-md' aria-label='User Menu'>
+                            <button ref={menuButtonRef} onClick={toggleDropdown} className='cursor-pointer border p-2 rounded-md' aria-label='User Menu'>
                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" aria-hidden="true" className="h-6 w-6 shrink-0" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
                                 </svg>
                             </button>
                             {dropdownOpen && (
-                                <div className='absolute right-1 lg:right-10 mt-2 bg-white border rounded-md shadow-lg'>
+                                <div ref={dropdownRef} className='absolute right-1 lg:right-10 mt-2 bg-white border rounded-md shadow-lg'>
                                     <button
-                                        onClick={() => navigate('/')}
-                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                                        onClick={() => {
+                                            navigate('/')
+                                            setDropdownOpen(false)
+                                        }}
+                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full'
                                         aria-label='Home Page'
                                     >
                                         Home Page
                                     </button>
                                     <button
-                                        onClick={() => navigate('/add-product')}
-                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                                        onClick={() => {
+                                            navigate('/add-product')
+                                            setDropdownOpen(false)
+                                        }}
+                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-f'
                                         aria-label='Add Product'
                                     >
                                         Add Product
                                     </button>
                                     <button
                                         onClick={handleLogout}
-                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
+                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full'
                                         aria-label='Logout'
                                     >
                                         Logout
