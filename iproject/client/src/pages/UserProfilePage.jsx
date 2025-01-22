@@ -18,6 +18,12 @@ function UserProfilePage() {
     const [birthDay, setBirthDay] = useState('')
     const [profilePicture, setProfilePicture] = useState('')
 
+    const formatPhoneNumber = (phoneNumber) => {
+        if (!phoneNumber) return ''
+        const cleanPhoneNumber = phoneNumber.replace(/\D/g, '')
+        return `${cleanPhoneNumber.slice(0, 3)}-${cleanPhoneNumber.slice(3, 6)}-${cleanPhoneNumber.slice(6)}`
+    }
+
     const handleEditProfile = async (e) => {
         e.preventDefault()
         try {
@@ -65,7 +71,7 @@ function UserProfilePage() {
             SetUsername(profile.username)
             setFullName(profile.fullName)
             setEmail(profile.email)
-            setPhoneNumber(profile.phoneNumber)
+            setPhoneNumber(formatPhoneNumber(profile.phoneNumber))
             setBirthDay(profile.birthDay)
             setProfilePicture(profile.photoURL)
 
