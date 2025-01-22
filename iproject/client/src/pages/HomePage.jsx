@@ -53,8 +53,8 @@ function HomePage() {
     }
 
     return (
-        <div>
-            <div className='flex gap-5'>
+        <div className='px-5 md:mx-0'>
+            <div className='grid gap-5 md:flex md:gap-5'>
                 <select
                     className='border py-1 px-2 rounded-md cursor-pointer'
                     value={filter}
@@ -102,11 +102,8 @@ function HomePage() {
                 </select>
                 { filter || sort || search || filterColor ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
             </div>
-            <div className='w-full text-center text-9xl'>
-                Banner
-            </div>
-            <div>
-                <div className="grid grid-cols-5 gap-5">
+            <div className='mt-5'>
+                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">
                     {
                         !filteredProducts || loadingProducts ? (
                             <div className="col-span-5 text-center text-4xl">
@@ -117,7 +114,7 @@ function HomePage() {
                                 filteredProducts.map((filteredProduct) => {
                                     return (
                                         <ProductUserCard key={filteredProduct.id} filteredProduct={filteredProduct} />
-                                    );
+                                    )
                                 })
                             ) : (
                                 <div className="col-span-5 text-center">

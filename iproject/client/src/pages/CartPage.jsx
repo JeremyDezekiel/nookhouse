@@ -118,12 +118,12 @@ function CartPage() {
     }
 
     return (
-        <div>
+        <div className='mx-5 2xl:mx-0'>
             <div>
-                <h1 className='text-4xl'>Your shopping cart</h1>
+                <h1 className='text-xl md:text-4xl'>Your shopping cart</h1>
             </div>
             <div className='flex justify-end border-b-[1px] pb-5'>
-                <div className='flex gap-52 text-xl text-end'>
+                <div className='flex gap-10 md:gap-32 2xl:gap-52 text-xl text-end'>
                     <h3>Total</h3>
                     <h3>SubTotal</h3>
                 </div>
@@ -145,7 +145,7 @@ function CartPage() {
                     </div>
                 )
             }
-            <div className='flex justify-end my-5 gap-14 items-center'>
+            <div className='flex justify-end my-5 gap-5 md:gap-14 items-center'>
                 <div className='flex'>
                     <p className='me-2'>{profile.totalCartQty}</p>
                     {profile.totalCartQty !== 1 ? <h3>Products in your cart:</h3> : <h3>Product in your cart:</h3>}

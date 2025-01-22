@@ -50,20 +50,20 @@ function AdminNavbar() {
             <div className='flex justify-center col-span-2 md:col-span-1'>
                 {theme === 'light' ? <img className='xl:w-[48%] cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/admin')} /> : <img className='xl:w-[48%] cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/admin')} />}
             </div>
-            <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
+            <div className='flex justify-end items-center gap-2 lg:gap-5 pb-5'>
                 {user && (
                     <>
-                        <div className='lg:hidden'>
+                        <div className='xl:hidden'>
                             <button onClick={toggleDropdown} className='cursor-pointer border p-2 rounded-md' aria-label='User Menu'>
                                 <svg stroke="currentColor" fill="currentColor" strokeWidth="0" viewBox="0 0 448 512" aria-hidden="true" className="h-6 w-6 shrink-0" height="1em" width="1em" xmlns="http://www.w3.org/2000/svg">
                                     <path d="M16 132h416c8.837 0 16-7.163 16-16V76c0-8.837-7.163-16-16-16H16C7.163 60 0 67.163 0 76v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16zm0 160h416c8.837 0 16-7.163 16-16v-40c0-8.837-7.163-16-16-16H16c-8.837 0-16 7.163-16 16v40c0 8.837 7.163 16 16 16z"></path>
                                 </svg>
                             </button>
                             {dropdownOpen && (
-                                <div className='absolute right-1 mt-2 bg-white border rounded-md shadow-lg'>
+                                <div className='absolute right-1 lg:right-10 mt-2 bg-white border rounded-md shadow-lg'>
                                     <button
                                         onClick={() => navigate('/')}
-                                        className='hover:underline'
+                                        className='block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100'
                                         aria-label='Home Page'
                                     >
                                         Home Page
@@ -85,7 +85,7 @@ function AdminNavbar() {
                                 </div>
                             )}
                         </div>
-                        <div className='hidden lg:flex gap-2 lg:gap-5'>
+                        <div className='hidden xl:flex gap-2 lg:gap-5 xl:gap-5'>
                             <button
                                 onClick={() => navigate('/')}
                                 className='hover:underline'

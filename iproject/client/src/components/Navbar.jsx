@@ -45,11 +45,74 @@ function Navbar() {
     }
 
     return (
-        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-6 pt-5 px-5 lg:px-10`}>
+        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 xl:grid-cols-6 pt-5 px-5 lg:px-10`}>
             <div className='w-full flex'>
-                {theme === 'light' ? <img className='xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-72 cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
+                {theme === 'light' ? <img className='w-fit xl:w-72 cursor-pointer' src={logo} alt='logo' onClick={() => navigate('/')} /> : <img className='xl:w-72 cursor-pointer' src={logoDarkMode} alt='logo' onClick={() => navigate('/')} />}
             </div>
-            <div className='col-span-4 ms-16'>
+            <div className='flex xl:hidden col-span-2 justify-end gap-2 lg:gap-5 pb-5'>
+                {user ? (
+                    <>
+                        <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
+                            <ShoppingCart size={35} />
+                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
+                        </div>
+                        <div className='relative grid group'>
+                            <div className='flex gap-1 items-center cursor-pointer peer'>
+                                {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username}/> : <CircleUserIcon />}
+                                <span>{profile?.username}</span>
+                            </div>
+                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
+                                {role === 'admin' && (
+                                    <button
+                                        onClick={() => navigate('/admin')}
+                                        className='w-full text-left hover:underline p-2 hover:bg-gray-100'
+                                        aria-label='Admin Page'
+                                    >
+                                        Admin page
+                                    </button>
+                                )}
+                                <button
+                                    onClick={() => navigate('/userprofilepage')}
+                                    className='min-w-32 text-left hover:underline p-2 hover:bg-gray-100'
+                                    aria-label='User Profile Page'
+                                >
+                                    My Account
+                                </button>
+                                <button
+                                    onClick={handleLogout}
+                                    className='w-full text-left hover:underline p-2 hover:bg-gray-100'
+                                    aria-label='Logout'
+                                >
+                                    Logout
+                                </button>
+                            </div>
+                        </div>
+                    </>
+                ) : (
+                    location.pathname === '/' && (
+                        <>
+                            <button
+                                onClick={() => navigate('/login')}
+                                className='hover:underline'
+                                aria-label='Sign In'
+                            >
+                                Sign In
+                            </button>
+                            <button
+                                onClick={() => navigate('/register')}
+                                className='hover:underline'
+                                aria-label='Sign Up'
+                            >
+                                Sign Up
+                            </button>
+                        </>
+                    )
+                )}
+                <button className={`cursor-pointer border p-2 rounded-md`} onClick={toggleTheme} aria-label='Toggle theme'>
+                    {theme === 'light' ? <Moon /> : <Sun />}
+                </button>
+            </div>
+            <div className='col-span-3 xl:col-span-4 xl:ms-16 mb-5'>
                 <form className='flex items-center bg-white rounded-md ps-1'>
                     <input
                         className='flex-1 p-2 focus:outline-green-400'
@@ -64,7 +127,7 @@ function Navbar() {
                     </button>
                 </form>
             </div>
-            <div className='flex justify-end gap-2 lg:gap-5 pb-5'>
+            <div className='hidden xl:flex justify-end gap-2 lg:gap-5 xl:gap-3 pb-5'>
                 {user ? (
                     <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>

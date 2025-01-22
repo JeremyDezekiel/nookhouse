@@ -224,7 +224,7 @@ function AddProductPage() {
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
                                 {images.length > 0 && (
-                                    <div className='grid grid-cols-4 gap-5 mt-5'>
+                                    <div className='grid grid-cols-2 lg:grid-cols-4 gap-5 mt-5'>
                                         {images.map((image, index) => (
                                             <ImagesAddProduct key={index} image={image} index={index} handleDeleteImage={handleDeleteImage} />
                                         ))}
@@ -287,7 +287,7 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border w-[50%] flex rounded-md group-focus:border-green-400 ${weightError && 'border-red-600'}`}>
+                                <div className={`border lg:w-[50%] flex rounded-md group-focus:border-green-400 ${weightError && 'border-red-600'}`}>
                                     <input
                                         className='w-full px-2 outline-none group rounded-s-md'
                                         type='number'
@@ -317,7 +317,7 @@ function AddProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className='grid grid-cols-4 gap-5'>
+                                <div className='grid lg:grid-cols-4 gap-5'>
                                     <div>
                                         <div className={`border flex rounded-md ${lengthError && 'border-red-600'}`}>
                                             <input
@@ -419,7 +419,7 @@ function AddProductPage() {
                                 <label className='text-lg'>Discount</label>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`w-[25%] border flex rounded-md ${discountError && 'border-red-600'}`}>
+                                <div className={`lg:w-[25%] border flex rounded-md ${discountError && 'border-red-600'}`}>
                                     <input
                                         className='w-full rounded-md p-2 outline-none peer'
                                         type='number'

@@ -249,7 +249,7 @@ export const ValidateInput = () => {
     const validateDiscount = (discount) => {
         if (isNaN(discount)) {
             setDiscountError('Please enter a valid number for the discount.')
-        } else if (discount.trim() === '') {
+        } else if (discount === '') {
             setDiscountError('Please enter a discount or 0%.')
         } else if (discount < 0) {
             setDiscountError('Enter a discount greater than or equal to 0%.')

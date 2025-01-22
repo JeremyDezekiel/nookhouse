@@ -128,12 +128,12 @@ function ProductDetailsPage() {
 
     return (
         <div>
-            <div className='grid grid-cols-3 mt-14 gap-5 items-start'>
+            <div className='lg:grid grid-cols-3 xl:mt-14 gap-5 items-start'>
                 <div className='col-span-2 flex flex-col justify-center gap-5'>
-                    <img className='size-[500px] mx-auto rounded-md' src={product.images[imageIdx]} alt={product.name} />
+                    <img className='size-60 md:size-80 xl:size-[500px] mx-auto rounded-md' src={product.images[imageIdx]} alt={product.name} />
                     <div className='flex justify-center gap-3 group items-center relative'>
                         <button
-                            className={`absolute left-20 hidden ${imageIdx !== 0 && 'group-hover:block'}`}
+                            className={`absolute left-1 md:left-14 lg:left-5 2xl:left-20 hidden ${imageIdx !== 0 && 'group-hover:block'}`}
                             onClick={() => handleButtonImage(imageIdx - 1)}
                         >
                             <ArrowLeftCircle size={35} />
@@ -142,23 +142,23 @@ function ProductDetailsPage() {
                             <ImagesDetailsProduct key={idx} image={image} idx={idx} imageIdx={imageIdx} changeImage={changeImage} />
                         ))}
                         <button
-                            className={`absolute hidden right-20 ${imageIdx !== (product.images.length - 1) && 'group-hover:block'}`}
+                            className={`absolute hidden right-1 md:right-14 lg:right-5 2xl:right-20 ${imageIdx !== (product.images.length - 1) && 'group-hover:block'}`}
                             onClick={() => handleButtonImage(imageIdx + 1)}
                         >
                             <ArrowRightCircle size={35} />
                         </button>
                     </div>
                 </div>
-                <div className='flex flex-col gap-5'>
-                    <h1 className='text-5xl'>{product.name}</h1>
+                <div className='flex flex-col gap-2 xl:gap-5 mx-5 lg:mx-0'>
+                    <h1 className='text-3xl md:text-4xl xl:text-5xl'>{product.name}</h1>
                     <div>
-                        <div className='flex gap-5 items-start mb-2'>
-                            <h1 className={`${product.discount !== 0 ? 'text-3xl line-through' : 'text-4xl'}`}>Rp{product.price.toLocaleString()}</h1>
-                            {product.discount !== 0 && <p className='bg-red-500 px-2 rounded-full'>{product.discount}%</p>}
+                        <div className='flex gap-2 md:gap-3 xl:gap-5 items-start md:mb-2'>
+                            <h1 className={`${product.discount !== 0 ? 'text-xl md:text-3xl line-through' : 'text-2xl md:text-4xl'}`}>Rp{product.price.toLocaleString()}</h1>
+                            {product.discount !== 0 && <p className='bg-red-500 px-2 rounded-full text-xs md:text-base'>{product.discount}%</p>}
                         </div>
                         {product.discount !== 0 && (
                             <div className='flex flex-col gap-1'>
-                                <h1 className='text-red-500 text-4xl'>Rp {product.discountPrice.toLocaleString()}</h1>
+                                <h1 className='text-red-500 text-2xl md:text-4xl'>Rp {product.discountPrice.toLocaleString()}</h1>
                                 <p className='text-sm'>While supplies last</p>
                             </div>
                         )}
@@ -166,7 +166,7 @@ function ProductDetailsPage() {
                     </div>
                     <div className='flex gap-5 bg-yellow-300 py-2 px-4 rounded-md'>
                         <ThumbsUp />
-                        <p className=''>{buyer} people have bought this product</p>
+                        <p>{buyer} people have bought this product</p>
                     </div>
                     <div className='flex gap-3'>
                         <h1>Color :</h1>
@@ -229,13 +229,13 @@ function ProductDetailsPage() {
                     </div>
                 </div>
             </div>
-            <div className='border-y-[1px] cursor-pointer group mb-14 pb-5'>
+            <div className='border-y-[1px] cursor-pointer group mb-14 pb-5 mx-5 lg:mx-0'>
                 <div className='flex justify-between pt-5' onClick={() => setShow(prevState => !prevState)}>
                     <p className='text-lg text-[#967259] group-hover:underline'>Summary</p>
                     <p className={`text-gray-400 duration-500 ${show ? 'rotate-0' : 'rotate-180'}`}>V</p>
                 </div>
                 {show && (
-                    <div className='flex justify-between gap-56 pt-3'>
+                    <div className='grid gap-5 xl:flex justify-between xl:gap-40 2xl:gap-56 pt-3'>
                         <h1 className='text-2xl'>Description</h1>
                         <p className='text-lg'>{product.description}</p>
                     </div>
