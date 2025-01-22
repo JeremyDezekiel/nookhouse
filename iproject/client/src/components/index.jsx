@@ -10,6 +10,7 @@ import ProductCart from "./ProductCart"
 import ProductUserCard from "./ProductUserCard"
 import UploadWidget from "./UploadWidget"
 import UploadProfilePicture from "./UploadProfilePicture"
+import NavbarLoginRegister from "./NavbarLoginRegister"
 
 export {
     AdminNavbar,
@@ -24,4 +25,5 @@ export {
     ProductUserCard,
     UploadWidget,
     UploadProfilePicture,
+    NavbarLoginRegister,
 }

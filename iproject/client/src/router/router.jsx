@@ -1,5 +1,5 @@
 import { createBrowserRouter, Navigate } from 'react-router-dom'
-import { MainLayout, AdminLayout } from '../layout/index'
+import { MainLayout, AdminLayout, LoginRegisterLayout } from '../layout/index'
 import { HomePage, AdminPage, LoginPage, RegisterPage, ErrorPage, AddProductPage, EditProductPage, UserProfilePage, CartPage, ProductDetailsPage } from '../pages/index'
 import { useContext } from 'react'
 import { AuthContext } from '../context/AuthContext'
@@ -24,14 +24,6 @@ const router = createBrowserRouter([
                 element: <HomePage/>
             },
             {
-                path: '/register',
-                element: <RegisterPage/>
-            },
-            {
-                path: '/login',
-                element: <LoginPage/>
-            },
-            {
                 path: '/userprofilepage',
                 element: <UserProfilePage/>
             },
@@ -43,6 +35,19 @@ const router = createBrowserRouter([
                 path: '/product/:id',
                 element: <ProductDetailsPage/>
             }
+        ]
+    },
+    {
+        element: <LoginRegisterLayout/>,
+        children: [
+            {
+                path: '/register',
+                element: <RegisterPage/>
+            },
+            {
+                path: '/login',
+                element: <LoginPage/>
+            },
         ]
     },
     {
