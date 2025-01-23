@@ -71,6 +71,10 @@ function ProductDetailsPage() {
                 timer: 1500
             })
             dispatch(getCartByUser(idUser))
+            setProfile({
+                ...profile,
+                totalCartQty: totalQuantity
+            })
         } catch (error) {
             console.log(error)
         }
