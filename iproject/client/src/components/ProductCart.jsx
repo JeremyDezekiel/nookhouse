@@ -19,7 +19,12 @@ function ProductCart({ productsCart, handleUpdate, handleDeleteProductInCart }) 
                         <h4>{productsCart.name}</h4>
                         <h4>{productsCart.category}</h4>
                         <div>
-                            <h2 className={`${productsCart.discount !== 0 ? 'text-lg line-through' : 'text-2xl'}`}>Rp {productsCart.price.toLocaleString()}</h2>
+                            <div className='flex gap-2 items-center'>
+                                <h2 className={`${productsCart.discount !== 0 ? 'text-lg line-through' : 'text-2xl'}`}>Rp {productsCart.price.toLocaleString()}</h2>
+                                {productsCart.discount !== 0 && (
+                                    <p className='bg-red-500 px-2 rounded-full text-white mb-2'>{productsCart.discount}%</p>
+                                )}
+                            </div>
                             {productsCart.discount !== 0 && (
                                 <h2 className='text-red-500 text-2xl ms-5'>Rp {productsCart.discountPrice.toLocaleString()}</h2>
                             )}
@@ -64,7 +69,12 @@ function ProductCart({ productsCart, handleUpdate, handleDeleteProductInCart }) 
                     <h4>{productsCart.name}</h4>
                     <h4>{productsCart.category}</h4>
                     <div>
-                        <h2 className={`${productsCart.discount !== 0 ? 'text-base line-through' : 'text-lg'}`}>Rp {productsCart.price.toLocaleString()}</h2>
+                        <div className='flex items-center gap-2'>
+                            <h2 className={`${productsCart.discount !== 0 ? 'text-base line-through' : 'text-lg'}`}>Rp {productsCart.price.toLocaleString()}</h2>
+                            {productsCart.discount !== 0 && (
+                                <p className='bg-red-500 px-2 rounded-full text-white mb-2'>{productsCart.discount}%</p>
+                            )}
+                        </div>
                         {productsCart.discount !== 0 && (
                             <h2 className='text-red-500 text-lg ms-5'>Rp {productsCart.discountPrice.toLocaleString()}</h2>
                         )}
