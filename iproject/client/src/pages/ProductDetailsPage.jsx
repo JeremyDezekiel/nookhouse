@@ -63,12 +63,6 @@ function ProductDetailsPage() {
     const handleAddCart = async (qty) => {
         try {
             dispatch(addProductToCart(idUser, idProduct, product, qty))
-            const updatedTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
-            setProfile({
-                ...profile,
-                totalCartQty: updatedTotalQuantity,
-            })
-            await updateUser(updatedTotalQuantity)
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -87,10 +81,10 @@ function ProductDetailsPage() {
         setTotalQuantity(total)
     }
     
-    const updateUser = async (updatedTotalQuantity) => {
+    const updateUser = async () => {
         try {
             await updateDoc(doc(db, 'users', idUser), {
-                totalCartQty: updatedTotalQuantity
+                totalCartQty: totalQuantity
             })
         } catch (error) {
             console.error()
@@ -98,13 +92,13 @@ function ProductDetailsPage() {
     }
     
     useEffect(() => {
-        const updatedTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
+        countQty()
         setProfile({
             ...profile,
-            totalCartQty: updatedTotalQuantity
+            totalCartQty: totalQuantity
         })
         if (idUser && totalQuantity !== profile?.totalCartQty) {
-            updateUser(updatedTotalQuantity)
+            updateUser()
         }
     }, [cartProduct, totalQuantity])
     
