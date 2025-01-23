@@ -45,7 +45,7 @@ function Navbar() {
     }
 
     return (
-        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 xl:grid-cols-6 pt-5 px-5 lg:px-10`}>
+        <nav className={`${theme === 'light' ? 'bg-[#CCCCCC]' : 'bg-[#757575]'} grid grid-cols-3 ${location.pathname === '/' && 'xl:grid-cols-6'} pt-5 px-5 lg:px-10`}>
             <div
                 className='w-full flex lg:hidden relative'
             >
@@ -88,19 +88,19 @@ function Navbar() {
                     )
                 }
             </div>
-            <div className='flex xl:hidden col-span-2 justify-end gap-2 lg:gap-5 pb-1 items-center'>
+            <div className={`flex xl:hidden col-span-2 justify-end gap-2 lg:gap-5 pb-1 items-center ${location.pathname !== '/' && 'mb-2'}`}>
                 {user ? (
                     <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
                             <ShoppingCart size={35} />
-                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
+                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white text-black'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
                                 {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username} /> : <CircleUserIcon />}
                                 <span>{profile?.username}</span>
                             </div>
-                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
+                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block text-black'>
                                 {role === 'admin' && (
                                     <button
                                         onClick={() => navigate('/admin')}
@@ -151,34 +151,36 @@ function Navbar() {
                     {theme === 'light' ? <Moon /> : <Sun />}
                 </button>
             </div>
-            <div className='col-span-3 xl:col-span-4 xl:ms-16 mb-5'>
-                <form className='flex items-center bg-white rounded-md ps-1'>
-                    <input
-                        className='flex-1 p-2 focus:outline-green-400'
-                        value={search}
-                        onChange={(e) => dispatch(setSearch(e.target.value.toLowerCase()))}
-                    />
-                    <button
-                        className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'
-                        type='submit'
-                    >
-                        <Search />
-                    </button>
-                </form>
-            </div>
-            <div className='hidden xl:flex justify-end gap-2 lg:gap-5 xl:gap-3 pb-5'>
+            { location.pathname === '/' && (
+                <div className='col-span-3 xl:col-span-4 xl:ms-16 mb-5'>
+                    <form className='flex items-center bg-white rounded-md ps-1'>
+                        <input
+                            className='flex-1 p-2 focus:outline-blue-400 text-black'
+                            value={search}
+                            onChange={(e) => dispatch(setSearch(e.target.value.toLowerCase()))}
+                        />
+                        <button
+                            className='m-1 py-2 px-4 bg-[#CCCCCC] rounded-e-md'
+                            type='submit'
+                        >
+                            <Search />
+                        </button>
+                    </form>
+                </div>
+            )}
+            <div className={`hidden xl:flex justify-end gap-2 lg:gap-5 xl:gap-3 pb-5 ${location.pathname !== '/' && 'col-span-2'}`}>
                 {user ? (
                     <>
                         <div className='flex items-center cursor-pointer relative me-3' onClick={() => navigate('/cart')}>
                             <ShoppingCart size={35} />
-                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
+                            <p className='absolute border-4 border-[#CCCCCC] rounded-full px-2 bottom-5 left-5 bg-white text-black'>{profile?.totalCartQty ? profile?.totalCartQty : 0}</p>
                         </div>
                         <div className='relative grid group'>
                             <div className='flex gap-1 items-center cursor-pointer peer'>
                                 {profile?.photoURL ? <img className='size-6 rounded-md object-cover' src={profile?.photoURL} alt={profile?.username} /> : <CircleUserIcon />}
                                 <span>{profile?.username}</span>
                             </div>
-                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block'>
+                            <div className='absolute left-0 top-full border rounded-md bg-white shadow-lg hidden group-hover:block peer-hover:block text-black'>
                                 {role === 'admin' && (
                                     <button
                                         onClick={() => navigate('/admin')}

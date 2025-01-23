@@ -90,7 +90,7 @@ function UserProfilePage() {
     }
 
     return (
-        <div className='bg-[#F5F5F5] p-5'>
+        <div className='bg-[#F5F5F5] p-5 text-black'>
             <div className='border-b-[1px]'>
                 <h1 className='text-xl font-bold mb-1'>My Profile</h1>
                 <p className='mb-5'>Manage your profile information to control, protect, and secure your account.</p>
@@ -173,7 +173,7 @@ function UserProfilePage() {
                     <UploadProfilePicture setProfilePicture={setProfilePicture} />
                 </fieldset>
                 <div className='flex justify-end col-span-3 mt-5 md:mt-0'>
-                    <button type='submit' className='py-2 px-4 rounded-md bg-green-400 hover:bg-green-300'>Save</button>
+                    <button type='submit' className='py-2 px-4 rounded-md bg-blue-600 hover:bg-blue-500 text-white'>Save</button>
                 </div>
             </form>
         </div>

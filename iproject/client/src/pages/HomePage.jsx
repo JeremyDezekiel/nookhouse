@@ -4,6 +4,7 @@ import { getFilterProducts, getProducts } from '../app/actions'
 import { useDispatch, useSelector } from 'react-redux'
 import { setFilteredProducts, setSearch } from '../app/slices/productSlice'
 import { AuthContext } from '../context/AuthContext'
+import { ThemeContext } from '../context/ThemeContext'
 
 const Page_Size = 10
 
@@ -11,6 +12,7 @@ function HomePage() {
     const dispatch = useDispatch()
     const { products, filteredProducts, search, loadingProducts } = useSelector(state => state.product)
     const { isLoading } = useContext(AuthContext)
+    const { theme } = useContext(ThemeContext)
 
     const [filter, setFilter] = useState('')
     const [sort, setSort] = useState('')
@@ -54,7 +56,7 @@ function HomePage() {
 
     return (
         <div className='px-5 md:mx-0'>
-            <div className='grid gap-5 md:flex md:gap-5'>
+            <div className='grid gap-5 md:flex md:gap-5 text-black'>
                 <select
                     className='border py-1 px-2 rounded-md cursor-pointer'
                     value={filter}
@@ -100,7 +102,7 @@ function HomePage() {
                     <option value='silver'>Silver</option>
                     <option value='yellow'>Yellow</option>
                 </select>
-                { filter || sort || search || filterColor ? <button className='py-1 px-2 border rounded-md' onClick={() => handleReset()}>Reset</button> : ''}
+                { filter || sort || search || filterColor ? <button className={`py-1 px-2 border rounded-md ${theme === 'dark' && 'bg-white text-black'}`} onClick={() => handleReset()}>Reset</button> : ''}
             </div>
             <div className='mt-5'>
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-5">

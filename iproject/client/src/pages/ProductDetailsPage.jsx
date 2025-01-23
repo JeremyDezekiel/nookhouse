@@ -172,7 +172,7 @@ function ProductDetailsPage() {
                     <div className='flex gap-3'>
                         <h1>Color :</h1>
                         <div className='flex gap-2 items-center'>
-                            <div className={`${setColorProduct(product.color)} border-2 border-black size-5 rounded-full`}></div>
+                            <div className={`${setColorProduct(product.color)} border-2 border-white size-5 rounded-full`}></div>
                             <p>{product.color}</p>
                         </div>
                     </div>

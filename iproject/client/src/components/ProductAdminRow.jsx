@@ -5,11 +5,13 @@ import Swal from 'sweetalert2'
 import { useDispatch } from 'react-redux'
 import { deleteProduct } from '../app/actions'
 import { AuthContext } from '../context/AuthContext'
+import { ThemeContext } from '../context/ThemeContext'
 
 function ProductAdminRow({ product, index }) {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const { user } = useContext(AuthContext)
+    const { theme } = useContext(ThemeContext)
     const email = user?.email
 
     const handleDelete = (id) => {
@@ -45,8 +47,8 @@ function ProductAdminRow({ product, index }) {
             <td className='p-2 border'>{product.stock}</td>
             <td className='p-2 border text-start hidden'>{product.description}</td>
             <td className='p-2 border'>
-                <button className='p-2 hover:bg-blue-500 rounded-md text-black hover:text-white' onClick={() => navigate('/edit-product/' + product.id)}><Edit /></button>
-                <button className='p-2 hover:bg-red-500 rounded-md xl:ms-5 text-black hover:text-white' onClick={() => handleDelete(product.id)}><Trash /></button>
+                <button className={`p-2 hover:bg-blue-500 rounded-md ${theme === 'dark' ? 'text-white hover:text-black' : 'text-black hover:text-white'}`} onClick={() => navigate('/edit-product/' + product.id)}><Edit /></button>
+                <button className={`p-2 hover:bg-red-500 rounded-md xl:ms-5 ${theme === 'dark' ? 'text-white hover:text-black' : 'text-black hover:text-white'}`} onClick={() => handleDelete(product.id)}><Trash /></button>
             </td>
         </tr>
     )

@@ -21,7 +21,7 @@ const UploadWidget = ({ setImages, images, handleTouchImages }) => {
 
     return (
         <button
-            className={`border w-full px-4 py-2 rounded-md bg-gray-200 ${images.length >= 8 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-300'}`}
+            className={`border w-full px-4 py-2 rounded-md bg-gray-200 text-black ${images.length >= 8 ? 'cursor-not-allowed opacity-50' : 'hover:bg-gray-300'}`}
             type='button'
             onClick={() => {
                 widgetRef.current.open()

@@ -138,9 +138,9 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border flex py-2 rounded-md ${isTouch ? nameError ? 'border-red-600' : 'border-green-600' : ''}`}>
+                                <div className={`border flex py-2 rounded-md bg-white ${isTouch ? nameError ? 'border-red-600' : 'border-blue-600' : ''}`}>
                                     <input
-                                        className='w-full px-2 outline-none peer'
+                                        className='w-full px-2 outline-none text-black'
                                         type='text'
                                         placeholder={`Example: Men's Shoes (Product Type/Category) + Tokostore (Brand) + Black Canvas (Description)`}
                                         value={name}
@@ -153,7 +153,7 @@ function EditProductPage() {
                                             validateName(name)
                                         }}
                                     />
-                                    {isTouch ? nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-green-600' /> : ''}
+                                    {isTouch ? nameError ? <X className='rounded-full me-5 text-white bg-red-600' /> : <Check className='rounded-full me-5 text-white bg-blue-600' /> : ''}
                                 </div>
                                 <div className='flex justify-between text-[#606060]'>
                                     {isTouch ? nameError ? <p className='text-red-500'>{nameError}</p> : <p>Tip: Product Type + Product Brand + Additional Information</p> : <p>Tip: Product Type + Product Brand + Additional Information</p>}
@@ -179,7 +179,7 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border py-2 rounded-md ${categoryError && 'border-red-600'}`}>
+                                <div className={`border py-2 rounded-md bg-white ${categoryError && 'border-red-600'}`}>
                                     <select
                                         className='w-full px-2 text-[#606060] outline-none cursor-pointer'
                                         value={category}
@@ -211,7 +211,7 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='col-span-4 col-start-3'>
-                                <div className={`w-fit border py-2 rounded-md ${colorError && 'border-red-600'}`}>
+                                <div className={`w-fit border py-2 rounded-md bg-white ${colorError && 'border-red-600'}`}>
                                     <select
                                         className='w-full px-2 text-[#606060] outline-none cursor-pointer'
                                         value={color}
@@ -277,7 +277,7 @@ function EditProductPage() {
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className='flex py-2'>
                                     <textarea
-                                        className={`w-full border rounded-md ${descriptionError && 'border-red-600'} focus:outline-green-600 px-2`}
+                                        className={`w-full border rounded-md text-black ${descriptionError && 'border-red-600'} focus:outline-blue-600 px-2`}
                                         rows="7"
                                         value={description}
                                         onChange={(e) => {
@@ -310,9 +310,9 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border lg:w-[50%] flex rounded-md group-focus:border-green-400 ${weightError && 'border-red-600'}`}>
+                                <div className={`border lg:w-[50%] flex rounded-md text-black ${weightError && 'border-red-600'}`}>
                                     <input
-                                        className='w-full px-2 outline-none group rounded-s-md'
+                                        className='w-full px-2 outline-none rounded-s-md'
                                         type='number'
                                         placeholder='Product Weight'
                                         min='0'
@@ -344,7 +344,7 @@ function EditProductPage() {
                                     <div>
                                         <div className={`border flex rounded-md ${lengthError && 'border-red-600'}`}>
                                             <input
-                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                className='w-full px-2 outline-none rounded-s-md text-black'
                                                 type='number'
                                                 placeholder='Length'
                                                 min='0'
@@ -360,7 +360,7 @@ function EditProductPage() {
                                     <div>
                                         <div className={`border flex rounded-md ${widthError && 'border-red-600'}`}>
                                             <input
-                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                className='w-full px-2 outline-none rounded-s-md text-black'
                                                 type='number'
                                                 placeholder='Width'
                                                 min='0'
@@ -376,7 +376,7 @@ function EditProductPage() {
                                     <div>
                                         <div className={`border flex rounded-md ${heightError && 'border-red-600'}`}>
                                             <input
-                                                className='w-full px-2 outline-none peer rounded-s-md'
+                                                className='w-full px-2 outline-none rounded-s-md text-black'
                                                 type='number'
                                                 placeholder='Height'
                                                 min='0'
@@ -404,7 +404,7 @@ function EditProductPage() {
                                     <div className={`border flex rounded-md ${priceError && 'border-red-600'}`}>
                                         <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
                                         <input
-                                            className='w-full rounded-e-md px-2 outline-none peer'
+                                            className='w-full rounded-e-md px-2 outline-none text-black'
                                             type='number'
                                             placeholder='Enter the price'
                                             min='0'
@@ -423,7 +423,7 @@ function EditProductPage() {
                                             <div className={`border flex rounded-md`}>
                                                 <h1 className='bg-[#F3F4F5] p-2 rounded-s-md text-gray-500'>Rp</h1>
                                                 <input
-                                                    className='w-full rounded-e-md px-2 outline-none peer'
+                                                    className='w-full rounded-e-md px-2 outline-none'
                                                     type='number'
                                                     placeholder='Discount Price'
                                                     min='0'
@@ -444,7 +444,7 @@ function EditProductPage() {
                             <div className='w-full col-span-4 col-start-3'>
                                 <div className={`lg:w-[25%] border flex rounded-md ${discountError && 'border-red-600'}`}>
                                     <input
-                                        className='w-full rounded-md p-2 outline-none peer'
+                                        className='w-full rounded-s-md p-2 outline-none text-black'
                                         type='number'
                                         placeholder='Enter the discount'
                                         min=''
@@ -467,9 +467,9 @@ function EditProductPage() {
                                 </div>
                             </div>
                             <div className='w-full col-span-4 col-start-3'>
-                                <div className={`border flex rounded-md py-2 ${stockError && 'border-red-600'}`}>
+                                <div className={`border flex rounded-md py-2 bg-white ${stockError && 'border-red-600'}`}>
                                     <input
-                                        className='w-full px-2 outline-none peer'
+                                        className='w-full px-2 outline-none text-black'
                                         type='number'
                                         placeholder='Enter the stock quantity'
                                         min='0'
@@ -485,7 +485,7 @@ function EditProductPage() {
                         <div className='flex justify-end'>
                             <button
                                 type='submit'
-                                className='border border-green-500 px-10 py-2 rounded-md bg-green-400'
+                                className='border border-blue-700 px-10 py-2 rounded-md bg-blue-600 hover:bg-blue-500'
                                 onClick={() => {
                                     handleTouch()
                                     handleTouchImages()
