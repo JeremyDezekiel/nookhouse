@@ -3,6 +3,7 @@ import Aside from "./Aside"
 import Footer from "./Footer"
 import ImagesAddProduct from "./ImagesAddProduct"
 import ImagesDetailsProduct from "./ImagesDetailsProduct"
+import LoadingPage from "./LoadingPage"
 import Navbar from "./Navbar"
 import ProductAdminRow from "./ProductAdminRow"
 import ProductAdminTable from "./ProductAdminTable"
@@ -18,6 +19,7 @@ export {
     Footer,
     ImagesAddProduct,
     ImagesDetailsProduct,
+    LoadingPage,
     Navbar,
     ProductAdminRow,
     ProductAdminTable,

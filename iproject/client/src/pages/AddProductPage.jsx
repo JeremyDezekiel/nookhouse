@@ -5,7 +5,7 @@ import { AuthContext } from '../context/AuthContext'
 import { useNavigate } from 'react-router-dom'
 import { addProduct } from '../app/actions'
 import { useDispatch } from 'react-redux'
-import { ImagesAddProduct, UploadWidget } from '../components'
+import { ImagesAddProduct, LoadingPage, UploadWidget } from '../components'
 import { ValidateInput } from '../services/ValidateInput'
 
 function AddProductPage() {
@@ -85,6 +85,12 @@ function AddProductPage() {
             navigate('/login')
         }
     }, [user, isLoading])
+
+    if (isLoading) {
+        return (
+            <LoadingPage/>
+        )
+    }
 
     return (
         <main>
@@ -462,7 +468,7 @@ function AddProductPage() {
                         <div className='flex justify-end'>
                             <button
                                 type='submit'
-                                className='border border-blue-700 px-10 py-2 rounded-md bg-blue-600 hover:bg-blue-500'
+                                className='border border-blue-700 px-10 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white'
                                 onClick={() => {
                                     handleTouch()
                                     handleTouchImages()

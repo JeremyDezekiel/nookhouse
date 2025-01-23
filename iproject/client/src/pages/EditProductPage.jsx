@@ -5,7 +5,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 import Swal from 'sweetalert2'
 import { useDispatch, useSelector } from 'react-redux'
 import { editProduct, getProduct } from '../app/actions'
-import { ImagesAddProduct, UploadWidget } from '../components'
+import { ImagesAddProduct, LoadingPage, UploadWidget } from '../components'
 import { ValidateInput } from '../services/ValidateInput'
 
 function EditProductPage() {
@@ -108,6 +108,12 @@ function EditProductPage() {
             setColor(product.color)
         }
     }, [isLoading, product])
+
+    if (isLoading ) {
+        return (
+            <LoadingPage/>
+        )
+    }
 
     return (
         <main>
@@ -485,7 +491,7 @@ function EditProductPage() {
                         <div className='flex justify-end'>
                             <button
                                 type='submit'
-                                className='border border-blue-700 px-10 py-2 rounded-md bg-blue-600 hover:bg-blue-500'
+                                className='border border-blue-700 px-10 py-2 rounded-md bg-blue-600 hover:bg-blue-500 text-white'
                                 onClick={() => {
                                     handleTouch()
                                     handleTouchImages()
