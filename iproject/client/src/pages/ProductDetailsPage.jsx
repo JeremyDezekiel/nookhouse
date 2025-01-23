@@ -63,6 +63,12 @@ function ProductDetailsPage() {
     const handleAddCart = async (qty) => {
         try {
             dispatch(addProductToCart(idUser, idProduct, product, qty))
+            const updatedTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
+            setProfile({
+                ...profile,
+                totalCartQty: updatedTotalQuantity,
+            })
+            await updateUser(updatedTotalQuantity)
             Swal.fire({
                 position: "center",
                 icon: "success",
@@ -81,10 +87,10 @@ function ProductDetailsPage() {
         setTotalQuantity(total)
     }
     
-    const updateUser = async () => {
+    const updateUser = async (updatedTotalQuantity) => {
         try {
             await updateDoc(doc(db, 'users', idUser), {
-                totalCartQty: totalQuantity
+                totalCartQty: updatedTotalQuantity
             })
         } catch (error) {
             console.error()
@@ -92,13 +98,13 @@ function ProductDetailsPage() {
     }
     
     useEffect(() => {
-        countQty()
+        const updatedTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
         setProfile({
             ...profile,
-            totalCartQty: totalQuantity
+            totalCartQty: updatedTotalQuantity
         })
         if (idUser && totalQuantity !== profile?.totalCartQty) {
-            updateUser()
+            updateUser(updatedTotalQuantity)
         }
     }, [cartProduct, totalQuantity])
     
@@ -213,13 +219,7 @@ function ProductDetailsPage() {
                         </div>
                         <button
                             className='flex-1 py-4 px-5 rounded-full bg-blue-700 text-white hover:bg-blue-600'
-                            onClick={() => {
-                                handleAddCart(qty)
-                                setProfile({
-                                    ...profile,
-                                    totalCartQty: totalQuantity
-                                })
-                            }}
+                            onClick={() => handleAddCart(qty)}
                         >
                             Add to shopping cart
                         </button>
