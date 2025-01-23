@@ -6,7 +6,7 @@ import { checkoutCart, getCartByUser, deleteProductInCart, editProductInCart } f
 import Swal from 'sweetalert2'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
-import { ProductCart } from '../components'
+import { LoadingPage, ProductCart } from '../components'
 
 function CartPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
@@ -43,6 +43,10 @@ function CartPage() {
                     imageWidth: 400,
                     imageHeight: 200,
                     imageAlt: "Custom image"
+                })
+                setProfile({
+                    ...profile,
+                    totalCartQty: 0
                 })
                 navigate('/')
             }
@@ -112,9 +116,7 @@ function CartPage() {
 
     if (!user) {
         return (
-            <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
-                <div className="w-40 h-40 border-4 border-gray-500 border-dashed rounded-full animate-spin" style={{ animationDuration: '10s' }}></div>
-            </div>
+            <LoadingPage />
         )
     }
 
@@ -132,7 +134,7 @@ function CartPage() {
             {
                 cartProduct.length !== 0 ? (
                     cartProduct.map((productsCart) => (
-                        <ProductCart 
+                        <ProductCart
                             key={productsCart.id}
                             productsCart={productsCart}
                             idUser={idUser}
