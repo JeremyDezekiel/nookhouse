@@ -7,7 +7,7 @@ import { AuthContext } from '../context/AuthContext'
 import { doc, updateDoc } from 'firebase/firestore'
 import { db } from '../config/firebase'
 import Swal from 'sweetalert2'
-import { ImagesDetailsProduct } from '../components'
+import { ImagesDetailsProduct, LoadingPage } from '../components'
 
 function ProductDetailsPage() {
     const { user, isLoading, profile, setProfile } = useContext(AuthContext)
@@ -118,12 +118,7 @@ function ProductDetailsPage() {
 
     if (!product) {
         return (
-            <div className="flex justify-center items-center h-screen w-screen z-50 absolute top-0 left-0 right-0 bottom-0 bg-white">
-                <div
-                    className="w-40 h-40 border-4 border-gray-500 border-dashed rounded-full animate-spin"
-                    style={{ animationDuration: '10s' }}>
-                </div>
-            </div>
+            <LoadingPage/>
         )
     }
 
@@ -132,6 +127,25 @@ function ProductDetailsPage() {
             <div className='lg:grid grid-cols-3 xl:mt-14 gap-5 items-start'>
                 <div className='col-span-2 flex flex-col justify-center gap-5'>
                     <img className='size-60 md:size-80 xl:size-[500px] mx-auto rounded-md' src={product.images[imageIdx]} alt={product.name} />
+                    {/* {product.images.length > 1 && (
+                        <div className='flex justify-center gap-3 group items-center relative'>
+                            <button
+                                className={`absolute left-1 md:left-14 lg:left-5 2xl:left-20 hidden ${imageIdx !== 0 && 'group-hover:block'}`}
+                                onClick={() => handleButtonImage(imageIdx - 1)}
+                            >
+                                <ArrowLeftCircle size={35} />
+                            </button>
+                            {product.images.map((image, idx) => (
+                                <ImagesDetailsProduct key={idx} image={image} idx={idx} imageIdx={imageIdx} changeImage={changeImage} />
+                            ))}
+                            <button
+                                className={`absolute hidden right-1 md:right-14 lg:right-5 2xl:right-20 ${imageIdx !== (product.images.length - 1) && 'group-hover:block'}`}
+                                onClick={() => handleButtonImage(imageIdx + 1)}
+                            >
+                                <ArrowRightCircle size={35} />
+                            </button>
+                        </div>
+                    )} */}
                     <div className='flex justify-center gap-3 group items-center relative'>
                         <button
                             className={`absolute left-1 md:left-14 lg:left-5 2xl:left-20 hidden ${imageIdx !== 0 && 'group-hover:block'}`}
@@ -172,7 +186,7 @@ function ProductDetailsPage() {
                     <div className='flex gap-3'>
                         <h1>Color :</h1>
                         <div className='flex gap-2 items-center'>
-                            <div className={`${setColorProduct(product.color)} border-2 border-white size-5 rounded-full`}></div>
+                            <div className={`${setColorProduct(product.color)} border-2 ${product.color === 'white' ? 'border-black' : 'border-white'} size-5 rounded-full`}></div>
                             <p>{product.color}</p>
                         </div>
                     </div>
