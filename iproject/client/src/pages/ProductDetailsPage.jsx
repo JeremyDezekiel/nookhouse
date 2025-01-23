@@ -71,10 +71,6 @@ function ProductDetailsPage() {
                 timer: 1500
             })
             dispatch(getCartByUser(idUser))
-            setProfile({
-                ...profile,
-                totalCartQty: totalQuantity
-            })
         } catch (error) {
             console.log(error)
         }
@@ -217,7 +213,13 @@ function ProductDetailsPage() {
                         </div>
                         <button
                             className='flex-1 py-4 px-5 rounded-full bg-blue-700 text-white hover:bg-blue-600'
-                            onClick={() => handleAddCart(qty)}
+                            onClick={() => {
+                                handleAddCart(qty)
+                                setProfile({
+                                    ...profile,
+                                    totalCartQty: totalQuantity
+                                })
+                            }}
                         >
                             Add to shopping cart
                         </button>
