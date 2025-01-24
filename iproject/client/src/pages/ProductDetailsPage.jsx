@@ -62,20 +62,20 @@ function ProductDetailsPage() {
     const countQty = () => {
         const total = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
         setTotalQuantity(total)
-        console.log(total, "countQy")
+        // console.log(total, "countQy")
     }
     
     const handleAddCart = async (qty) => {
         try {
-            const newTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0) + qty
-            await updateDoc(doc(db, 'users', idUser), {
-                totalCartQty: newTotalQuantity
-            })
-            setProfile({
-                ...profile,
-                totalCartQty: newTotalQuantity
-            })
-            console.log(newTotalQuantity, "handleAddCart new")
+            // const newTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0) + qty
+            // await updateDoc(doc(db, 'users', idUser), {
+            //     totalCartQty: newTotalQuantity
+            // })
+            // setProfile({
+            //     ...profile,
+            //     totalCartQty: newTotalQuantity
+            // })
+            // console.log(newTotalQuantity, "handleAddCart")
             dispatch(addProductToCart(idUser, idProduct, product, qty))
             Swal.fire({
                 position: "center",
