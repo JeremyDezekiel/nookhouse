@@ -146,7 +146,7 @@ function UserProfilePage() {
                 </div>
                 <fieldset className='flex flex-col justify-center gap-5 items-center'>
                     <label className='hidden'>Profile Picture</label>
-                    {profile.photoURL === '' && profilePicture === '' ? (
+                    {profile?.photoURL === '' && profilePicture === '' ? (
                         <div className='w-24 h-24 border-2 border-black border-dashed text-center flex flex-col justify-center'>
                             <p>96 x 96</p>
                         </div>

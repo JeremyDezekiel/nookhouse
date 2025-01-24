@@ -232,12 +232,14 @@ export const addProductToCart = (idUser, idProduct, product, qty) => async (disp
                 quantity: qty + Number(detailCart.quantity ?? 0),
                 totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
             })
+            dispatch(getCartByUser(idUser))
         } else {
             await setDoc(cartsRef, {
                 ...product,
                 quantity: qty,
                 totalPrice: product.discount ? product.discountPrice * qty : product.price * qty
             })
+            dispatch(getCartByUser(idUser))
         }
     } catch (error) {
         console.log(error)

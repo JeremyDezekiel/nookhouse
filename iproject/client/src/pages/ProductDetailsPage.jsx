@@ -62,20 +62,10 @@ function ProductDetailsPage() {
     const countQty = () => {
         const total = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
         setTotalQuantity(total)
-        // console.log(total, "countQy")
     }
     
     const handleAddCart = async (qty) => {
         try {
-            // const newTotalQuantity = cartProduct.reduce((acc, product) => acc + product.quantity, 0) + qty
-            // await updateDoc(doc(db, 'users', idUser), {
-            //     totalCartQty: newTotalQuantity
-            // })
-            // setProfile({
-            //     ...profile,
-            //     totalCartQty: newTotalQuantity
-            // })
-            // console.log(newTotalQuantity, "handleAddCart")
             dispatch(addProductToCart(idUser, idProduct, product, qty))
             Swal.fire({
                 position: "center",
@@ -84,7 +74,6 @@ function ProductDetailsPage() {
                 showConfirmButton: false,
                 timer: 1500
             })
-            dispatch(getCartByUser(idUser))
         } catch (error) {
             console.log(error)
         }
