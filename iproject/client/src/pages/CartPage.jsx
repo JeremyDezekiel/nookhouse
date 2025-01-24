@@ -33,7 +33,7 @@ function CartPage() {
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, Im sure!"
-        }).then((result) => {
+        }).then( async (result) => {
             if (result.isConfirmed) {
                 dispatch(checkoutCart(idUser))
                 Swal.fire({
@@ -48,6 +48,9 @@ function CartPage() {
                     ...profile,
                     totalCartQty: 0
                 })
+                await updateDoc(doc(db, 'users', idUser), {
+                    totalCartQty: 0
+                })
                 navigate('/')
             }
         })
@@ -55,6 +58,7 @@ function CartPage() {
 
     const handleUpdate = async (qty, idProduct, productsCart) => {
         try {
+            countQty()
             const updatedTotalPrice = productsCart.discount ? productsCart.discountPrice * qty : productsCart.price * qty
             dispatch(editProductInCart(idUser, idProduct, productsCart, qty, updatedTotalPrice))
             dispatch(getCartByUser(idUser))
