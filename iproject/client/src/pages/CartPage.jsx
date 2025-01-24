@@ -36,6 +36,9 @@ function CartPage() {
         }).then( async (result) => {
             if (result.isConfirmed) {
                 dispatch(checkoutCart(idUser))
+                await updateDoc(doc(db, 'users', idUser), {
+                    totalCartQty: 0
+                })
                 Swal.fire({
                     title: "Sweet!",
                     text: "Your order has been received and is being processed.",
@@ -46,9 +49,6 @@ function CartPage() {
                 })
                 setProfile({
                     ...profile,
-                    totalCartQty: 0
-                })
-                await updateDoc(doc(db, 'users', idUser), {
                     totalCartQty: 0
                 })
                 navigate('/')

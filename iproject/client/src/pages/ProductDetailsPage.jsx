@@ -22,12 +22,6 @@ function ProductDetailsPage() {
     const [buyer, setBuyer] = useState('')
     const [qty, setQty] = useState(1)
     const [totalQuantity, setTotalQuantity] = useState(0)
-    console.log(totalQuantity)
-
-    const countQty = () => {
-        const total = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
-        setTotalQuantity(total)
-    }
 
     const color = {
         black: 'bg-[#000000]',
@@ -65,6 +59,11 @@ function ProductDetailsPage() {
     const idProduct = id
     const idUser = profile?.id
 
+    const countQty = () => {
+        const total = cartProduct.reduce((acc, product) => acc + product.quantity, 0)
+        setTotalQuantity(total)
+        console.log(total, "countQy")
+    }
     
     const handleAddCart = async (qty) => {
         try {
@@ -84,10 +83,10 @@ function ProductDetailsPage() {
     
     const updateUser = async (totalQuantity) => {
         try {
-            countQty()
             await updateDoc(doc(db, 'users', idUser), {
                 totalCartQty: totalQuantity
             })
+            console.log(totalQuantity, "updateuser")
         } catch (error) {
             console.error()
         }
