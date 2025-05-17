@@ -60,7 +60,7 @@ client/
 
 1. **Clone the repository**
     ```sh
-    git clone https://github.com/username/iproject.git
+    git clone https://github.com/jeremydezekiel/iproject.git
     cd iproject/client
     ```
 
